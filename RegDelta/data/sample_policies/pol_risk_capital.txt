@@ -1,0 +1,42 @@
+Policy: Capital Adequacy and Stress Testing
+Policy ID: POL-RISK-002
+Department: Risk Management
+Version: 2.3
+Last Reviewed: 2023-11-30
+
+1. Purpose
+This policy defines the firm's approach to maintaining adequate capital levels and conducting
+stress tests in line with regulatory requirements and internal risk appetite.
+
+2. Capital Requirements
+2.1 The firm must maintain net capital in excess of the greater of:
+    - $250,000 minimum net capital requirement
+    - 2% of aggregate debit items (broker-dealer standard method)
+
+2.2 Early Warning Notification
+When net capital falls below 120% of the required minimum, the firm must immediately
+notify the SEC and FINRA and prepare a capital restoration plan.
+
+3. Stress Testing Framework
+3.1 The firm conducts stress tests on a quarterly basis covering:
+    - Market risk scenarios (equity crash, rate spike, credit spread widening)
+    - Liquidity stress (3-day, 30-day, and 90-day outflow scenarios)
+    - Operational stress (key-person loss, system failure)
+
+3.2 Results are reviewed by the Risk Committee and presented to the Board quarterly.
+
+3.3 Regulatory stress test results (where applicable) are submitted to the Federal Reserve
+    and/or SEC within prescribed deadlines.
+
+4. Liquidity Management
+4.1 The firm maintains a Liquidity Coverage Ratio (LCR) buffer of at least 110%.
+4.2 A Contingency Funding Plan (CFP) is maintained and tested annually.
+
+5. Reporting
+5.1 FOCUS Reports must be filed monthly with FINRA.
+5.2 Annual audited financial statements must be filed within 60 days of fiscal year end.
+5.3 All capital and liquidity metrics are reported to senior management weekly.
+
+6. Documentation Retention
+All stress test models, assumptions, results, and management review documentation
+must be retained for 7 years.

@@ -1,0 +1,51 @@
+SEC Exchange Act Rule 17a-4 — Electronic Records Retention
+Version: 2023 Final Rule
+Effective Date: January 3, 2023
+Regulatory Body: SEC
+
+Section 1.1 Scope and Applicability
+This rule applies to all broker-dealers registered under Section 15 of the Securities Exchange Act of 1934.
+The requirements herein govern the preservation, accessibility, and security of electronic records
+generated in the ordinary course of business.
+
+Section 1.2 Retention Periods
+(a) Electronic communications, including email, instant messages, and chat communications related to
+the broker-dealer's business as such, must be retained for a period of not less than 3 years.
+The first 2 years must be in an easily accessible place.
+
+(b) Records of original entry must be retained for not less than 3 years.
+
+(c) All other records must be retained for not less than 6 years.
+
+Section 1.3 Storage Format Requirements
+All records required to be maintained under this rule shall be stored in a non-rewriteable,
+non-erasable format known as WORM (Write Once, Read Many).
+
+(a) Electronic storage media must preserve the records exclusively in a non-rewriteable,
+non-erasable format.
+
+(b) The broker-dealer must verify automatically the quality and accuracy of the storage
+media recording process.
+
+Section 1.4 Third-Party Arrangements
+A broker-dealer may employ a third-party storage provider, provided the provider meets the
+technical requirements of this section and the broker-dealer obtains a written undertaking from
+the provider that it will make available to securities regulators, upon request, any records
+stored on its systems.
+
+Section 2.1 Supervisory Procedures
+Every broker-dealer shall establish written supervisory procedures (WSPs) reasonably designed
+to ensure compliance with applicable federal securities laws and FINRA rules.
+
+(a) WSPs must be reviewed and updated at least annually.
+
+(b) A designated principal must approve all WSPs prior to implementation.
+
+Section 2.2 Audit Trail Requirements
+Broker-dealers must maintain a complete audit trail of all electronic communications
+that can demonstrate the integrity and authenticity of records.
+
+Section 3.1 Examination Access
+The broker-dealer must furnish promptly to any representative of the Commission or self-regulatory
+organization copies of any required record. Access must be provided within 24 hours of request
+during an examination.

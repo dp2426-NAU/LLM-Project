@@ -1,0 +1,45 @@
+Policy: Anti-Money Laundering and Know Your Customer Procedures
+Policy ID: POL-AML-001
+Department: Financial Crime Compliance
+Version: 5.0
+Last Reviewed: 2024-01-10
+
+1. Overview
+This policy establishes the firm's procedures for detecting and preventing money laundering,
+terrorist financing, and other financial crimes. It implements the requirements of the Bank
+Secrecy Act (BSA) and applicable FinCEN regulations.
+
+2. Customer Identification Program (CIP)
+2.1 The firm must verify the identity of each new customer prior to account opening.
+2.2 Required identifying information:
+    - For individuals: legal name, date of birth, address, government ID number
+    - For legal entities: legal name, address, EIN/TIN, formation documents
+
+2.3 Beneficial Ownership
+For legal entity customers, the firm must collect beneficial ownership information
+for all individuals owning 25% or more of the entity, plus one control person.
+Verification must be completed within 5 business days of account opening.
+
+3. Enhanced Due Diligence (EDD)
+3.1 EDD is required for:
+    - Politically Exposed Persons (PEPs) and their immediate family members
+    - Customers in high-risk jurisdictions
+    - Cash-intensive businesses
+    - Correspondent banking relationships
+
+3.2 EDD includes: source of wealth/funds documentation, senior management approval,
+    enhanced ongoing monitoring with quarterly review.
+
+4. Transaction Monitoring
+4.1 The firm employs automated transaction monitoring systems to detect suspicious activity.
+4.2 Alerts must be reviewed within 5 business days of generation.
+4.3 Suspicious Activity Reports (SARs) must be filed with FinCEN within 30 days
+    of initial detection, or 60 days if additional investigation is required.
+
+5. Record Retention
+All CIP, EDD, and transaction monitoring records must be retained for 5 years
+from the date of account closure or final transaction.
+
+6. Training
+All customer-facing employees and compliance staff must complete annual AML training.
+New hires must complete training within 30 days of employment commencement.

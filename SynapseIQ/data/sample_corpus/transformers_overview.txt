@@ -1,0 +1,51 @@
+Attention Is All You Need — Core Concepts Summary
+
+1. Self-Attention Mechanism
+The self-attention mechanism allows each token in a sequence to attend to all other tokens,
+computing weighted representations based on query-key-value decomposition. Given a sequence
+of embeddings, self-attention produces a new representation where each position is a weighted
+combination of all position values, with weights determined by the compatibility between queries
+and keys.
+
+Formally: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V
+
+This replaces recurrence, enabling full parallelization during training and capturing long-range
+dependencies that RNNs struggle with due to the vanishing gradient problem.
+
+2. Multi-Head Attention
+Rather than a single attention function, transformers employ h parallel attention heads,
+each projecting queries, keys, and values into a lower-dimensional subspace. The outputs are
+concatenated and projected, allowing the model to jointly attend to information from different
+representation subspaces at different positions.
+
+3. Positional Encoding
+Since transformers have no inherent notion of token order (they are permutation-invariant),
+positional information is injected via positional encodings added to token embeddings.
+The original paper uses sinusoidal functions of different frequencies:
+PE(pos, 2i) = sin(pos / 10000^(2i/d_model))
+PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))
+
+Learned positional embeddings have also been shown to work equally well.
+
+4. Feed-Forward Sublayers
+Each attention sublayer is followed by a position-wise feed-forward network (FFN):
+FFN(x) = max(0, xW_1 + b_1)W_2 + b_2
+
+This FFN is applied identically to each position but uses different parameters per layer.
+The inner dimension is typically 4x the model dimension (e.g., 2048 for d_model=512).
+
+5. Layer Normalization and Residual Connections
+Each sublayer (attention + FFN) employs a residual connection followed by layer normalization:
+output = LayerNorm(x + Sublayer(x))
+
+This stabilizes training and allows very deep networks to be trained effectively.
+
+6. Encoder-Decoder Architecture
+The original transformer uses a symmetric encoder-decoder structure. The encoder maps an
+input sequence to a sequence of continuous representations. The decoder autoregressively
+generates the output sequence, attending to the encoder output via cross-attention.
+
+7. Scaled Dot-Product vs. Additive Attention
+The paper uses scaled dot-product attention rather than additive (Bahdanau) attention for
+computational efficiency. Scaling by sqrt(d_k) prevents the dot products from growing too
+large in magnitude, which would push softmax into regions with very small gradients.
