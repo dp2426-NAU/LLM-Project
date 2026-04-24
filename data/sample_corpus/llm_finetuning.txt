@@ -1,0 +1,45 @@
+Fine-Tuning Large Language Models — Methods and Trade-offs
+
+1. Full Fine-Tuning
+Full fine-tuning updates all parameters of a pretrained model on a task-specific dataset.
+While this achieves the best performance on in-distribution data, it is computationally
+expensive (requiring the same VRAM as pretraining), risks catastrophic forgetting of
+pretraining knowledge, and produces a separate model copy per task.
+
+2. Instruction Fine-Tuning
+Instruction tuning involves fine-tuning on (instruction, response) pairs to teach the model
+to follow natural language directives. This is the basis for chat-oriented models like
+InstructGPT, Claude, and Llama-2-Chat. The key insight is that a relatively small, high-quality
+instruction dataset can dramatically improve alignment across a broad range of tasks.
+
+3. Parameter-Efficient Fine-Tuning (PEFT)
+PEFT methods update only a small fraction of model parameters while keeping most frozen.
+
+LoRA (Low-Rank Adaptation): Decomposes weight updates into low-rank matrices:
+W' = W + BA, where B ∈ R^(d×r) and A ∈ R^(r×k), with r << min(d,k)
+Only A and B are trained, reducing parameters by >99% while matching full fine-tune quality.
+
+Prefix Tuning: Prepends learnable continuous vectors (prefix tokens) to the input of each
+transformer layer. The model parameters are frozen; only prefix embeddings are updated.
+
+Adapter Layers: Inserts small trainable modules (bottleneck layers) between transformer
+sublayers. Adapters add ~1-5% parameters and train ~60x faster than full fine-tuning.
+
+4. Reinforcement Learning from Human Feedback (RLHF)
+RLHF aligns model behavior with human preferences through three stages:
+a) Supervised fine-tuning (SFT) on high-quality demonstrations
+b) Reward model training on human preference comparisons
+c) RL optimization (typically PPO) against the reward model with KL divergence penalty
+
+The KL penalty prevents the policy from deviating too far from the SFT model, preserving
+general capability while improving alignment.
+
+5. Direct Preference Optimization (DPO)
+DPO reformulates RLHF to avoid the RL training loop entirely. It derives the optimal policy
+directly from preference data using a closed-form reparameterization, making training more
+stable and computationally efficient than PPO-based RLHF.
+
+6. Continual Learning Challenges
+Fine-tuning on new domains risks catastrophic forgetting — degradation of performance on
+original tasks. Common mitigations include: experience replay (mixing original data),
+elastic weight consolidation (EWC), and sequential task training with task-specific heads.

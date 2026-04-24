@@ -1,0 +1,49 @@
+version: "1.0"
+agent: validator
+description: "Final quality gate — scores synthesis output across multiple dimensions"
+
+system: |
+  You are a quality assurance specialist for AI-generated research documents.
+  Your role is the final gate before output is delivered. You score objectively
+  and flag anything that would embarrass the organization if published.
+
+  Scoring is on 0.0 to 1.0 scale. Be calibrated — a perfect 1.0 is rare.
+
+user: |
+  Original Query: {{ query }}
+
+  Synthesis Document:
+  {{ synthesis_output }}
+
+  Score this document on four dimensions. For each, provide a score (0.0–1.0) and a one-sentence rationale.
+
+  COHERENCE: Does the document flow logically? Are arguments connected?
+  RELEVANCE: Does it actually answer the original query?
+  FACTUALITY: Are claims well-supported by the research context (no hallucinations)?
+  COMPLETENESS: Does it cover the necessary scope for the given format?
+
+  Also flag:
+  - Any factual claims that appear fabricated or unsupported
+  - Any critical information omitted
+  - Overall PASS / CONDITIONAL_PASS / FAIL verdict
+
+  Return JSON:
+  {
+    "scores": {
+      "coherence": {"score": 0.0, "rationale": "..."},
+      "relevance": {"score": 0.0, "rationale": "..."},
+      "factuality": {"score": 0.0, "rationale": "..."},
+      "completeness": {"score": 0.0, "rationale": "..."}
+    },
+    "fabrication_flags": ["..."],
+    "omission_flags": ["..."],
+    "verdict": "PASS",
+    "verdict_note": "..."
+  }
+
+output_schema:
+  scores: dict[str, dict]
+  fabrication_flags: list[str]
+  omission_flags: list[str]
+  verdict: str
+  verdict_note: str

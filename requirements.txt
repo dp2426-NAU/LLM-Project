@@ -1,0 +1,26 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+pydantic-settings==2.6.1
+
+# LLM
+openai==1.57.2
+httpx==0.28.1
+
+# Embeddings & Vector Store
+sentence-transformers==3.3.1
+chromadb==0.5.23
+
+# Prompt templating
+jinja2==3.1.4
+pyyaml==6.0.2
+
+# PDF support (optional)
+pdfplumber==0.11.4
+
+# Testing
+pytest==8.3.4
+pytest-asyncio==0.24.0
+
+# Utilities
+python-multipart==0.0.18
