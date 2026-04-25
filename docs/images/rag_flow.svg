@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" width="1080" height="760">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="queryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a3a5c"/>
+      <stop offset="100%" style="stop-color:#0d2137"/>
+    </linearGradient>
+    <linearGradient id="retrievalGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1a2a1a"/>
+      <stop offset="100%" style="stop-color:#0a160a"/>
+    </linearGradient>
+    <linearGradient id="llmGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2d1f3d"/>
+      <stop offset="100%" style="stop-color:#1a1229"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glowBlue">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.12  0 0 0 0 0.42  0 0 0 0 0.92  0 0 0 0.6 0"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b949e"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#388bfd"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#3fb950"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#d2a8ff"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#f0883e"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="760" fill="url(#bgGrad)"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#21262d" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1080" height="760" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1080" height="68" fill="#161b22"/>
+  <rect x="0" y="66" width="1080" height="2" fill="#30363d"/>
+  <text x="540" y="27" font-family="'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="700" fill="#e6edf3" text-anchor="middle">Retrieval-Augmented Generation (RAG) — Technical Flow</text>
+  <text x="540" y="51" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">Document ingestion · vector indexing · semantic retrieval · context-augmented generation</text>
+
+  <!-- ============ PHASE 1: OFFLINE INDEXING (top row) ============ -->
+  <!-- Phase label -->
+  <rect x="30" y="86" width="1020" height="26" rx="5" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="540" y="103" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#8b949e" text-anchor="middle">PHASE 1 — OFFLINE INDEXING  (run once or on document update)</text>
+
+  <!-- Raw docs -->
+  <rect x="30" y="124" width="155" height="130" rx="8" fill="#1c2128" stroke="#30363d" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="107" y="144" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#c9d1d9" text-anchor="middle">Raw Documents</text>
+  <rect x="46" y="153" width="123" height="16" rx="3" fill="#0d1117"/>
+  <text x="107" y="165" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">regulation_v2.txt</text>
+  <rect x="46" y="175" width="123" height="16" rx="3" fill="#0d1117"/>
+  <text x="107" y="187" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">policy_handbook.pdf</text>
+  <rect x="46" y="197" width="123" height="16" rx="3" fill="#0d1117"/>
+  <text x="107" y="209" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">research_paper.md</text>
+  <rect x="46" y="219" width="123" height="16" rx="3" fill="#0d1117"/>
+  <text x="107" y="231" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">transformers_ref.txt</text>
+  <text x="107" y="246" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">PDF · TXT · MD</text>
+
+  <!-- Arrow -->
+  <line x1="185" y1="189" x2="225" y2="189" stroke="#8b949e" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Text Splitter -->
+  <rect x="227" y="124" width="155" height="130" rx="8" fill="#1c2128" stroke="#1f6feb" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="304" y="144" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#388bfd" text-anchor="middle">Text Splitter</text>
+  <text x="304" y="162" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">ingestion/pipeline.py</text>
+  <text x="304" y="182" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Chunk size: 512 tokens</text>
+  <text x="304" y="197" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Overlap: 50 tokens</text>
+  <text x="304" y="212" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">SHA-256 chunk ID</text>
+  <!-- chunk visualization -->
+  <rect x="242" y="222" width="35" height="18" rx="3" fill="#1f6feb" opacity="0.5"/>
+  <rect x="283" y="222" width="35" height="18" rx="3" fill="#1f6feb" opacity="0.5"/>
+  <rect x="324" y="222" width="35" height="18" rx="3" fill="#1f6feb" opacity="0.5"/>
+  <text x="259" y="234" font-family="'Segoe UI', system-ui, sans-serif" font-size="7" fill="#e6edf3" text-anchor="middle">C1</text>
+  <text x="300" y="234" font-family="'Segoe UI', system-ui, sans-serif" font-size="7" fill="#e6edf3" text-anchor="middle">C2</text>
+  <text x="341" y="234" font-family="'Segoe UI', system-ui, sans-serif" font-size="7" fill="#e6edf3" text-anchor="middle">C3</text>
+  <text x="365" y="234" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#8b949e" text-anchor="middle">···</text>
+  <text x="304" y="248" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">overlapping windows</text>
+
+  <!-- Arrow -->
+  <line x1="382" y1="189" x2="422" y2="189" stroke="#1f6feb" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Embedding Model -->
+  <rect x="424" y="124" width="165" height="130" rx="8" fill="#1c2128" stroke="#238636" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="506" y="144" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">Embedding Model</text>
+  <text x="506" y="162" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">sentence-transformers</text>
+  <text x="506" y="178" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">all-MiniLM-L6-v2</text>
+  <!-- Vector visualization -->
+  <rect x="440" y="188" width="132" height="22" rx="4" fill="#0d1117"/>
+  <text x="506" y="203" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#3fb950" text-anchor="middle">384-dimensional vector</text>
+  <!-- bar chart mini -->
+  <rect x="440" y="216" width="4" height="18" fill="#238636" opacity="0.9"/>
+  <rect x="448" y="222" width="4" height="12" fill="#238636" opacity="0.7"/>
+  <rect x="456" y="212" width="4" height="22" fill="#238636" opacity="0.9"/>
+  <rect x="464" y="218" width="4" height="16" fill="#238636" opacity="0.6"/>
+  <rect x="472" y="214" width="4" height="20" fill="#238636" opacity="0.8"/>
+  <rect x="480" y="220" width="4" height="14" fill="#238636" opacity="0.5"/>
+  <rect x="488" y="215" width="4" height="19" fill="#238636" opacity="0.7"/>
+  <rect x="496" y="210" width="4" height="24" fill="#238636" opacity="0.9"/>
+  <rect x="504" y="218" width="4" height="16" fill="#238636" opacity="0.6"/>
+  <rect x="512" y="213" width="4" height="21" fill="#238636" opacity="0.8"/>
+  <text x="540" y="230" font-family="'Segoe UI', system-ui, sans-serif" font-size="7" fill="#8b949e">···</text>
+  <text x="506" y="248" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">L2 normalized · CPU batch</text>
+
+  <!-- Arrow -->
+  <line x1="589" y1="189" x2="629" y2="189" stroke="#238636" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ChromaDB Index -->
+  <rect x="631" y="100" width="200" height="174" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="731" y="122" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#58a6ff" text-anchor="middle">ChromaDB Index</text>
+  <text x="731" y="140" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">./chroma_store/</text>
+  <!-- Collection boxes -->
+  <rect x="648" y="150" width="166" height="40" rx="5" fill="#0d1117" stroke="#1f6feb" stroke-width="1"/>
+  <text x="731" y="166" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#388bfd" text-anchor="middle">regulations</text>
+  <text x="731" y="181" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">HNSW index · cosine metric</text>
+  <rect x="648" y="198" width="166" height="40" rx="5" fill="#0d1117" stroke="#e36209" stroke-width="1"/>
+  <text x="731" y="214" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#f0883e" text-anchor="middle">policies</text>
+  <text x="731" y="229" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">HNSW index · cosine metric</text>
+  <text x="731" y="260" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">metadata: source, chunk_id, doc_id</text>
+
+  <!-- ============ PHASE 2: ONLINE QUERY (bottom row) ============ -->
+  <rect x="30" y="316" width="1020" height="26" rx="5" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="540" y="333" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#8b949e" text-anchor="middle">PHASE 2 — ONLINE QUERY  (real-time · per request)</text>
+
+  <!-- User Query -->
+  <rect x="30" y="354" width="175" height="100" rx="8" fill="url(#queryGrad)" stroke="#388bfd" stroke-width="2" filter="url(#shadow)"/>
+  <text x="117" y="376" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#388bfd" text-anchor="middle">User Query</text>
+  <text x="117" y="396" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">"Compare LoRA vs</text>
+  <text x="117" y="409" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">full fine-tuning"</text>
+  <text x="117" y="428" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">POST /synthesize</text>
+  <text x="117" y="441" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">or /analyze</text>
+
+  <!-- Arrow right -->
+  <line x1="205" y1="404" x2="245" y2="404" stroke="#388bfd" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Query Encoder -->
+  <rect x="247" y="354" width="165" height="100" rx="8" fill="#1c2128" stroke="#238636" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="329" y="374" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">Query Encoder</text>
+  <text x="329" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">same model (MiniLM)</text>
+  <text x="329" y="407" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">encode query text</text>
+  <!-- query vector mini -->
+  <rect x="260" y="416" width="138" height="14" rx="3" fill="#0d1117"/>
+  <text x="329" y="427" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">[0.12, -0.34, 0.87, ...]  (384d)</text>
+  <text x="329" y="445" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">same space as doc vecs</text>
+
+  <!-- Arrow right -->
+  <line x1="412" y1="404" x2="452" y2="404" stroke="#238636" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- ANN Search -->
+  <rect x="454" y="340" width="200" height="128" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="554" y="362" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#58a6ff" text-anchor="middle">ANN Vector Search</text>
+  <text x="554" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">ChromaDB collection.query()</text>
+  <text x="554" y="393" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">HNSW approximate nearest</text>
+  <text x="554" y="408" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">neighbor lookup</text>
+  <!-- score bars -->
+  <rect x="468" y="416" width="80" height="8" rx="3" fill="#238636" opacity="0.9"/>
+  <text x="555" y="424" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#8b949e">score: 0.91</text>
+  <rect x="468" y="428" width="68" height="8" rx="3" fill="#238636" opacity="0.7"/>
+  <text x="555" y="436" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#8b949e">score: 0.87</text>
+  <rect x="468" y="440" width="55" height="8" rx="3" fill="#238636" opacity="0.5"/>
+  <text x="555" y="448" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#8b949e">score: 0.79</text>
+  <text x="554" y="462" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">top_k = 6  ·  min_score = 0.3</text>
+
+  <!-- Arrow from ChromaDB down to ANN search -->
+  <line x1="731" y1="274" x2="731" y2="340" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="731" y1="340" x2="656" y2="390" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGray)"/>
+
+  <!-- Arrow from ANN to context builder -->
+  <line x1="654" y1="404" x2="694" y2="404" stroke="#58a6ff" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Retrieved Chunks -->
+  <rect x="696" y="354" width="175" height="128" rx="8" fill="url(#retrievalGrad)" stroke="#3fb950" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="783" y="374" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">Retrieved Chunks</text>
+  <rect x="710" y="382" width="147" height="16" rx="3" fill="#0a160a" stroke="#238636" stroke-width="1"/>
+  <text x="783" y="394" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">chunk_1 · s=0.91 · regulations</text>
+  <rect x="710" y="402" width="147" height="16" rx="3" fill="#0a160a" stroke="#238636" stroke-width="1"/>
+  <text x="783" y="414" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">chunk_2 · s=0.87 · policies</text>
+  <rect x="710" y="422" width="147" height="16" rx="3" fill="#0a160a" stroke="#238636" stroke-width="1"/>
+  <text x="783" y="434" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">chunk_3 · s=0.79 · policies</text>
+  <rect x="710" y="442" width="147" height="16" rx="3" fill="#0a160a" stroke="#238636" stroke-width="1"/>
+  <text x="783" y="454" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">chunk_4 · s=0.74 · regulations</text>
+  <text x="783" y="474" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">+ 2 more → total 6 chunks</text>
+
+  <!-- Arrow to context window -->
+  <line x1="871" y1="418" x2="911" y2="418" stroke="#3fb950" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Context Window -->
+  <rect x="913" y="340" width="145" height="142" rx="8" fill="#1c2128" stroke="#8957e5" stroke-width="2" filter="url(#shadow)"/>
+  <text x="985" y="362" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#d2a8ff" text-anchor="middle">Context Window</text>
+  <rect x="925" y="370" width="121" height="14" rx="2" fill="#2d1f3d"/>
+  <text x="985" y="381" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#d2a8ff" text-anchor="middle">system prompt</text>
+  <rect x="925" y="388" width="121" height="14" rx="2" fill="#1f2d1f"/>
+  <text x="985" y="399" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">retrieved chunk 1</text>
+  <rect x="925" y="406" width="121" height="14" rx="2" fill="#1f2d1f"/>
+  <text x="985" y="417" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">retrieved chunk 2</text>
+  <rect x="925" y="424" width="121" height="14" rx="2" fill="#1f2d1f"/>
+  <text x="985" y="435" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">··· (6 total)</text>
+  <rect x="925" y="442" width="121" height="14" rx="2" fill="#1a3a5c"/>
+  <text x="985" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#388bfd" text-anchor="middle">user query</text>
+  <text x="985" y="472" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">~4096 token budget</text>
+
+  <!-- ============ PHASE 3: GENERATION ============ -->
+  <rect x="30" y="524" width="1020" height="26" rx="5" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="540" y="541" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#8b949e" text-anchor="middle">PHASE 3 — GENERATION  (LLM call · grounded response)</text>
+
+  <!-- LLM Box -->
+  <rect x="30" y="562" width="380" height="130" rx="8" fill="url(#llmGrad)" stroke="#8957e5" stroke-width="2" filter="url(#shadow)"/>
+  <text x="220" y="584" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#d2a8ff" text-anchor="middle">Large Language Model</text>
+  <text x="220" y="602" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">gpt-4o-mini  ·  temperature=0.3  ·  max_tokens=2000</text>
+  <!-- Prompt structure visual -->
+  <rect x="48" y="612" width="355" height="14" rx="2" fill="#2d1f3d"/>
+  <text x="225" y="623" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#d2a8ff" text-anchor="middle">SYSTEM: You are a research synthesizer. Ground answers in the context below.</text>
+  <rect x="48" y="630" width="355" height="34" rx="2" fill="#1f2d1f"/>
+  <text x="225" y="643" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">CONTEXT: [chunk_1 text...] [chunk_2 text...] ··· [chunk_6 text]</text>
+  <text x="225" y="656" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#3fb950" text-anchor="middle">(grounding evidence — ~2400 tokens)</text>
+  <rect x="48" y="668" width="355" height="14" rx="2" fill="#1a3a5c"/>
+  <text x="225" y="679" font-family="'Segoe UI', system-ui, sans-serif" font-size="8" fill="#388bfd" text-anchor="middle">USER: Compare LoRA vs full fine-tuning approaches for adapting LLMs</text>
+
+  <!-- Arrow from context to LLM -->
+  <line x1="985" y1="482" x2="985" y2="526" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="985" y1="526" x2="420" y2="627" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowPurple)"/>
+
+  <!-- Output -->
+  <rect x="460" y="562" width="590" height="130" rx="8" fill="#0f2916" stroke="#3fb950" stroke-width="2" filter="url(#shadow)"/>
+  <text x="755" y="584" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#3fb950" text-anchor="middle">Grounded Response</text>
+  <rect x="476" y="594" width="558" height="16" rx="3" fill="#0d1117"/>
+  <text x="755" y="606" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#c9d1d9" text-anchor="middle">ABSTRACT: LoRA (Low-Rank Adaptation) modifies a small subset of parameters...</text>
+  <rect x="476" y="614" width="558" height="16" rx="3" fill="#0d1117"/>
+  <text x="755" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#c9d1d9" text-anchor="middle">MAIN FINDINGS: (1) LoRA reduces trainable params by ~10,000x [source: chunk_1]...</text>
+  <rect x="476" y="634" width="558" height="16" rx="3" fill="#0d1117"/>
+  <text x="755" y="646" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#c9d1d9" text-anchor="middle">SYNTHESIS: Full fine-tuning achieves marginal gains (+2-3%) at 100x cost [chunk_4]...</text>
+  <!-- Badges -->
+  <rect x="476" y="658" width="90" height="18" rx="8" fill="#238636" opacity="0.3"/>
+  <text x="521" y="671" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#3fb950" text-anchor="middle">GROUNDED</text>
+  <rect x="574" y="658" width="90" height="18" rx="8" fill="#1f6feb" opacity="0.3"/>
+  <text x="619" y="671" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#388bfd" text-anchor="middle">CITED</text>
+  <rect x="672" y="658" width="110" height="18" rx="8" fill="#8957e5" opacity="0.3"/>
+  <text x="727" y="671" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#d2a8ff" text-anchor="middle">NO HALLUCINATION</text>
+  <rect x="790" y="658" width="90" height="18" rx="8" fill="#da3633" opacity="0.3"/>
+  <text x="835" y="671" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#f85149" text-anchor="middle">VALIDATED</text>
+
+  <!-- Arrow from LLM to output -->
+  <line x1="410" y1="627" x2="458" y2="627" stroke="#3fb950" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Key properties footer box -->
+  <rect x="30" y="702" width="1020" height="48" rx="6" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="60" y="720" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e">RAG PROPERTIES:</text>
+  <text x="180" y="720" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681">Factual grounding — answers anchored to retrieved source chunks, not parametric memory</text>
+  <text x="60" y="738" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e">KEY BENEFIT:</text>
+  <text x="180" y="738" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681">Knowledge updatable without retraining — add new documents to ChromaDB, changes take effect immediately</text>
+  <text x="1040" y="720" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#388bfd" text-anchor="end">RegDelta + SynapseIQ</text>
+  <text x="1040" y="738" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="end">DocuMind Platform</text>
+</svg>

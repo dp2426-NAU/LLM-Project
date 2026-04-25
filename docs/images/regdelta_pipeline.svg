@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 820" width="1100" height="820">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="stageGrad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1f6feb;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="stageGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e36209;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="stageGrad3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#238636;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="stageGrad4" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8957e5;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="stageGrad5" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#da3633;stop-opacity:0.15"/>
+      <stop offset="100%" style="stop-color:#1c2128;stop-opacity:1"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <marker id="arrowGray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b949e"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1f6feb"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#e36209"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#238636"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#da3633"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1100" height="820" fill="url(#bgGrad)"/>
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#21262d" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1100" height="820" fill="url(#grid)" opacity="0.3"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1100" height="70" fill="#161b22"/>
+  <rect x="0" y="68" width="1100" height="2" fill="#30363d"/>
+  <rect x="30" y="20" width="10" height="32" rx="3" fill="#da3633"/>
+  <rect x="48" y="20" width="10" height="32" rx="3" fill="#e36209"/>
+  <rect x="66" y="20" width="10" height="32" rx="3" fill="#1f6feb"/>
+  <text x="550" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-size="18" font-weight="700" fill="#e6edf3" text-anchor="middle">RegDelta — Regulatory Change Impact Analysis Pipeline</text>
+  <text x="550" y="52" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" fill="#8b949e" text-anchor="middle">End-to-end flow from regulation upload to policy impact report generation</text>
+
+  <!-- ===== STAGE 1: INGEST ===== -->
+  <!-- Input documents: Left column -->
+  <rect x="30" y="90" width="195" height="120" rx="8" fill="#1c2128" stroke="#30363d" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="127" y="112" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#c9d1d9" text-anchor="middle">INPUT DOCUMENTS</text>
+  <rect x="48" y="122" width="160" height="22" rx="4" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="128" y="137" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Regulation v1  (old version)</text>
+  <rect x="48" y="152" width="160" height="22" rx="4" fill="#0d1117" stroke="#1f6feb" stroke-width="1"/>
+  <text x="128" y="167" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#388bfd" text-anchor="middle">Regulation v2  (new version)</text>
+  <rect x="48" y="182" width="160" height="22" rx="4" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  <text x="128" y="197" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Policy documents (corpus)</text>
+
+  <!-- Arrow to Stage 1 -->
+  <line x1="225" y1="150" x2="268" y2="150" stroke="#8b949e" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Stage 1: Ingestion -->
+  <rect x="270" y="90" width="220" height="120" rx="8" fill="url(#stageGrad1)" stroke="#1f6feb" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="270" y="90" width="8" height="120" rx="4" fill="#1f6feb"/>
+  <text x="285" y="110" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#1f6feb">STAGE 1</text>
+  <text x="460" y="110" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">ingestion/pipeline.py</text>
+  <text x="380" y="130" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">Document Ingestion</text>
+  <text x="380" y="148" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Text extraction &amp; normalization</text>
+  <text x="380" y="163" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Fixed-size chunking (512 tok)</text>
+  <text x="380" y="178" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">SHA-256 document ID</text>
+  <text x="380" y="193" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Overlap: 50 tokens</text>
+
+  <!-- Arrow to Stage 2 -->
+  <line x1="490" y1="150" x2="533" y2="150" stroke="#1f6feb" stroke-width="2" marker-end="url(#arrowBlue)"/>
+
+  <!-- Stage 2: Embedding -->
+  <rect x="535" y="90" width="220" height="120" rx="8" fill="url(#stageGrad2)" stroke="#e36209" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="535" y="90" width="8" height="120" rx="4" fill="#e36209"/>
+  <text x="550" y="110" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#e36209">STAGE 2</text>
+  <text x="725" y="110" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">store/vector_store.py</text>
+  <text x="645" y="130" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">Embedding &amp; Indexing</text>
+  <text x="645" y="148" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">all-MiniLM-L6-v2 encoder</text>
+  <text x="645" y="163" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">384-dim dense vectors</text>
+  <text x="645" y="178" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">L2 normalization</text>
+  <text x="645" y="193" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">ChromaDB upsert</text>
+
+  <!-- Arrow to ChromaDB -->
+  <line x1="755" y1="150" x2="798" y2="150" stroke="#e36209" stroke-width="2" marker-end="url(#arrowOrange)"/>
+
+  <!-- ChromaDB -->
+  <rect x="800" y="90" width="255" height="120" rx="8" fill="#1c2128" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+  <text x="927" y="115" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#58a6ff" text-anchor="middle">ChromaDB</text>
+  <text x="927" y="133" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Dual-collection architecture</text>
+  <rect x="818" y="142" width="100" height="22" rx="4" fill="#0d1117" stroke="#1f6feb" stroke-width="1"/>
+  <text x="868" y="157" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#388bfd" text-anchor="middle">regulations</text>
+  <rect x="938" y="142" width="100" height="22" rx="4" fill="#0d1117" stroke="#e36209" stroke-width="1"/>
+  <text x="988" y="157" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#e36209" text-anchor="middle">policies</text>
+  <text x="927" y="185" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">./chroma_store/ — persistent</text>
+  <text x="927" y="198" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">cosine similarity · top-K=6</text>
+
+  <!-- ===== Version Tracker ===== -->
+  <!-- Arrow down from ingestion to version tracker -->
+  <line x1="380" y1="210" x2="380" y2="258" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowBlue)"/>
+
+  <rect x="270" y="260" width="220" height="80" rx="8" fill="#1c2128" stroke="#1f6feb" stroke-width="1.5"/>
+  <text x="380" y="282" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#388bfd" text-anchor="middle">Version Tracker (SQLite)</text>
+  <text x="380" y="298" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">register_version(doc_id, v_tag, text)</text>
+  <text x="380" y="312" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">get_latest_two() → (v_old, v_new)</text>
+  <text x="380" y="326" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">regulation_versions · impact_reports</text>
+
+  <!-- ===== STAGE 3: DIFF ENGINE ===== -->
+  <!-- Arrow from version tracker down -->
+  <line x1="380" y1="340" x2="380" y2="390" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <rect x="270" y="392" width="220" height="110" rx="8" fill="url(#stageGrad3)" stroke="#238636" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="270" y="392" width="8" height="110" rx="4" fill="#238636"/>
+  <text x="285" y="410" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#238636">STAGE 3</text>
+  <text x="460" y="410" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">utils/diff_engine.py</text>
+  <text x="380" y="430" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">Section Diff Engine</text>
+  <text x="380" y="448" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">_split_sections() — heading regex</text>
+  <text x="380" y="463" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">SequenceMatcher similarity score</text>
+  <text x="380" y="478" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">SectionDiff: ADDED / REMOVED /</text>
+  <text x="380" y="490" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">MODIFIED / UNCHANGED</text>
+
+  <!-- Arrow to Stage 4 -->
+  <line x1="490" y1="447" x2="533" y2="447" stroke="#238636" stroke-width="2" marker-end="url(#arrowGreen)"/>
+
+  <!-- Stage 4: Impact Analyzer -->
+  <rect x="535" y="392" width="520" height="110" rx="8" fill="url(#stageGrad4)" stroke="#8957e5" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="535" y="392" width="8" height="110" rx="4" fill="#8957e5"/>
+  <text x="550" y="410" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#8957e5">STAGE 4</text>
+  <text x="1042" y="410" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">rag/impact_analyzer.py</text>
+  <text x="795" y="430" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">LLM Impact Analyzer (RAG)</text>
+
+  <!-- Sub-steps inside Stage 4 -->
+  <rect x="551" y="438" width="145" height="52" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="623" y="455" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#d2a8ff" text-anchor="middle">Section Annotation</text>
+  <text x="623" y="468" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">LLM per changed section</text>
+  <text x="623" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Risk: HIGH/MEDIUM/LOW</text>
+
+  <line x1="696" y1="464" x2="706" y2="464" stroke="#8957e5" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <rect x="708" y="438" width="145" height="52" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="780" y="455" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#d2a8ff" text-anchor="middle">Policy Retrieval</text>
+  <text x="780" y="468" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">ChromaDB semantic query</text>
+  <text x="780" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">top_k affected policies</text>
+
+  <line x1="853" y1="464" x2="863" y2="464" stroke="#8957e5" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <rect x="865" y="438" width="172" height="52" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="951" y="455" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#d2a8ff" text-anchor="middle">Full Report Generation</text>
+  <text x="951" y="468" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">LLM synthesis prompt</text>
+  <text x="951" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">ImpactReport datamodel</text>
+
+  <!-- LLM API indicator -->
+  <line x1="795" y1="392" x2="795" y2="350" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="795" y1="350" x2="960" y2="350" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="960" y1="350" x2="960" y2="280" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <rect x="870" y="260" width="175" height="70" rx="6" fill="#1c2128" stroke="#8957e5" stroke-width="1.5"/>
+  <text x="957" y="282" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#d2a8ff" text-anchor="middle">OpenAI / Ollama LLM</text>
+  <text x="957" y="298" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">gpt-4o-mini (default)</text>
+  <text x="957" y="312" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">system + user prompts</text>
+  <text x="957" y="324" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">temperature=0.3</text>
+
+  <!-- Arrow from ChromaDB down to policy retrieval -->
+  <line x1="927" y1="210" x2="927" y2="390" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="927" y1="390" x2="800" y2="438" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGray)"/>
+
+  <!-- Stage 5: Output -->
+  <line x1="380" y1="502" x2="380" y2="560" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="795" y1="502" x2="795" y2="560" stroke="#8b949e" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <rect x="270" y="562" width="220" height="100" rx="8" fill="url(#stageGrad5)" stroke="#da3633" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="270" y="562" width="8" height="100" rx="4" fill="#da3633"/>
+  <text x="285" y="580" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#da3633">STAGE 5</text>
+  <text x="460" y="580" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">models/impact_report.py</text>
+  <text x="380" y="600" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">Impact Report Build</text>
+  <text x="380" y="618" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">ImpactReport Pydantic model</text>
+  <text x="380" y="633" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">AffectedPolicy list</text>
+  <text x="380" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">RiskLevel: HIGH / MEDIUM / LOW</text>
+
+  <!-- Stage 5b: Persist -->
+  <rect x="535" y="562" width="520" height="100" rx="8" fill="url(#stageGrad5)" stroke="#da3633" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="535" y="562" width="8" height="100" rx="4" fill="#da3633"/>
+  <text x="550" y="580" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="700" fill="#da3633">STAGE 5b</text>
+  <text x="1042" y="580" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">store/version_tracker.py</text>
+  <text x="795" y="600" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" font-weight="700" fill="#e6edf3" text-anchor="middle">Persistence &amp; Analytics</text>
+  <text x="795" y="618" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">save_report(session_id, report) → SQLite</text>
+  <text x="795" y="633" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">register_version(doc_id, tag, text)</text>
+  <text x="795" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">list_reports() · get_report(session_id)</text>
+
+  <!-- Connect stage 5 to 5b -->
+  <line x1="490" y1="612" x2="533" y2="612" stroke="#da3633" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- ===== OUTPUT ===== -->
+  <line x1="380" y1="662" x2="380" y2="710" stroke="#da3633" stroke-width="2" marker-end="url(#arrowRed)"/>
+  <line x1="795" y1="662" x2="795" y2="710" stroke="#da3633" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- Final Output boxes -->
+  <rect x="80" y="712" width="195" height="70" rx="8" fill="#0f2916" stroke="#3fb950" stroke-width="2"/>
+  <text x="177" y="734" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">✓ JSON Response</text>
+  <text x="177" y="750" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">session_id, report_text</text>
+  <text x="177" y="764" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">changed_sections, risk_level</text>
+  <text x="177" y="775" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">affected_policies (list)</text>
+
+  <rect x="310" y="712" width="195" height="70" rx="8" fill="#0f2916" stroke="#3fb950" stroke-width="2"/>
+  <text x="407" y="734" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">✓ Section Diffs</text>
+  <text x="407" y="750" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">ADDED / REMOVED</text>
+  <text x="407" y="764" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">MODIFIED / UNCHANGED</text>
+  <text x="407" y="775" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">similarity scores per section</text>
+
+  <rect x="540" y="712" width="195" height="70" rx="8" fill="#0f2916" stroke="#3fb950" stroke-width="2"/>
+  <text x="637" y="734" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">✓ Policy Mapping</text>
+  <text x="637" y="750" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Affected policies ranked</text>
+  <text x="637" y="764" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">similarity_score per policy</text>
+  <text x="637" y="775" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">related_sections list</text>
+
+  <rect x="770" y="712" width="195" height="70" rx="8" fill="#0f2916" stroke="#3fb950" stroke-width="2"/>
+  <text x="867" y="734" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="700" fill="#3fb950" text-anchor="middle">✓ Risk Summary</text>
+  <text x="867" y="750" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">executive_summary (LLM)</text>
+  <text x="867" y="764" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">overall_risk_level</text>
+  <text x="867" y="775" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">compliance_deadline</text>
+
+  <line x1="275" y1="747" x2="80" y2="747" stroke="#3fb950" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrowGreen)"/>
+
+  <!-- Footer -->
+  <rect x="30" y="796" width="1040" height="18" rx="4" fill="#21262d"/>
+  <text x="550" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681" text-anchor="middle">POST /api/v1/analyze  ·  Python 3.11  ·  FastAPI  ·  ChromaDB  ·  sentence-transformers  ·  SQLite  ·  OpenAI gpt-4o-mini</text>
+</svg>

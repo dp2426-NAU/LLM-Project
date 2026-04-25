@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#161b22;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1f2937;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#111827;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="regdeltaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a5c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d2137;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="synapseGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a2c;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0d2118;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="sharedGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1f3d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1229;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="2" dy="4" stdDeviation="4" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#8b949e"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1f6feb"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#238636"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="900" fill="url(#bgGrad)"/>
+
+  <!-- Grid pattern -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#21262d" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="900" fill="url(#grid)" opacity="0.4"/>
+
+  <!-- Header -->
+  <rect x="0" y="0" width="1200" height="70" fill="url(#headerGrad)"/>
+  <rect x="0" y="66" width="1200" height="2" fill="#30363d"/>
+  <text x="600" y="28" font-family="'Segoe UI', system-ui, sans-serif" font-size="20" font-weight="700" fill="#e6edf3" text-anchor="middle">DocuMind — Production-Grade LLM Intelligence Platform</text>
+  <text x="600" y="52" font-family="'Segoe UI', system-ui, sans-serif" font-size="13" fill="#8b949e" text-anchor="middle">Complete System Architecture — Layered Infrastructure View</text>
+
+  <!-- Layer labels on left -->
+  <text x="22" y="148" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e" text-anchor="middle" transform="rotate(-90, 22, 148)">CLIENT LAYER</text>
+  <text x="22" y="282" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e" text-anchor="middle" transform="rotate(-90, 22, 282)">API LAYER</text>
+  <text x="22" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e" text-anchor="middle" transform="rotate(-90, 22, 480)">DOMAIN MODULES</text>
+  <text x="22" y="680" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e" text-anchor="middle" transform="rotate(-90, 22, 680)">SHARED INFRA</text>
+  <text x="22" y="830" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e" text-anchor="middle" transform="rotate(-90, 22, 830)">PERSISTENCE</text>
+
+  <!-- Divider lines -->
+  <line x1="40" y1="80" x2="40" y2="890" stroke="#30363d" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- ============ LAYER 1: CLIENT ============ -->
+  <rect x="50" y="82" width="1140" height="80" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <!-- HTTP Client -->
+  <rect x="100" y="96" width="180" height="52" rx="6" fill="#1c2128" stroke="#388bfd" stroke-width="1.5"/>
+  <text x="190" y="116" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#388bfd" text-anchor="middle">HTTP Client / cURL</text>
+  <text x="190" y="132" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">REST API calls</text>
+  <text x="190" y="143" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">JSON payloads</text>
+  <!-- Swagger UI -->
+  <rect x="310" y="96" width="180" height="52" rx="6" fill="#1c2128" stroke="#388bfd" stroke-width="1.5"/>
+  <text x="400" y="116" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#388bfd" text-anchor="middle">Swagger UI</text>
+  <text x="400" y="132" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Interactive API Docs</text>
+  <text x="400" y="143" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">/api/v1/docs</text>
+  <!-- SDK / Programmatic -->
+  <rect x="520" y="96" width="180" height="52" rx="6" fill="#1c2128" stroke="#388bfd" stroke-width="1.5"/>
+  <text x="610" y="116" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#388bfd" text-anchor="middle">Python / SDK</text>
+  <text x="610" y="132" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Programmatic Access</text>
+  <text x="610" y="143" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">requests library</text>
+  <!-- CI/CD -->
+  <rect x="730" y="96" width="180" height="52" rx="6" fill="#1c2128" stroke="#388bfd" stroke-width="1.5"/>
+  <text x="820" y="116" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#388bfd" text-anchor="middle">CI/CD Pipeline</text>
+  <text x="820" y="132" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Automated Testing</text>
+  <text x="820" y="143" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">pytest + GitHub Actions</text>
+
+  <!-- Arrows down to API layer -->
+  <line x1="190" y1="148" x2="190" y2="170" stroke="#388bfd" stroke-width="1.5" marker-end="url(#arrowBlue)" opacity="0.6"/>
+  <line x1="400" y1="148" x2="400" y2="170" stroke="#388bfd" stroke-width="1.5" marker-end="url(#arrowBlue)" opacity="0.6"/>
+  <line x1="610" y1="148" x2="610" y2="170" stroke="#388bfd" stroke-width="1.5" marker-end="url(#arrowBlue)" opacity="0.6"/>
+  <line x1="820" y1="148" x2="820" y2="170" stroke="#388bfd" stroke-width="1.5" marker-end="url(#arrowBlue)" opacity="0.6"/>
+
+  <!-- ============ LAYER 2: API ============ -->
+  <rect x="50" y="170" width="1140" height="80" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <!-- FastAPI Gateway -->
+  <rect x="200" y="182" width="340" height="54" rx="6" fill="#1c2128" stroke="#e36209" stroke-width="2"/>
+  <text x="230" y="202" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#e36209">⚡</text>
+  <text x="370" y="202" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="700" fill="#e36209" text-anchor="middle">FastAPI Gateway — Uvicorn ASGI</text>
+  <text x="370" y="218" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="middle">Lifespan Context Manager • Dependency Injection • OpenAPI 3.0</text>
+  <text x="370" y="230" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Pydantic request/response validation • CORS middleware • Error handlers</text>
+  <!-- Router split -->
+  <rect x="600" y="182" width="200" height="52" rx="6" fill="#1c2128" stroke="#8b949e" stroke-width="1"/>
+  <text x="700" y="202" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#c9d1d9" text-anchor="middle">Route Modules</text>
+  <text x="700" y="218" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">/synthesize  /analyze</text>
+  <text x="700" y="230" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">/ingest  /query  /analytics</text>
+  <!-- Auth / Middleware -->
+  <rect x="860" y="182" width="200" height="52" rx="6" fill="#1c2128" stroke="#8b949e" stroke-width="1"/>
+  <text x="960" y="202" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#c9d1d9" text-anchor="middle">Middleware Stack</text>
+  <text x="960" y="218" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Request logging</text>
+  <text x="960" y="230" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Rate limiting • Timeout</text>
+
+  <!-- Connector lines layer 2 to 3 -->
+  <line x1="370" y1="236" x2="290" y2="312" stroke="#e36209" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+  <line x1="370" y1="236" x2="700" y2="312" stroke="#e36209" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+
+  <!-- ============ LAYER 3: DOMAIN MODULES ============ -->
+  <!-- RegDelta box -->
+  <rect x="50" y="312" width="530" height="230" rx="10" fill="url(#regdeltaGrad)" stroke="#1f6feb" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="50" y="312" width="530" height="36" rx="10" fill="#1f6feb" opacity="0.25"/>
+  <rect x="50" y="340" width="530" height="8" rx="0" fill="#1f6feb" opacity="0.1"/>
+  <text x="315" y="334" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#388bfd" text-anchor="middle">RegDelta — Regulatory Change Impact Analyzer</text>
+
+  <!-- RegDelta sub-components -->
+  <rect x="68" y="360" width="150" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="143" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Diff Engine</text>
+  <text x="143" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Section-level diffs</text>
+  <text x="143" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">difflib · SequenceMatcher</text>
+  <text x="143" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">SectionDiff dataclass</text>
+
+  <rect x="238" y="360" width="150" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="313" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Impact Analyzer</text>
+  <text x="313" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">LLM annotation</text>
+  <text x="313" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Policy retrieval</text>
+  <text x="313" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Risk classification</text>
+
+  <rect x="408" y="360" width="152" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="484" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Ingestion Pipeline</text>
+  <text x="484" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">PDF/TXT/MD parsing</text>
+  <text x="484" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Chunk + embed</text>
+  <text x="484" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">SHA-256 doc_id</text>
+
+  <rect x="68" y="435" width="150" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="143" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Version Tracker</text>
+  <text x="143" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Regulation versioning</text>
+  <text x="143" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">SQLite persistence</text>
+  <text x="143" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Report archival</text>
+
+  <rect x="238" y="435" width="150" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="313" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Vector Store</text>
+  <text x="313" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Dual ChromaDB</text>
+  <text x="313" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">regulations + policies</text>
+  <text x="313" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">L2-normalized cosine</text>
+
+  <rect x="408" y="435" width="152" height="60" rx="5" fill="#0d2137" stroke="#1f6feb" stroke-width="1"/>
+  <text x="484" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#1f6feb" text-anchor="middle">Report Generator</text>
+  <text x="484" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">ImpactReport model</text>
+  <text x="484" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">RiskLevel enum</text>
+  <text x="484" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">AffectedPolicy list</text>
+
+  <!-- RegDelta label badge -->
+  <rect x="460" y="498" width="100" height="22" rx="10" fill="#1f6feb" opacity="0.2"/>
+  <text x="510" y="513" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#388bfd" text-anchor="middle">3 FastAPI Routers</text>
+
+  <!-- SynapseIQ box -->
+  <rect x="620" y="312" width="570" height="230" rx="10" fill="url(#synapseGrad)" stroke="#238636" stroke-width="2" filter="url(#shadow)"/>
+  <rect x="620" y="312" width="570" height="36" rx="10" fill="#238636" opacity="0.25"/>
+  <rect x="620" y="340" width="570" height="8" rx="0" fill="#238636" opacity="0.1"/>
+  <text x="905" y="334" font-family="'Segoe UI', system-ui, sans-serif" font-size="14" font-weight="700" fill="#3fb950" text-anchor="middle">SynapseIQ — Multi-Agent Research Intelligence Platform</text>
+
+  <!-- SynapseIQ sub-components -->
+  <rect x="638" y="360" width="130" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="703" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">Researcher</text>
+  <text x="703" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Semantic retrieval</text>
+  <text x="703" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Finding extraction</text>
+  <text x="703" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">YAML prompt v1.2</text>
+
+  <rect x="788" y="360" width="130" height="60" rx="5" fill="#0d2118" stroke="#e36209" stroke-width="1"/>
+  <text x="853" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#e36209" text-anchor="middle">Critic</text>
+  <text x="853" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Gap analysis</text>
+  <text x="853" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Bias detection</text>
+  <text x="853" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Claim validation</text>
+
+  <rect x="938" y="360" width="130" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="1003" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">Synthesizer</text>
+  <text x="1003" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Knowledge artifact</text>
+  <text x="1003" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">brief/standard/detail</text>
+  <text x="1003" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">2000 max tokens</text>
+
+  <rect x="1088" y="360" width="82" height="60" rx="5" fill="#0d2118" stroke="#8957e5" stroke-width="1"/>
+  <text x="1129" y="378" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8957e5" text-anchor="middle">Validator</text>
+  <text x="1129" y="392" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">4-dim score</text>
+  <text x="1129" y="405" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">PASS verdict</text>
+  <text x="1129" y="416" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">≥0.65 threshold</text>
+
+  <rect x="638" y="435" width="130" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="703" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">Orchestrator</text>
+  <text x="703" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Pipeline control</text>
+  <text x="703" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">AgentContext state</text>
+  <text x="703" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Stage sequencing</text>
+
+  <rect x="788" y="435" width="130" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="853" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">Prompt Engine</text>
+  <text x="853" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">YAML + Jinja2</text>
+  <text x="853" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Hot-reload</text>
+  <text x="853" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">4 agent templates</text>
+
+  <rect x="938" y="435" width="130" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="1003" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">Evaluator</text>
+  <text x="1003" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">PipelineEvaluator</text>
+  <text x="1003" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Weighted composite</text>
+  <text x="1003" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Heuristic fallback</text>
+
+  <rect x="1088" y="435" width="82" height="60" rx="5" fill="#0d2118" stroke="#238636" stroke-width="1"/>
+  <text x="1129" y="453" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#238636" text-anchor="middle">LLM Client</text>
+  <text x="1129" y="467" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">OpenAI</text>
+  <text x="1129" y="480" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Ollama local</text>
+  <text x="1129" y="491" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Retry logic</text>
+
+  <!-- SynapseIQ label badge -->
+  <rect x="830" y="498" width="110" height="22" rx="10" fill="#238636" opacity="0.2"/>
+  <text x="885" y="513" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" font-weight="600" fill="#3fb950" text-anchor="middle">4-Agent Sequential</text>
+
+  <!-- ============ LAYER 4: SHARED INFRASTRUCTURE ============ -->
+  <rect x="50" y="560" width="1140" height="110" rx="8" fill="url(#sharedGrad)" stroke="#8957e5" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="620" y="582" font-family="'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="700" fill="#d2a8ff" text-anchor="middle">Shared Infrastructure Layer</text>
+
+  <!-- Shared boxes -->
+  <rect x="68" y="592" width="175" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="155" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">ChromaDB Vector Store</text>
+  <text x="155" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Persistent on-disk storage</text>
+  <text x="155" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">all-MiniLM-L6-v2 (384-dim)</text>
+  <text x="155" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">./chroma_store/</text>
+
+  <rect x="263" y="592" width="175" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="350" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">Embedding Engine</text>
+  <text x="350" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">sentence-transformers</text>
+  <text x="350" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">CPU-optimized batch</text>
+  <text x="350" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">L2 normalization</text>
+
+  <rect x="458" y="592" width="175" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="545" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">LLM Abstraction</text>
+  <text x="545" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">OpenAI gpt-4o-mini</text>
+  <text x="545" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Ollama llama3 local</text>
+  <text x="545" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Token budget caps</text>
+
+  <rect x="653" y="592" width="175" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="740" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">Config (Pydantic)</text>
+  <text x="740" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">BaseSettings + .env</text>
+  <text x="740" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">@lru_cache singleton</text>
+  <text x="740" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Environment override</text>
+
+  <rect x="848" y="592" width="175" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="935" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">Cost Tracker</text>
+  <text x="935" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">Token counting</text>
+  <text x="935" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">$0.00015/1K input</text>
+  <text x="935" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">$0.00060/1K output</text>
+
+  <rect x="1043" y="592" width="135" height="62" rx="5" fill="#1a1229" stroke="#8957e5" stroke-width="1"/>
+  <text x="1110" y="612" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#d2a8ff" text-anchor="middle">Structured Logging</text>
+  <text x="1110" y="626" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">JSON log format</text>
+  <text x="1110" y="638" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Session tracing</text>
+  <text x="1110" y="648" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">Agent latency log</text>
+
+  <!-- Arrows down to persistence -->
+  <line x1="155" y1="654" x2="155" y2="698" stroke="#8957e5" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+  <line x1="545" y1="654" x2="545" y2="698" stroke="#8957e5" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+  <line x1="740" y1="654" x2="740" y2="698" stroke="#8957e5" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+  <line x1="935" y1="654" x2="935" y2="698" stroke="#8957e5" stroke-width="1.5" opacity="0.5" marker-end="url(#arrow)"/>
+
+  <!-- ============ LAYER 5: PERSISTENCE ============ -->
+  <rect x="50" y="698" width="1140" height="80" rx="8" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+
+  <!-- SQLite RegDelta -->
+  <rect x="68" y="712" width="220" height="52" rx="6" fill="#1c2128" stroke="#f0883e" stroke-width="1.5"/>
+  <text x="178" y="730" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#f0883e" text-anchor="middle">SQLite — RegDelta</text>
+  <text x="178" y="746" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">regulation_versions · impact_reports</text>
+  <text x="178" y="757" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">regdelta.db</text>
+
+  <!-- SQLite SynapseIQ -->
+  <rect x="318" y="712" width="220" height="52" rx="6" fill="#1c2128" stroke="#f0883e" stroke-width="1.5"/>
+  <text x="428" y="730" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#f0883e" text-anchor="middle">SQLite — SynapseIQ</text>
+  <text x="428" y="746" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">pipeline_sessions · agent_traces</text>
+  <text x="428" y="757" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">synapseiq.db</text>
+
+  <!-- ChromaDB on disk -->
+  <rect x="568" y="712" width="220" height="52" rx="6" fill="#1c2128" stroke="#58a6ff" stroke-width="1.5"/>
+  <text x="678" y="730" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#58a6ff" text-anchor="middle">ChromaDB on Disk</text>
+  <text x="678" y="746" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">regulations · policies · corpus</text>
+  <text x="678" y="757" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">./chroma_store/</text>
+
+  <!-- OpenAI API -->
+  <rect x="818" y="712" width="170" height="52" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="903" y="730" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#3fb950" text-anchor="middle">OpenAI API</text>
+  <text x="903" y="746" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">gpt-4o-mini (default)</text>
+  <text x="903" y="757" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">api.openai.com</text>
+
+  <!-- Ollama Local -->
+  <rect x="1008" y="712" width="170" height="52" rx="6" fill="#1c2128" stroke="#3fb950" stroke-width="1.5"/>
+  <text x="1093" y="730" font-family="'Segoe UI', system-ui, sans-serif" font-size="11" font-weight="600" fill="#3fb950" text-anchor="middle">Ollama Local</text>
+  <text x="1093" y="746" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#8b949e" text-anchor="middle">llama3 / mistral</text>
+  <text x="1093" y="757" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#6e7681" text-anchor="middle">localhost:11434</text>
+
+  <!-- Footer -->
+  <rect x="50" y="790" width="1140" height="44" rx="6" fill="#1c2128" stroke="#30363d" stroke-width="1"/>
+  <text x="140" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e">TECH STACK:</text>
+  <text x="220" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">Python 3.11+</text>
+  <text x="310" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">FastAPI 0.110</text>
+  <text x="405" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">ChromaDB 0.4</text>
+  <text x="500" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">Pydantic v2</text>
+  <text x="580" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">sentence-transformers</text>
+  <text x="700" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">OpenAI SDK</text>
+  <text x="780" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">SQLite3</text>
+  <text x="845" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">Docker</text>
+  <text x="900" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">Jinja2</text>
+  <text x="950" y="809" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">pytest</text>
+
+  <text x="140" y="826" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" font-weight="600" fill="#8b949e">PATTERNS:</text>
+  <text x="220" y="826" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#6e7681">RAG  •  Multi-Agent  •  CQRS  •  Repository  •  Factory  •  Observer  •  Strategy</text>
+  <text x="900" y="826" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#388bfd" text-anchor="end">DocuMind Platform  v1.0</text>
+  <text x="1175" y="826" font-family="'Segoe UI', system-ui, sans-serif" font-size="10" fill="#8b949e" text-anchor="end">github.com/dp2426-NAU/LLM-Project</text>
+</svg>
