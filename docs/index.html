@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DocuMind — LLM Intelligence Platform</title>
+  <style>
+    :root {
+      --bg:#0d1117;--bg2:#161b22;--bg3:#1c2128;--bg4:#21262d;
+      --border:#30363d;--text:#e6edf3;--text2:#c9d1d9;--muted:#8b949e;--dim:#6e7681;
+      --blue:#388bfd;--blue-dim:#1f6feb;--blue-bg:#0c2a4a;
+      --green:#3fb950;--green-dim:#238636;--green-bg:#0a1f0f;
+      --orange:#f0883e;--orange-dim:#e36209;--orange-bg:#2d1900;
+      --purple:#d2a8ff;--purple-dim:#8957e5;--purple-bg:#1f1040;
+      --red:#f85149;--red-bg:#2a0a09;--yellow:#e3b341;--yellow-bg:#2a1f00;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.7}
+    a{color:var(--blue);text-decoration:none}
+    a:hover{text-decoration:underline}
+    code{font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:13px;background:var(--bg4);padding:2px 6px;border-radius:4px;color:var(--orange)}
+    pre code{background:none;padding:0;color:inherit}
+
+    /* NAV */
+    nav{position:sticky;top:0;z-index:100;background:var(--bg2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;gap:0;height:54px}
+    .nav-brand{font-size:18px;font-weight:700;color:var(--text);margin-right:32px;white-space:nowrap}
+    .nav-brand span{color:var(--blue)}
+    .nav-links{display:flex;gap:2px;overflow-x:auto}
+    .nav-links a{padding:6px 14px;border-radius:6px;font-size:13px;font-weight:500;color:var(--muted);white-space:nowrap;transition:all .15s}
+    .nav-links a:hover{color:var(--text);background:var(--bg3);text-decoration:none}
+    .nav-links a.active{color:var(--text);background:var(--bg3)}
+
+    /* HERO */
+    .hero{background:linear-gradient(160deg,#0d1117 0%,#0c1f3a 50%,#0d1117 100%);padding:72px 32px 60px;text-align:center;border-bottom:1px solid var(--border)}
+    .hero-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--blue);background:var(--blue-bg);border:1px solid var(--blue-dim);border-radius:12px;padding:4px 14px;margin-bottom:20px;text-transform:uppercase}
+    .hero h1{font-size:52px;font-weight:800;color:var(--text);line-height:1.1;margin-bottom:12px}
+    .hero h1 span{color:var(--blue)}
+    .hero-sub{font-size:18px;color:var(--muted);max-width:640px;margin:0 auto 32px}
+    .hero-badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+    .badge{font-size:12px;font-weight:600;padding:4px 12px;border-radius:12px;border:1px solid}
+    .badge-blue{color:var(--blue);border-color:var(--blue-dim);background:var(--blue-bg)}
+    .badge-green{color:var(--green);border-color:var(--green-dim);background:var(--green-bg)}
+    .badge-orange{color:var(--orange);border-color:var(--orange-dim);background:var(--orange-bg)}
+    .badge-purple{color:var(--purple);border-color:var(--purple-dim);background:var(--purple-bg)}
+    .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+    .btn{padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:all .15s;text-decoration:none;display:inline-block}
+    .btn-primary{background:var(--blue-dim);color:#fff}
+    .btn-primary:hover{background:#388bfd;text-decoration:none}
+    .btn-secondary{background:var(--bg3);color:var(--text);border:1px solid var(--border)}
+    .btn-secondary:hover{background:var(--bg4);text-decoration:none}
+
+    /* CONTAINER */
+    .container{max-width:1100px;margin:0 auto;padding:0 24px}
+    section{padding:60px 0}
+    section+section{border-top:1px solid var(--border)}
+
+    /* SECTION HEADINGS */
+    .sec-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+    .sec-title{font-size:32px;font-weight:700;color:var(--text);margin-bottom:12px;line-height:1.2}
+    .sec-desc{font-size:16px;color:var(--muted);max-width:660px;margin-bottom:40px}
+
+    /* CARDS */
+    .card-grid{display:grid;gap:16px}
+    .card-grid-2{grid-template-columns:1fr 1fr}
+    .card-grid-3{grid-template-columns:1fr 1fr 1fr}
+    .card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:24px}
+    .card-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:14px}
+    .card h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+    .card p{font-size:14px;color:var(--muted);line-height:1.6}
+    .card.accent-blue{border-color:var(--blue-dim)}
+    .card.accent-green{border-color:var(--green-dim)}
+    .card.accent-orange{border-color:var(--orange-dim)}
+    .card.accent-purple{border-color:var(--purple-dim)}
+
+    /* MODULE CARDS */
+    .module-row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .module-card{background:var(--bg3);border:2px solid;border-radius:12px;padding:28px;position:relative;overflow:hidden}
+    .module-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+    .module-card.mod-blue{border-color:var(--blue-dim)}
+    .module-card.mod-blue::before{background:var(--blue-dim)}
+    .module-card.mod-green{border-color:var(--green-dim)}
+    .module-card.mod-green::before{background:var(--green-dim)}
+    .module-tag{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .module-tag.blue{color:var(--blue)}
+    .module-tag.green{color:var(--green)}
+    .module-card h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px}
+    .module-card .module-desc{font-size:14px;color:var(--muted);margin-bottom:16px}
+    .bullet-list{list-style:none;padding:0}
+    .bullet-list li{font-size:14px;color:var(--text2);padding:4px 0;padding-left:18px;position:relative}
+    .bullet-list li::before{content:'▸';position:absolute;left:0;color:var(--blue);font-size:11px;top:6px}
+    .bullet-list.green li::before{color:var(--green)}
+
+    /* PIPELINE */
+    .pipeline{display:flex;align-items:center;gap:0;margin:24px 0;overflow-x:auto;padding:8px 0}
+    .pipe-step{background:var(--bg3);border:2px solid;border-radius:10px;padding:14px 18px;min-width:140px;text-align:center;flex-shrink:0}
+    .pipe-step .ps-num{font-size:10px;font-weight:700;color:var(--muted);margin-bottom:4px}
+    .pipe-step .ps-name{font-size:14px;font-weight:700}
+    .pipe-step .ps-role{font-size:11px;color:var(--muted);margin-top:3px}
+    .pipe-step .ps-budget{font-size:10px;margin-top:4px;opacity:.7}
+    .pipe-arrow{color:var(--muted);font-size:20px;padding:0 6px;flex-shrink:0}
+    .ps-blue{border-color:var(--blue-dim);} .ps-blue .ps-name{color:var(--blue)}
+    .ps-orange{border-color:var(--orange-dim);} .ps-orange .ps-name{color:var(--orange)}
+    .ps-green{border-color:var(--green-dim);} .ps-green .ps-name{color:var(--green)}
+    .ps-purple{border-color:var(--purple-dim);} .ps-purple .ps-name{color:var(--purple)}
+
+    /* CODE BLOCKS */
+    .code-block{background:var(--bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin:16px 0}
+    .code-header{background:var(--bg3);padding:8px 16px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+    .code-header .lang{font-size:11px;color:var(--muted);font-weight:600}
+    .code-body{padding:18px;overflow-x:auto;font-family:'Cascadia Code','Fira Code','Courier New',monospace;font-size:12.5px;line-height:1.75;color:var(--text2)}
+    .jk{color:#79c0ff}.js{color:#a5d6ff}.jn{color:#f0883e}.jb{color:#d2a8ff}.jp{color:var(--muted)}
+    .sh-comment{color:var(--dim)}.sh-cmd{color:var(--green)}.sh-flag{color:var(--orange)}.sh-str{color:var(--blue)}
+
+    /* DATASET TABLE */
+    table{width:100%;border-collapse:collapse;border-radius:10px;overflow:hidden;font-size:14px}
+    th{background:var(--bg4);padding:10px 16px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border)}
+    td{padding:11px 16px;border-bottom:1px solid var(--border);color:var(--text2)}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:rgba(255,255,255,.02)}
+
+    /* API BOX */
+    .api-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:14px}
+    .api-card h4{font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .api-card p{font-size:14px;color:var(--muted);margin-bottom:10px}
+    .api-pill{font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;border:1px solid}
+    .api-free{color:var(--green);border-color:var(--green-dim);background:var(--green-bg)}
+    .api-paid{color:var(--orange);border-color:var(--orange-dim);background:var(--orange-bg)}
+    .api-local{color:var(--purple);border-color:var(--purple-dim);background:var(--purple-bg)}
+
+    /* DEMO OUTPUT TABS */
+    .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:28px}
+    .tab{padding:10px 22px;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;border-radius:6px 6px 0 0}
+    .tab:hover{color:var(--text);background:var(--bg3)}
+    .tab.active{color:var(--text);border-bottom-color:var(--blue)}
+    .tab-content{display:none}
+    .tab-content.active{display:block}
+
+    /* SCORE BARS */
+    .score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+    .score-item{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+    .score-name{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .score-val{font-size:22px;font-weight:700;color:var(--text);margin:4px 0}
+    .score-bar-bg{background:var(--bg4);border-radius:4px;height:6px;margin-top:6px}
+    .score-bar{height:6px;border-radius:4px}
+    .bar-blue{background:var(--blue-dim)}.bar-green{background:var(--green-dim)}
+    .bar-orange{background:var(--orange-dim)}.bar-purple{background:var(--purple-dim)}
+
+    /* CALLOUT */
+    .callout{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0;font-size:14px}
+    .callout-blue{border-color:var(--blue-dim);background:var(--blue-bg);color:var(--text2)}
+    .callout-green{border-color:var(--green-dim);background:var(--green-bg);color:var(--text2)}
+    .callout-orange{border-color:var(--orange-dim);background:var(--orange-bg);color:var(--text2)}
+
+    /* VERDICT */
+    .verdict-row{display:flex;gap:12px;margin:20px 0;flex-wrap:wrap}
+    .verdict-box{flex:1;min-width:150px;border-radius:10px;padding:16px 20px;border:2px solid}
+    .verdict-pass{background:var(--green-bg);border-color:var(--green-dim)}
+    .verdict-box .vlabel{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+    .verdict-pass .vlabel{color:var(--green)}
+    .verdict-box .vval{font-size:26px;font-weight:700;color:var(--text);margin:4px 0}
+    .verdict-box .vsub{font-size:11px;color:var(--muted)}
+
+    /* AGENT TRACE */
+    .agent-row{display:flex;gap:12px;align-items:flex-start;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:8px}
+    .agent-icon{width:34px;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;font-weight:700}
+    .a-r{background:#0c2a4a;color:var(--blue)}.a-c{background:var(--orange-bg);color:var(--orange)}
+    .a-s{background:var(--green-bg);color:var(--green)}.a-v{background:var(--purple-bg);color:var(--purple)}
+    .agent-name{font-weight:700;font-size:13px;color:var(--text)}
+    .agent-meta{font-size:11px;color:var(--muted);margin-top:2px}
+    .chip{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;border:1px solid;display:inline-block;margin:4px 4px 0 0}
+    .chip-blue{color:var(--blue);border-color:var(--blue-dim);background:var(--blue-bg)}
+    .chip-green{color:var(--green);border-color:var(--green-dim);background:var(--green-bg)}
+
+    /* DIFF CARDS */
+    .diff-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;margin-bottom:10px;overflow:hidden}
+    .diff-header{padding:10px 16px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border)}
+    .diff-type{font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase}
+    .diff-modified{background:var(--yellow-bg);color:var(--yellow);border:1px solid #5e4108}
+    .diff-added{background:var(--green-bg);color:var(--green);border:1px solid var(--green-dim)}
+    .diff-title{font-size:12px;font-weight:600;color:var(--text2)}
+    .diff-sim{font-size:11px;color:var(--muted);margin-left:auto}
+    .diff-body{padding:10px 16px;font-size:13px;color:var(--muted)}
+
+    /* INFO CARDS */
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+    .stat-card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;text-align:center}
+    .stat-num{font-size:30px;font-weight:700;color:var(--text);display:block}
+    .stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+
+    /* FOOTER */
+    footer{background:var(--bg2);border-top:1px solid var(--border);padding:32px;text-align:center;color:var(--dim);font-size:13px}
+    footer a{color:var(--blue)}
+
+    @media(max-width:768px){
+      .hero h1{font-size:32px}
+      .module-row,.card-grid-2,.card-grid-3,.score-grid,.stat-row{grid-template-columns:1fr}
+      nav{padding:0 12px}
+      .hero{padding:40px 16px}
+      section{padding:40px 0}
+      .container{padding:0 16px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">Docu<span>Mind</span></div>
+  <div class="nav-links">
+    <a href="#overview" class="active">Overview</a>
+    <a href="#how-it-works">How It Works</a>
+    <a href="#datasets">Datasets</a>
+    <a href="#apis">APIs Used</a>
+    <a href="#demo">Live Demo Output</a>
+    <a href="#run">Run Locally</a>
+    <a href="https://github.com/dp2426-NAU/LLM-Project" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">CS 599 — Applications of Large Language Models</div>
+  <h1>Docu<span>Mind</span></h1>
+  <p class="hero-sub">Two AI modules that automatically analyze regulatory changes and synthesize research — no manual reading required.</p>
+  <div class="hero-badges">
+    <span class="badge badge-blue">Python 3.11</span>
+    <span class="badge badge-blue">FastAPI</span>
+    <span class="badge badge-green">ChromaDB</span>
+    <span class="badge badge-green">RAG Pipeline</span>
+    <span class="badge badge-orange">OpenAI gpt-4o-mini</span>
+    <span class="badge badge-purple">Multi-Agent AI</span>
+  </div>
+  <div class="hero-btns">
+    <a href="#demo" class="btn btn-primary">View Live Demo Output</a>
+    <a href="#how-it-works" class="btn btn-secondary">How It Works</a>
+    <a href="https://github.com/dp2426-NAU/LLM-Project" class="btn btn-secondary" target="_blank">View on GitHub</a>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════════════════ OVERVIEW ════════════════════════════════ -->
+<section id="overview">
+  <div class="sec-label">Project Overview</div>
+  <div class="sec-title">What does DocuMind do?</div>
+  <div class="sec-desc">DocuMind solves two real problems that compliance teams and researchers face every day — explained in plain English.</div>
+
+  <div class="module-row">
+    <div class="module-card mod-blue">
+      <div class="module-tag blue">Module I</div>
+      <h3>RegDelta</h3>
+      <p class="module-desc">Regulatory Change Impact Analyzer</p>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:14px">
+        Imagine a bank's compliance team hears that the SEC updated a regulation. They need to figure out which of their 200 internal policy documents are now out of date — a process that used to take 2–4 weeks manually.
+        <br><br>
+        <strong style="color:var(--text)">RegDelta does this in seconds.</strong> It reads both versions of the regulation, finds exactly which sections changed, retrieves the policies most likely to be affected, and generates a risk-classified impact report — all automatically.
+      </p>
+      <ul class="bullet-list">
+        <li>Detects which sections of a regulation were Added, Modified, or Removed</li>
+        <li>Searches your internal policy library using semantic AI (not just keyword search)</li>
+        <li>Asks an LLM: "What changed and why does it matter?" — per section</li>
+        <li>Produces a final report: risk level (LOW/MEDIUM/HIGH/CRITICAL), affected policies, recommended actions</li>
+      </ul>
+    </div>
+    <div class="module-card mod-green">
+      <div class="module-tag green">Module II</div>
+      <h3>SynapseIQ</h3>
+      <p class="module-desc">Multi-Agent Research Intelligence Platform</p>
+      <p style="font-size:14px;color:var(--text2);margin-bottom:14px">
+        Imagine an analyst who needs to read 10 research papers and write a synthesis report. That could take days. Simple AI chatbots just paste back quotes — they don't think critically.
+        <br><br>
+        <strong style="color:var(--text)">SynapseIQ uses 4 specialized AI agents working in sequence.</strong> One agent reads and extracts findings. A second critiques it. A third writes the synthesis. A fourth scores the quality and issues a PASS or FAIL verdict before the answer is delivered.
+      </p>
+      <ul class="bullet-list green">
+        <li>Agent 1 (Researcher): Extracts key findings from your document corpus</li>
+        <li>Agent 2 (Critic): Finds gaps, contradictions, and unsupported claims</li>
+        <li>Agent 3 (Synthesizer): Writes the final knowledge document</li>
+        <li>Agent 4 (Validator): Scores quality on 4 dimensions and issues a verdict</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+<section id="how-it-works">
+  <div class="sec-label">Architecture</div>
+  <div class="sec-title">How does it work under the hood?</div>
+  <div class="sec-desc">Both modules use the same core technology — Retrieval-Augmented Generation (RAG) — but apply it differently.</div>
+
+  <div class="callout callout-blue">
+    <strong>Key Idea: RAG (Retrieval-Augmented Generation)</strong><br>
+    Instead of asking an AI to answer from memory (which leads to hallucination), DocuMind first retrieves the most relevant text chunks from your documents using vector search, then passes those chunks as evidence to the LLM. The AI can only answer based on what it was given — making outputs factual and traceable.
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--text);margin:28px 0 14px">Step-by-Step: What happens when you upload a document?</h3>
+  <div class="card-grid card-grid-3" style="margin-bottom:32px">
+    <div class="card accent-blue">
+      <div class="card-icon" style="background:var(--blue-bg)">📄</div>
+      <h3>1. Document Ingestion</h3>
+      <p>Your PDF, TXT, or MD file is read and split into overlapping text chunks (~800 words each). Each chunk gets a unique SHA-256 fingerprint so re-uploading the same file never creates duplicates.</p>
+    </div>
+    <div class="card accent-green">
+      <div class="card-icon" style="background:var(--green-bg)">🧮</div>
+      <h3>2. Embedding</h3>
+      <p>Each chunk is converted into a 384-number mathematical vector using the <code>all-MiniLM-L6-v2</code> model (runs locally on CPU, no API key needed). Similar sentences produce similar vectors.</p>
+    </div>
+    <div class="card accent-orange">
+      <div class="card-icon" style="background:var(--orange-bg)">🗄️</div>
+      <h3>3. Vector Storage</h3>
+      <p>Vectors are stored in ChromaDB — an AI database that can instantly find the most semantically similar chunks to any query, even if they don't share the same words.</p>
+    </div>
+  </div>
+  <div class="card-grid card-grid-3">
+    <div class="card accent-purple">
+      <div class="card-icon" style="background:var(--purple-bg)">🔍</div>
+      <h3>4. Query & Retrieval</h3>
+      <p>When you ask a question, it's also converted to a vector. ChromaDB finds the top-6 most similar document chunks. These become the factual grounding context for the AI.</p>
+    </div>
+    <div class="card accent-blue">
+      <div class="card-icon" style="background:var(--blue-bg)">🤖</div>
+      <h3>5. LLM Generation</h3>
+      <p>The retrieved chunks + your question are sent to OpenAI's gpt-4o-mini (or local Ollama). The AI reads the evidence and generates a grounded, factual answer — not a hallucination.</p>
+    </div>
+    <div class="card accent-green">
+      <div class="card-icon" style="background:var(--green-bg)">✅</div>
+      <h3>6. Quality Gate</h3>
+      <p>SynapseIQ's ValidatorAgent scores the output on 4 dimensions before returning it. A composite score determines PASS / CONDITIONAL_PASS / FAIL. RegDelta classifies risk level.</p>
+    </div>
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--text);margin:36px 0 14px">SynapseIQ — 4-Agent Pipeline</h3>
+  <div class="pipeline">
+    <div class="pipe-step ps-blue">
+      <div class="ps-num">AGENT 1</div>
+      <div class="ps-name">Researcher</div>
+      <div class="ps-role">Extracts findings from retrieved chunks</div>
+      <div class="ps-budget" style="color:var(--blue)">max 1,200 tokens</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step ps-orange">
+      <div class="ps-num">AGENT 2</div>
+      <div class="ps-name">Critic</div>
+      <div class="ps-role">Finds gaps & unsupported claims</div>
+      <div class="ps-budget" style="color:var(--orange)">max 800 tokens</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step ps-green">
+      <div class="ps-num">AGENT 3</div>
+      <div class="ps-name">Synthesizer</div>
+      <div class="ps-role">Writes the knowledge artifact</div>
+      <div class="ps-budget" style="color:var(--green)">max 1,800 tokens</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step ps-purple">
+      <div class="ps-num">AGENT 4</div>
+      <div class="ps-name">Validator</div>
+      <div class="ps-role">Scores quality, issues verdict</div>
+      <div class="ps-budget" style="color:var(--purple)">max 600 tokens</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step" style="border-color:var(--green-dim);background:var(--green-bg)">
+      <div class="ps-num">OUTPUT</div>
+      <div class="ps-name" style="color:var(--green)">PASS ✓</div>
+      <div class="ps-role">Synthesis + scorecard</div>
+      <div class="ps-budget" style="color:var(--green)">composite ≥ 0.65</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--dim);margin-top:6px">Each agent writes its findings into a shared <code>AgentContext</code> object that the next agent reads from. Every agent is token-budgeted to control cost.</p>
+</section>
+
+<!-- ═══════════════════════════════ DATASETS ═══════════════════════════════ -->
+<section id="datasets">
+  <div class="sec-label">Data Sources</div>
+  <div class="sec-title">Where do the datasets come from?</div>
+  <div class="sec-desc">DocuMind ships with sample datasets for immediate testing. In production, you upload your own documents through the API.</div>
+
+  <div class="callout callout-green">
+    <strong>No external datasets required.</strong> The system is "bring your own documents" — you ingest PDFs, TXT files, or Markdown through the <code>/ingest</code> API endpoint. The sample files below let you test everything without any setup.
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--text);margin:28px 0 14px">Sample Corpus — SynapseIQ</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Located in <code>SynapseIQ/data/sample_corpus/</code></p>
+  <table style="margin-bottom:32px">
+    <thead><tr><th>File</th><th>Topic</th><th>What it contains</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>transformers_overview.txt</code></td>
+        <td>AI / Deep Learning</td>
+        <td>Explanation of transformer architecture — attention mechanisms, encoder-decoder design, BERT/GPT overview, positional encoding, multi-head attention</td>
+        <td>Retrieved as context when answering questions about transformer models or LLM architecture</td>
+      </tr>
+      <tr>
+        <td><code>llm_finetuning.txt</code></td>
+        <td>AI / Model Training</td>
+        <td>Comparison of full fine-tuning vs. parameter-efficient methods (LoRA, QLoRA, Adapter Layers) — training cost, parameter counts, benchmark performance</td>
+        <td>Retrieved as context when answering questions about adapting or fine-tuning large language models</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--text);margin:28px 0 14px">Sample Regulations — RegDelta</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Located in <code>RegDelta/data/sample_regulations/</code></p>
+  <table style="margin-bottom:16px">
+    <thead><tr><th>File</th><th>What it is</th><th>Represents</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>sec_17a4_v2023.txt</code></td>
+        <td>SEC Rule 17a-4 (2023 version)</td>
+        <td>The <em>old</em> version of the regulation — electronic records retention rules, storage media requirements, audit trail standards as they existed before the 2024 update</td>
+      </tr>
+      <tr>
+        <td><code>sec_17a4_v2024.txt</code></td>
+        <td>SEC Rule 17a-4 (2024 version)</td>
+        <td>The <em>new</em> version — introduces mandatory WORM (Write Once Read Many) storage, tightens retrieval speed from 72hrs to 4hrs, adds third-party vendor certification requirements</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="callout callout-orange" style="margin-bottom:32px">
+    <strong>About SEC Rule 17a-4:</strong> This is a real US regulation (17 CFR § 240.17a-4) that governs how broker-dealers must retain electronic records. The sample files are representative text based on the public rule structure — they demonstrate realistic regulatory language for testing the diff engine.
+  </div>
+
+  <h3 style="font-size:18px;font-weight:700;color:var(--text);margin:28px 0 14px">Sample Internal Policies — RegDelta</h3>
+  <p style="color:var(--muted);font-size:14px;margin-bottom:16px">Located in <code>RegDelta/data/sample_policies/</code></p>
+  <table>
+    <thead><tr><th>File</th><th>Policy Name</th><th>Department</th><th>What it covers</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>pol_aml_kyc.txt</code></td>
+        <td>AML / KYC Retention Policy</td>
+        <td>Risk &amp; Compliance</td>
+        <td>Anti-Money Laundering and Know Your Customer document retention rules — how long to keep customer records, which formats are allowed, when documents must be retrievable</td>
+      </tr>
+      <tr>
+        <td><code>pol_records_management.txt</code></td>
+        <td>Records Management Policy</td>
+        <td>Compliance &amp; Legal</td>
+        <td>Organization-wide rules for electronic record storage — media types, backup frequency, access controls, vendor requirements</td>
+      </tr>
+      <tr>
+        <td><code>pol_risk_capital.txt</code></td>
+        <td>Capital Reporting Records</td>
+        <td>Finance &amp; Treasury</td>
+        <td>Rules for retaining capital adequacy reports, risk-weighted asset calculations, and regulatory capital records</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-blue" style="margin-top:24px">
+    <strong>Adding your own documents:</strong> Send a POST request to <code>/api/v1/ingest</code> with a file path or raw text. The system handles the rest — chunking, embedding, and indexing — automatically. Any PDF, TXT, or Markdown file works.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ APIs ═══════════════════════════════════ -->
+<section id="apis">
+  <div class="sec-label">External Services</div>
+  <div class="sec-title">Which APIs and services are used?</div>
+  <div class="sec-desc">DocuMind uses a minimal set of external services. The embedding model runs fully locally — only LLM inference requires an external API (and even that can be run locally with Ollama).</div>
+
+  <div class="api-card">
+    <h4>OpenAI API <span class="api-pill api-paid">Paid · cloud</span></h4>
+    <p>Used for all LLM inference calls — the "thinking" part of the pipeline. DocuMind defaults to <code>gpt-4o-mini</code>, OpenAI's fastest and most cost-efficient model.</p>
+    <div style="font-size:13px;color:var(--text2)">
+      <strong>What it's called for:</strong>
+      <ul class="bullet-list" style="margin-top:6px">
+        <li>RegDelta: annotating changed regulatory sections (1 call per section) and generating the full impact report (1 call)</li>
+        <li>SynapseIQ: each of the 4 agents makes 1 LLM call — total 4 calls per synthesis request</li>
+      </ul>
+      <br>
+      <strong>Cost:</strong> gpt-4o-mini costs $0.00015 per 1K input tokens and $0.00060 per 1K output tokens. A typical SynapseIQ synthesis costs ~$0.004–0.007. You can also use GPT-4o for higher quality at higher cost.<br><br>
+      <strong>How to set it up:</strong> Add <code>OPENAI_API_KEY=sk-...</code> to your <code>.env</code> file. Get a key at <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>.
+    </div>
+  </div>
+
+  <div class="api-card">
+    <h4>Ollama (Local LLM) <span class="api-pill api-local">Free · local</span></h4>
+    <p>An alternative to the OpenAI API that runs LLMs entirely on your own machine — completely free, no internet required, no API key needed.</p>
+    <div style="font-size:13px;color:var(--text2)">
+      <strong>How to switch:</strong> Set <code>LLM_PROVIDER=ollama</code> and <code>OLLAMA_MODEL=llama3</code> in your <code>.env</code> file, then install Ollama from <a href="https://ollama.ai" target="_blank">ollama.ai</a> and run <code>ollama pull llama3</code>.<br><br>
+      <strong>Trade-off:</strong> Local inference is slower and produces slightly lower quality than gpt-4o-mini, but costs $0.00 and works offline. Recommended for development and testing.
+    </div>
+  </div>
+
+  <div class="api-card">
+    <h4>sentence-transformers / all-MiniLM-L6-v2 <span class="api-pill api-free">Free · local</span></h4>
+    <p>The embedding model that converts text into 384-dimensional vectors. Downloads automatically on first run (~90MB). Runs entirely on CPU — no GPU, no API key, no cost.</p>
+    <div style="font-size:13px;color:var(--text2)">
+      <strong>What it does:</strong> Converts any piece of text into a list of 384 numbers that capture its meaning. Similar sentences produce similar numbers, which is how ChromaDB can find semantically related chunks.<br><br>
+      <strong>Why this model:</strong> It's the best balance of speed, size, and quality for semantic search on CPU. It produces results that are competitive with much larger models for retrieval tasks.
+    </div>
+  </div>
+
+  <div class="api-card">
+    <h4>ChromaDB <span class="api-pill api-free">Free · local</span></h4>
+    <p>The vector database that stores all embedded document chunks and answers similarity queries. Runs entirely in-process — no separate server, no cloud account.</p>
+    <div style="font-size:13px;color:var(--text2)">
+      <strong>How it works:</strong> ChromaDB uses an HNSW (Hierarchical Navigable Small World) index to find the nearest neighbor vectors to a query in milliseconds, even over millions of documents. Data persists to <code>./chroma_store/</code> on disk.<br><br>
+      <strong>Cost:</strong> Completely free and open-source. No API key required.
+    </div>
+  </div>
+
+  <div class="api-card">
+    <h4>FastAPI + SQLite <span class="api-pill api-free">Free · local</span></h4>
+    <p>The REST API framework (FastAPI) and the session database (SQLite) both run locally. No external services needed.</p>
+    <div style="font-size:13px;color:var(--text2)">
+      <strong>FastAPI:</strong> Provides the REST endpoints, automatic OpenAPI/Swagger documentation, Pydantic request validation, and async request handling.<br><br>
+      <strong>SQLite:</strong> Stores all regulation versions, impact reports, pipeline sessions, and agent traces permanently on disk. No database server required.
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px">
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Summary: What requires internet vs. what runs locally</h4>
+    <table>
+      <thead><tr><th>Component</th><th>Where it runs</th><th>Requires API key?</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr><td>LLM inference (OpenAI)</td><td>☁️ Cloud (OpenAI)</td><td>Yes — <code>OPENAI_API_KEY</code></td><td>~$0.004–0.007 per query</td></tr>
+        <tr><td>LLM inference (Ollama)</td><td>💻 Local machine</td><td>No</td><td>$0.00</td></tr>
+        <tr><td>Text embedding (MiniLM)</td><td>💻 Local machine</td><td>No</td><td>$0.00</td></tr>
+        <tr><td>Vector store (ChromaDB)</td><td>💻 Local machine</td><td>No</td><td>$0.00</td></tr>
+        <tr><td>API server (FastAPI)</td><td>💻 Local machine</td><td>No</td><td>$0.00</td></tr>
+        <tr><td>Database (SQLite)</td><td>💻 Local machine</td><td>No</td><td>$0.00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ DEMO ════════════════════════════════════ -->
+<section id="demo">
+  <div class="sec-label">Sample Output</div>
+  <div class="sec-title">What does the API actually return?</div>
+  <div class="sec-desc">Real sample responses from both modules — exactly what you'd see when running the system with the included sample datasets.</div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('sq')">SynapseIQ — Knowledge Synthesis</div>
+    <div class="tab" onclick="showTab('rd')">RegDelta — Regulatory Impact</div>
+  </div>
+
+  <!-- SynapseIQ Tab -->
+  <div id="tab-sq" class="tab-content active">
+    <div class="callout callout-blue" style="margin-bottom:20px">
+      <strong>Query:</strong> "Compare LoRA and full fine-tuning approaches for adapting large language models"<br>
+      <strong>Corpus:</strong> transformers_overview.txt + llm_finetuning.txt (ingested into ChromaDB)<br>
+      <strong>Format:</strong> standard (~800 words)
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card"><span class="stat-num" style="color:var(--blue)">4</span><div class="stat-lbl">Agents completed</div></div>
+      <div class="stat-card"><span class="stat-num" style="color:var(--orange)">3,180</span><div class="stat-lbl">Total tokens used</div></div>
+      <div class="stat-card"><span class="stat-num" style="color:var(--green)">$0.0052</span><div class="stat-lbl">Estimated cost (gpt-4o-mini)</div></div>
+    </div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Quality Evaluation Scorecard</h4>
+    <div class="verdict-row">
+      <div class="verdict-box verdict-pass"><div class="vlabel">Verdict</div><div class="vval">PASS</div><div class="vsub">Composite ≥ 0.65 ✓</div></div>
+      <div class="verdict-box" style="background:var(--bg3);border-color:var(--border)"><div class="vlabel" style="color:var(--muted)">Composite Score</div><div class="vval" style="color:var(--green)">0.848</div><div class="vsub">Weighted across 4 dimensions</div></div>
+    </div>
+    <div class="score-grid">
+      <div class="score-item"><div class="score-name">Coherence <span style="color:var(--dim)">(w=0.30)</span></div><div class="score-val">0.84</div><div class="score-bar-bg"><div class="score-bar bar-blue" style="width:84%"></div></div></div>
+      <div class="score-item"><div class="score-name">Relevance <span style="color:var(--dim)">(w=0.35)</span></div><div class="score-val">0.91</div><div class="score-bar-bg"><div class="score-bar bar-green" style="width:91%"></div></div></div>
+      <div class="score-item"><div class="score-name">Factuality <span style="color:var(--dim)">(w=0.25)</span></div><div class="score-val">0.78</div><div class="score-bar-bg"><div class="score-bar bar-orange" style="width:78%"></div></div></div>
+      <div class="score-item"><div class="score-name">Completeness <span style="color:var(--dim)">(w=0.10)</span></div><div class="score-val">0.82</div><div class="score-bar-bg"><div class="score-bar bar-purple" style="width:82%"></div></div></div>
+    </div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Agent Execution Trace</h4>
+    <div class="agent-row"><div class="agent-icon a-r">R</div><div><div class="agent-name">ResearcherAgent</div><div class="agent-meta">researcher.yaml v1.2 · Retrieved 6 chunks (scores: 0.91, 0.87, 0.84, 0.79, 0.74, 0.71)</div><span class="chip chip-blue">847 tokens</span><span class="chip chip-blue">1,840 ms</span><span class="chip chip-green">✓ success</span></div></div>
+    <div class="agent-row"><div class="agent-icon a-c">C</div><div><div class="agent-name">CriticAgent</div><div class="agent-meta">critic.yaml v1.1 · Found 2 evidence gaps, 0 fabrication flags</div><span class="chip chip-blue">612 tokens</span><span class="chip chip-blue">1,320 ms</span><span class="chip chip-green">✓ success</span></div></div>
+    <div class="agent-row"><div class="agent-icon a-s">S</div><div><div class="agent-name">SynthesizerAgent</div><div class="agent-meta">synthesizer.yaml v1.3 · format=standard · ~820 words generated</div><span class="chip chip-blue">1,284 tokens</span><span class="chip chip-blue">2,940 ms</span><span class="chip chip-green">✓ success</span></div></div>
+    <div class="agent-row"><div class="agent-icon a-v">V</div><div><div class="agent-name">ValidatorAgent</div><div class="agent-meta">validator.yaml v1.0 · composite=0.848 · verdict=PASS</div><span class="chip chip-blue">437 tokens</span><span class="chip chip-blue">1,100 ms</span><span class="chip chip-green">✓ success</span></div></div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Synthesized Output (excerpt)</h4>
+    <div class="code-block"><div class="code-header"><span class="lang">TEXT — standard format, grounded in retrieved corpus</span></div>
+    <div class="code-body" style="white-space:pre-wrap;font-family:'Segoe UI',sans-serif;font-size:13.5px;color:var(--text2);line-height:1.75"><strong style="color:var(--text)">ABSTRACT</strong>
+
+LoRA (Low-Rank Adaptation) and full fine-tuning represent two contrasting strategies for adapting
+pretrained large language models to downstream tasks. Full fine-tuning updates all model parameters,
+offering maximal expressiveness at high compute cost. LoRA constrains updates to low-rank matrices
+injected into weight layers, reducing trainable parameters by orders of magnitude.
+[source: llm_finetuning.txt, chunk_1]
+
+<strong style="color:var(--text)">MAIN FINDINGS</strong>
+
+1. <strong>Parameter Efficiency</strong> — LoRA reduces trainable parameters by ~10,000× for 7B–70B models.
+   A GPT-3-scale model needs ~4.7M trainable params with LoRA (rank=4) vs. 175B for full fine-tuning.
+   [source: llm_finetuning.txt, chunk_2]
+
+2. <strong>Task Performance</strong> — On standard benchmarks (GLUE, MMLU), LoRA matches full fine-tuning
+   within 1–3% on most tasks. Gaps widen when the target distribution diverges significantly from
+   pretraining data. [source: transformers_overview.txt, chunk_5]
+
+3. <strong>Memory Requirements</strong> — Full fine-tuning a 7B model needs ~112 GB GPU memory. LoRA needs
+   ~18 GB, enabling fine-tuning on a single A100 or consumer GPU cluster. [source: llm_finetuning.txt, chunk_4]
+
+<strong style="color:var(--text)">RECOMMENDATION</strong>
+
+For most practitioners, LoRA is the recommended default — comparable accuracy at &lt;5% of compute cost,
+compatible with quantized base models (QLoRA), and supports rapid iteration via adapter swapping.</div></div>
+  </div>
+
+  <!-- RegDelta Tab -->
+  <div id="tab-rd" class="tab-content">
+    <div class="callout callout-orange" style="margin-bottom:20px">
+      <strong>Analysis:</strong> SEC Rule 17a-4 — comparing version 2023 vs. 2024<br>
+      <strong>Policy library:</strong> pol_aml_kyc.txt, pol_records_management.txt, pol_risk_capital.txt (ingested into ChromaDB)<br>
+      <strong>Risk detected:</strong> HIGH — mandatory WORM storage requirement introduced
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card"><span class="stat-num" style="color:var(--orange)">7</span><div class="stat-lbl">Changed sections</div></div>
+      <div class="stat-card"><span class="stat-num" style="color:var(--blue)">3</span><div class="stat-lbl">Affected policies</div></div>
+      <div class="stat-card"><span class="stat-num"><span style="font-size:16px;font-weight:700;padding:6px 14px;border-radius:8px;background:var(--orange-bg);border:2px solid var(--orange-dim);color:var(--orange)">HIGH RISK</span></span><div class="stat-lbl" style="margin-top:8px">Risk level</div></div>
+    </div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Executive Summary</h4>
+    <div class="callout callout-orange">SEC Rule 17a-4 v2024 introduces mandatory WORM (Write Once Read Many) storage requirements for all electronic communications and trading records, replacing the prior flexible media standard. Organizations must transition to compliant storage infrastructure within 180 days. Three internal policies require substantive revision to align with new retention, retrieval speed, and audit trail mandates.</div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Top Changed Sections</h4>
+    <div class="diff-card">
+      <div class="diff-header"><span class="diff-type diff-modified">MODIFIED</span><span class="diff-title">Section 3 — Electronic Storage Media Requirements</span><span class="diff-sim">similarity: 0.31</span></div>
+      <div class="diff-body"><strong>Significance:</strong> Mandatory transition from flexible electronic media to certified WORM-compliant storage, eliminating the prior "equivalent security" alternative standard.</div>
+    </div>
+    <div class="diff-card">
+      <div class="diff-header"><span class="diff-type diff-added">ADDED</span><span class="diff-title">Section 3.4 — Third-Party Cloud Provider Compliance Certification</span><span class="diff-sim">similarity: 0.00</span></div>
+      <div class="diff-body"><strong>Significance:</strong> New annual written certification requirement from cloud storage vendors confirming WORM compliance — creates a new third-party vendor management obligation.</div>
+    </div>
+    <div class="diff-card">
+      <div class="diff-header"><span class="diff-type diff-modified">MODIFIED</span><span class="diff-title">Section 7 — Audit Trail and Retrieval Speed Requirements</span><span class="diff-sim">similarity: 0.58</span></div>
+      <div class="diff-body"><strong>Significance:</strong> Retrieval speed requirement tightened from 72 hours to 4 hours for records requested by examiners — requires infrastructure upgrade at most firms.</div>
+    </div>
+
+    <h4 style="font-size:15px;font-weight:700;color:var(--text);margin:20px 0 12px">Affected Policies</h4>
+    <table>
+      <thead><tr><th>Policy</th><th>Department</th><th>Relevance Score</th><th>Required Action</th></tr></thead>
+      <tbody>
+        <tr><td><code>pol_records_management</code></td><td>Compliance &amp; Legal</td><td style="color:var(--red)">0.94</td><td>Mandate WORM storage; add annual vendor certification requirement</td></tr>
+        <tr><td><code>pol_aml_kyc</code></td><td>Risk &amp; Compliance</td><td style="color:var(--orange)">0.87</td><td>Verify WORM compliance for KYC archive; update 4-hour retrieval SLA</td></tr>
+        <tr><td><code>pol_risk_capital</code></td><td>Finance &amp; Treasury</td><td style="color:var(--yellow)">0.66</td><td>Confirm capital records stored on WORM-compliant media; review audit trail</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ RUN LOCALLY ════════════════════════════ -->
+<section id="run">
+  <div class="sec-label">Getting Started</div>
+  <div class="sec-title">How to run it locally</div>
+  <div class="sec-desc">The API runs on your machine. Once running, the full Swagger UI is available at <code>http://localhost:8000/api/v1/docs</code> — no frontend needed.</div>
+
+  <div class="card-grid card-grid-2" style="margin-bottom:28px">
+    <div>
+      <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">SynapseIQ (Module II)</h4>
+      <div class="code-block"><div class="code-header"><span class="lang">bash</span></div>
+<div class="code-body"># 1. Clone and enter the project
+git clone https://github.com/dp2426-NAU/LLM-Project.git
+cd LLM-Project/SynapseIQ
+
+# 2. Create virtual environment
+python -m venv .venv
+source .venv/bin/activate       # Windows: .venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Add your OpenAI key
+cp .env.example .env
+# Edit .env: OPENAI_API_KEY=sk-...
+
+# 5. Start the server
+uvicorn backend.main:app --reload
+
+# 6. Open in browser
+# http://localhost:8000/api/v1/docs</div></div>
+    </div>
+    <div>
+      <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">RegDelta (Module I)</h4>
+      <div class="code-block"><div class="code-header"><span class="lang">bash</span></div>
+<div class="code-body"># 1. Enter RegDelta directory
+cd LLM-Project/RegDelta
+
+# 2. Create virtual environment
+python -m venv .venv
+source .venv/bin/activate       # Windows: .venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Add your OpenAI key
+cp .env.example .env
+# Edit .env: OPENAI_API_KEY=sk-...
+
+# 5. Start the server (different port)
+uvicorn app.main:app --reload --port 8001
+
+# 6. Open in browser
+# http://localhost:8001/api/v1/docs</div></div>
+    </div>
+  </div>
+
+  <h4 style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px">Quick API test — SynapseIQ</h4>
+  <div class="code-block"><div class="code-header"><span class="lang">bash — ingest sample docs then run a synthesis</span></div>
+<div class="code-body"># Ingest the sample corpus
+curl -X POST http://localhost:8000/api/v1/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"file_path": "data/sample_corpus/transformers_overview.txt", "source_label": "transformers"}'
+
+curl -X POST http://localhost:8000/api/v1/ingest \
+  -H "Content-Type: application/json" \
+  -d '{"file_path": "data/sample_corpus/llm_finetuning.txt", "source_label": "finetuning"}'
+
+# Run a synthesis query
+curl -X POST http://localhost:8000/api/v1/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Compare LoRA and full fine-tuning for adapting large language models",
+    "output_format": "standard",
+    "citation_style": "inline"
+  }'</div></div>
+
+  <div class="callout callout-green" style="margin-top:20px">
+    <strong>Use Ollama for free (no API key):</strong> Install Ollama from <a href="https://ollama.ai" target="_blank">ollama.ai</a>, run <code>ollama pull llama3</code>, then set <code>LLM_PROVIDER=ollama</code> in your <code>.env</code> file. Everything else works identically.
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div style="margin-bottom:10px">
+    <strong style="color:var(--text)">DocuMind</strong> — CS 599: Applications of Large Language Models · Northern Arizona University
+  </div>
+  <div style="margin-bottom:8px">
+    <a href="https://github.com/dp2426-NAU/LLM-Project" target="_blank">GitHub Repository</a>
+    &nbsp;·&nbsp;
+    <a href="proposal.md">Project Proposal</a>
+    &nbsp;·&nbsp;
+    <a href="documentation.md">Full Documentation</a>
+    &nbsp;·&nbsp;
+    <a href="presentation.md">Presentation</a>
+  </div>
+  <div style="color:var(--dim)">Built with FastAPI · ChromaDB · OpenAI · sentence-transformers · Python 3.11</div>
+</footer>
+
+<script>
+  function showTab(name) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+  // Smooth nav link highlighting
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) current = s.id; });
+    navLinks.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

@@ -36,11 +36,11 @@ This `docs/` folder contains all academic deliverables for the DocuMind project,
 
 ## How to View the Demo Output
 
-Open this link in your browser (no setup required):
+Open the live GitHub Pages site in your browser (no setup required, works everywhere):
 
-**[https://htmlpreview.github.io/?https://github.com/dp2426-NAU/LLM-Project/blob/main/docs/demo_output.html](https://htmlpreview.github.io/?https://github.com/dp2426-NAU/LLM-Project/blob/main/docs/demo_output.html)**
+**[https://dp2426-nau.github.io/LLM-Project/](https://dp2426-nau.github.io/LLM-Project/)**
 
-This page shows realistic sample JSON responses from both modules — what the API actually returns when you run a synthesis or regulatory analysis.
+This page shows a full project overview, dataset/API documentation, and realistic pre-rendered sample outputs from both modules — what the API actually returns when you run a synthesis or regulatory analysis. No server needed.
 
 ---
 
