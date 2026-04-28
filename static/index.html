@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuMind — Live Demo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh}
+a{color:#58a6ff;text-decoration:none}
+
+/* NAV */
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:0 1.5rem;display:flex;align-items:center;gap:1.5rem;height:52px;position:sticky;top:0;z-index:100}
+.logo{font-weight:700;font-size:1.05rem;color:#58a6ff;margin-right:auto}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#8b949e;flex-shrink:0}
+.status-dot.live{background:#3fb950;box-shadow:0 0 6px #3fb950}
+.status-dot.demo{background:#d29922;box-shadow:0 0 6px #d29922}
+#status-label{font-size:0.8rem;color:#8b949e}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid #30363d;background:#161b22}
+.tab{padding:.7rem 1.5rem;font-size:.9rem;cursor:pointer;border-bottom:2px solid transparent;color:#8b949e;transition:color .2s,border-color .2s;user-select:none}
+.tab.active{color:#e6edf3;border-bottom-color:#58a6ff}
+.tab-panel{display:none;padding:1.5rem;max-width:1000px;margin:0 auto}
+.tab-panel.active{display:block}
+
+/* INPUTS */
+.input-group{margin-bottom:1rem}
+label{display:block;font-size:.78rem;color:#8b949e;margin-bottom:.4rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+textarea,input[type=text]{width:100%;background:#161b22;border:1px solid #30363d;border-radius:6px;color:#e6edf3;font-family:'Consolas','Courier New',monospace;font-size:.82rem;padding:.7rem 1rem;resize:vertical;transition:border-color .2s}
+textarea:focus,input:focus{outline:none;border-color:#58a6ff}
+.query-input{min-height:80px}
+.reg-input{min-height:180px;font-size:.75rem}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1.5rem}
+button{padding:.5rem 1.2rem;border-radius:6px;border:none;font-size:.85rem;font-weight:600;cursor:pointer;transition:opacity .2s,transform .1s;white-space:nowrap}
+button:active{transform:scale(.97)}
+.btn-primary{background:#238636;color:#fff}
+.btn-primary:hover{opacity:.85}
+.btn-primary:disabled{background:#21262d;color:#8b949e;cursor:not-allowed}
+.btn-demo{background:#1f6feb;color:#fff}
+.btn-demo:hover{opacity:.85}
+.btn-secondary{background:#21262d;color:#c9d1d9;border:1px solid #30363d}
+.btn-secondary:hover{background:#30363d}
+
+/* BANNER */
+.banner{background:rgba(210,153,34,.12);border:1px solid rgba(210,153,34,.3);border-radius:8px;padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.83rem;color:#d29922;display:none}
+.banner.show{display:block}
+
+/* SPINNER */
+.spinner{display:none;text-align:center;padding:2rem;color:#8b949e;font-size:.88rem}
+.spinner.show{display:block}
+.spin{display:inline-block;width:20px;height:20px;border:2px solid #30363d;border-top-color:#58a6ff;border-radius:50%;animation:spin .8s linear infinite;margin-right:.6rem;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULT AREA */
+.result-area{display:none}
+.result-area.show{display:block}
+
+/* VERDICT */
+.verdict{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .9rem;border-radius:20px;font-weight:700;font-size:.85rem;margin-bottom:1rem}
+.verdict.PASS{background:rgba(63,185,80,.15);color:#3fb950;border:1px solid #3fb950}
+.verdict.CONDITIONAL_PASS{background:rgba(210,153,34,.15);color:#d29922;border:1px solid #d29922}
+.verdict.FAIL{background:rgba(248,81,73,.15);color:#f85149;border:1px solid #f85149}
+.verdict.HIGH{background:rgba(248,81,73,.15);color:#f85149;border:1px solid #f85149}
+.verdict.MEDIUM{background:rgba(210,153,34,.15);color:#d29922;border:1px solid #d29922}
+.verdict.LOW{background:rgba(63,185,80,.15);color:#3fb950;border:1px solid #3fb950}
+
+/* CARDS */
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1rem 1.2rem;margin-bottom:1rem}
+.card-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:.8rem}
+
+/* SCORE BARS */
+.score-row{display:flex;align-items:center;gap:.8rem;margin-bottom:.5rem}
+.score-lbl{font-size:.78rem;color:#8b949e;width:135px;flex-shrink:0}
+.bar-wrap{flex:1;background:#21262d;border-radius:4px;height:7px;overflow:hidden}
+.bar{height:100%;border-radius:4px;transition:width .6s ease}
+.score-num{font-size:.78rem;color:#e6edf3;width:34px;text-align:right;flex-shrink:0}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+
+/* AGENT TRACE */
+.trace{border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.trace-hdr{background:#21262d;padding:.5rem 1rem;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e}
+.trace-row{display:flex;align-items:flex-start;gap:.8rem;padding:.65rem 1rem;border-bottom:1px solid #21262d;flex-wrap:wrap}
+.trace-row:last-child{border-bottom:none}
+.tdot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.tname{font-weight:600;font-size:.85rem;color:#e6edf3;width:105px;flex-shrink:0}
+.tbadge{font-size:.7rem;padding:.1rem .5rem;border-radius:10px;font-weight:600;background:rgba(63,185,80,.15);color:#3fb950;flex-shrink:0;margin-top:1px}
+.taction{font-size:.78rem;color:#8b949e;flex:1}
+.tmeta{font-family:monospace;font-size:.72rem;color:#8b949e;display:flex;gap:1rem;flex-shrink:0}
+.tmeta span{display:flex;flex-direction:column;align-items:flex-end}
+.tmeta b{color:#e6edf3;font-size:.78rem}
+
+/* SYNTHESIS */
+.synthesis-box{background:#161b22;border-left:3px solid #58a6ff;border-radius:0 6px 6px 0;padding:1rem 1.2rem;font-size:.86rem;color:#c9d1d9;line-height:1.8;white-space:pre-wrap;margin-bottom:1rem}
+
+/* CHUNKS */
+.chunk{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:.7rem .9rem;margin-bottom:.5rem}
+.chunk-meta{font-family:monospace;font-size:.7rem;color:#58a6ff;margin-bottom:.3rem}
+.chunk-text{font-size:.78rem;color:#8b949e;line-height:1.6}
+
+/* DIFF CARDS */
+.diff-card{border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:.7rem}
+.diff-hdr{display:flex;align-items:center;gap:.7rem;padding:.55rem 1rem;border-bottom:1px solid #30363d;flex-wrap:wrap}
+.dtag{font-size:.68rem;font-weight:700;padding:.1rem .55rem;border-radius:10px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.ADDED{background:rgba(63,185,80,.2);color:#3fb950}
+.MODIFIED{background:rgba(210,153,34,.2);color:#d29922}
+.REMOVED{background:rgba(248,81,73,.2);color:#f85149}
+.drisk{font-size:.7rem;padding:.1rem .45rem;border-radius:8px;margin-left:auto;flex-shrink:0}
+.dsec{font-size:.83rem;font-weight:600;color:#e6edf3;flex:1}
+.diff-body{padding:.75rem 1rem}
+.diff-old{background:rgba(248,81,73,.07);border-left:3px solid #f85149;padding:.45rem .75rem;font-size:.76rem;color:#8b949e;margin-bottom:.35rem;border-radius:0 4px 4px 0;font-family:monospace}
+.diff-new{background:rgba(63,185,80,.07);border-left:3px solid #3fb950;padding:.45rem .75rem;font-size:.76rem;color:#c9d1d9;border-radius:0 4px 4px 0;font-family:monospace}
+.diff-analysis{margin-top:.6rem;font-size:.78rem;color:#8b949e}
+.diff-analysis strong{color:#e6edf3}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;font-size:.8rem;border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:1rem}
+th{background:#21262d;padding:.55rem .9rem;text-align:left;color:#8b949e;font-weight:600;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em}
+td{padding:.65rem .9rem;border-bottom:1px solid #21262d;color:#c9d1d9;vertical-align:top}
+tr:last-child td{border-bottom:none}
+
+/* ACTIONS */
+.action-item{display:flex;gap:.7rem;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.75rem 1rem;align-items:flex-start;margin-bottom:.5rem}
+.anum{background:#58a6ff;color:#0d1117;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.atext{font-size:.82rem;color:#c9d1d9;line-height:1.5}
+.adeadline{font-size:.7rem;color:#8b949e;margin-top:.2rem}
+
+/* SECTION HDR */
+.section-hdr{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:.6rem;margin-top:1.2rem}
+
+/* STAT PILLS */
+.stat-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem}
+.stat{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:.7rem 1rem;flex:1;min-width:100px}
+.stat-val{font-size:1.4rem;font-weight:700;color:#e6edf3}
+.stat-lbl{font-size:.7rem;color:#8b949e;margin-top:.1rem}
+
+/* COST */
+.cost-row{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem}
+.cost-pill{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.5rem .9rem;flex:1;min-width:110px}
+.cost-val{font-size:1rem;font-weight:700;color:#3fb950}
+.cost-lbl{font-size:.68rem;color:#8b949e;margin-top:.1rem}
+
+/* REG GRID */
+.reg-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
+@media(max-width:640px){.reg-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">DocuMind</span>
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-label">Checking...</span>
+</nav>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('syn')">SynapseIQ &mdash; RAG Synthesis</div>
+  <div class="tab" onclick="switchTab('reg')">RegDelta &mdash; Regulatory Diff</div>
+</div>
+
+<!-- ═══════════════ SynapseIQ ═══════════════ -->
+<div class="tab-panel active" id="panel-syn">
+  <div class="banner" id="syn-banner">
+    No API key detected &mdash; live queries disabled.
+    Click <strong>Load Demo Output</strong> to see pre-built sample results instantly.
+  </div>
+
+  <div class="input-group">
+    <label>Research Query</label>
+    <textarea class="query-input" id="syn-query" placeholder="e.g. Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency"></textarea>
+  </div>
+  <div class="btn-row">
+    <button class="btn-primary" id="btn-syn-run" onclick="runSynthesis()">Run Live Query</button>
+    <button class="btn-demo" onclick="loadDemo('syn')">Load Demo Output</button>
+  </div>
+
+  <div class="spinner" id="syn-spinner"><span class="spin"></span>Running 4-agent pipeline&hellip;</div>
+
+  <div class="result-area" id="syn-result"></div>
+</div>
+
+<!-- ═══════════════ RegDelta ═══════════════ -->
+<div class="tab-panel" id="panel-reg">
+  <div class="banner" id="reg-banner">
+    No API key detected &mdash; live analysis disabled.
+    Click <strong>Load Demo Output</strong> to see pre-built sample results instantly.
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-secondary" onclick="loadPresets()">&#8635; Load Built-in Regulations</button>
+  </div>
+
+  <div class="reg-grid">
+    <div class="input-group">
+      <label>Baseline Regulation (2023)</label>
+      <textarea class="reg-input" id="reg-baseline" placeholder="Paste the original regulation text here, or click Load Built-in Regulations above..."></textarea>
+    </div>
+    <div class="input-group">
+      <label>Updated Regulation (2024)</label>
+      <textarea class="reg-input" id="reg-current" placeholder="Paste the updated regulation text here..."></textarea>
+    </div>
+  </div>
+  <div class="input-group">
+    <label>Internal Policy (for gap analysis)</label>
+    <textarea style="min-height:100px;font-size:.75rem" id="reg-policy" placeholder="Paste your internal policy text here (optional)..."></textarea>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" id="btn-reg-run" onclick="runDelta()">Analyze Changes</button>
+    <button class="btn-demo" onclick="loadDemo('reg')">Load Demo Output</button>
+  </div>
+
+  <div class="spinner" id="reg-spinner"><span class="spin"></span>Analyzing regulatory changes&hellip;</div>
+
+  <div class="result-area" id="reg-result"></div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let apiKeySet = false;
+
+// ── Init ───────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const r = await fetch('/health');
+    const d = await r.json();
+    apiKeySet = d.api_key_set;
+    document.getElementById('status-dot').className = 'status-dot ' + (apiKeySet ? 'live' : 'demo');
+    document.getElementById('status-label').textContent = apiKeySet
+      ? `Live · ${d.model} · ${d.corpus_chunks} chunks`
+      : 'Demo Mode (no API key)';
+    if (!apiKeySet) {
+      document.getElementById('syn-banner').classList.add('show');
+      document.getElementById('reg-banner').classList.add('show');
+      document.getElementById('btn-syn-run').disabled = true;
+      document.getElementById('btn-reg-run').disabled = true;
+    }
+  } catch(e) {
+    document.getElementById('status-label').textContent = 'Offline';
+  }
+}
+
+// ── Tabs ───────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.toggle('active', ['syn','reg'][i]===name));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// ── Load presets ───────────────────────────────────────────────────────────
+async function loadPresets() {
+  try {
+    const r = await fetch('/api/v1/presets');
+    const d = await r.json();
+    document.getElementById('reg-baseline').value = d.sec_17a4_v2023 || '';
+    document.getElementById('reg-current').value  = d.sec_17a4_v2024 || '';
+    document.getElementById('reg-policy').value   = d.pol_records    || '';
+  } catch(e) { alert('Could not load presets: ' + e.message); }
+}
+
+// ── SynapseIQ ──────────────────────────────────────────────────────────────
+async function runSynthesis() {
+  const query = document.getElementById('syn-query').value.trim();
+  if (!query) { alert('Please enter a query.'); return; }
+  show('syn-spinner');
+  hide('syn-result');
+  try {
+    const r = await fetch('/api/v1/synthesize', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ query, max_chunks: 4 })
+    });
+    if (!r.ok) { const e = await r.json(); throw new Error(e.detail || r.status); }
+    const d = await r.json();
+    renderSynapseIQ(d);
+  } catch(e) {
+    document.getElementById('syn-result').innerHTML = `<div style="color:#f85149;padding:1rem;background:#161b22;border:1px solid #f85149;border-radius:6px">Error: ${e.message}</div>`;
+    show('syn-result');
+  }
+  hide('syn-spinner');
+}
+
+// ── RegDelta ───────────────────────────────────────────────────────────────
+async function runDelta() {
+  const baseline = document.getElementById('reg-baseline').value.trim();
+  const current  = document.getElementById('reg-current').value.trim();
+  const policy   = document.getElementById('reg-policy').value.trim();
+  if (!baseline || !current) { alert('Please provide both regulation texts.'); return; }
+  show('reg-spinner');
+  hide('reg-result');
+  try {
+    const r = await fetch('/api/v1/analyze/delta', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ baseline_text: baseline, current_text: current, policy_text: policy })
+    });
+    if (!r.ok) { const e = await r.json(); throw new Error(e.detail || r.status); }
+    const d = await r.json();
+    renderRegDelta(d);
+  } catch(e) {
+    document.getElementById('reg-result').innerHTML = `<div style="color:#f85149;padding:1rem;background:#161b22;border:1px solid #f85149;border-radius:6px">Error: ${e.message}</div>`;
+    show('reg-result');
+  }
+  hide('reg-spinner');
+}
+
+// ── Demo loader ────────────────────────────────────────────────────────────
+async function loadDemo(tab) {
+  const spinner = tab === 'syn' ? 'syn-spinner' : 'reg-spinner';
+  show(spinner);
+  try {
+    const r = await fetch('/demo');
+    const d = await r.json();
+    if (tab === 'syn') { renderSynapseIQ(d.synapseiq); hide('syn-result'); renderSynapseIQ(d.synapseiq); }
+    else               { renderRegDelta(d.regdelta); }
+  } catch(e) { alert('Failed to load demo: ' + e.message); }
+  hide(spinner);
+}
+
+// ── Render SynapseIQ ───────────────────────────────────────────────────────
+function renderSynapseIQ(d) {
+  const s = d.scores || {};
+  const bars = [
+    ['Relevance (35%)',    s.relevance,    '#3fb950'],
+    ['Coherence (30%)',    s.coherence,    '#58a6ff'],
+    ['Factuality (25%)',   s.factuality,   '#a371f7'],
+    ['Completeness (10%)', s.completeness, '#d29922'],
+  ].map(([lbl,val,col]) => `
+    <div class="score-row">
+      <span class="score-lbl">${lbl}</span>
+      <div class="bar-wrap"><div class="bar" style="width:${Math.round((val||0)*100)}%;background:${col}"></div></div>
+      <span class="score-num">${(val||0).toFixed(2)}</span>
+    </div>`).join('');
+
+  const agentColors = {'Researcher':'#58a6ff','Critic':'#a371f7','Synthesizer':'#3fb950','Validator':'#d29922'};
+  const trace = (d.agent_trace || []).map(a => `
+    <div class="trace-row">
+      <div class="tdot" style="background:${agentColors[a.agent]||'#8b949e'}"></div>
+      <div class="tname">${a.agent}</div>
+      <div class="tbadge">complete</div>
+      <div class="taction">${esc(a.action || '')}</div>
+      <div class="tmeta">
+        ${a.tokens_used ? `<span>tokens<b>${a.tokens_used.toLocaleString()}</b></span>` : ''}
+        ${a.duration_ms ? `<span>time<b>${a.duration_ms.toLocaleString()}ms</b></span>` : ''}
+      </div>
+    </div>`).join('');
+
+  const chunks = (d.retrieved_chunks || []).map(c => `
+    <div class="chunk">
+      <div class="chunk-meta">${esc(c.source)} &middot; similarity: ${(c.similarity||0).toFixed(3)}</div>
+      <div class="chunk-text">${esc(c.text)}</div>
+    </div>`).join('');
+
+  const u = d.usage || {};
+  document.getElementById('syn-result').innerHTML = `
+    <div class="verdict ${d.status||'PASS'}">&#10003; ${d.status||'PASS'} &nbsp;&mdash;&nbsp; Composite Score: ${(d.composite_score||0).toFixed(3)}</div>
+
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">Evaluation Scores</div>
+        ${bars}
+      </div>
+      <div class="card">
+        <div class="card-title">Usage</div>
+        <div class="cost-row">
+          <div class="cost-pill"><div class="cost-val">${(u.total_tokens||0).toLocaleString()}</div><div class="cost-lbl">Tokens</div></div>
+          <div class="cost-pill"><div class="cost-val" style="color:#58a6ff">$${(u.cost_usd||0).toFixed(5)}</div><div class="cost-lbl">Cost</div></div>
+          <div class="cost-pill"><div class="cost-val" style="color:#e6edf3;font-size:.85rem">${(d.total_duration_ms||0).toLocaleString()}ms</div><div class="cost-lbl">Total Time</div></div>
+        </div>
+        <div style="font-size:.75rem;color:#8b949e">Model: ${esc(u.model||'gpt-4o-mini')}</div>
+      </div>
+    </div>
+
+    <div class="trace">
+      <div class="trace-hdr">Agent Pipeline Trace</div>
+      ${trace}
+    </div>
+
+    <div class="section-hdr">Synthesized Answer</div>
+    <div class="synthesis-box">${esc(d.synthesis||'')}</div>
+
+    <div class="section-hdr">Retrieved Source Chunks (${(d.retrieved_chunks||[]).length})</div>
+    ${chunks}
+  `;
+  show('syn-result');
+}
+
+// ── Render RegDelta ────────────────────────────────────────────────────────
+function renderRegDelta(d) {
+  const s = d.summary || {};
+  const riskClass = s.overall_risk || 'MEDIUM';
+
+  const diffs = (d.section_diffs || []).map(diff => `
+    <div class="diff-card">
+      <div class="diff-hdr">
+        <span class="dtag ${diff.change_type}">${diff.change_type}</span>
+        <span class="dsec">${esc(diff.section_id)}</span>
+        <span class="drisk ${riskBg(diff.risk_level)}">${diff.risk_level}</span>
+      </div>
+      <div class="diff-body">
+        ${diff.baseline_text ? `<div class="diff-old">&minus; ${esc(diff.baseline_text)}</div>` : ''}
+        ${diff.current_text  ? `<div class="diff-new">+ ${esc(diff.current_text)}</div>`  : ''}
+        <div class="diff-analysis"><strong>LLM Analysis:</strong> ${esc(diff.llm_analysis||'')}</div>
+      </div>
+    </div>`).join('');
+
+  const gaps = (d.policy_gaps || []).map(g => `
+    <tr><td>${esc(g.gap)}</td><td><span class="drisk ${riskBg(g.risk)}" style="display:inline-block">${g.risk}</span></td></tr>`).join('');
+
+  const actions = (d.recommended_actions || []).map((a,i) => `
+    <div class="action-item">
+      <div class="anum" style="background:${['#58a6ff','#3fb950','#d29922','#8b949e'][i]||'#58a6ff'}">${a.priority||i+1}</div>
+      <div class="atext">
+        ${esc(a.action||'')}
+        <div class="adeadline">Owner: ${esc(a.owner||'Compliance')} &nbsp;&middot;&nbsp; Deadline: ${a.deadline_days||90} days</div>
+      </div>
+    </div>`).join('');
+
+  const u = d.usage || {};
+  document.getElementById('reg-result').innerHTML = `
+    <div class="verdict ${riskClass}">Overall Risk: ${riskClass}</div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-val">${s.sections_analyzed||0}</div><div class="stat-lbl">Sections Analyzed</div></div>
+      <div class="stat"><div class="stat-val" style="color:#3fb950">${s.added||0}</div><div class="stat-lbl">Added</div></div>
+      <div class="stat"><div class="stat-val" style="color:#d29922">${s.modified||0}</div><div class="stat-lbl">Modified</div></div>
+      <div class="stat"><div class="stat-val" style="color:#f85149">${s.removed||0}</div><div class="stat-lbl">Removed</div></div>
+      <div class="stat"><div class="stat-val" style="color:#58a6ff">$${(u.cost_usd||0).toFixed(5)}</div><div class="stat-lbl">Cost</div></div>
+    </div>
+
+    <div class="section-hdr">Section-by-Section Diff</div>
+    ${diffs}
+
+    ${gaps ? `
+    <div class="section-hdr">Policy Gap Analysis</div>
+    <table>
+      <thead><tr><th>Compliance Gap</th><th>Risk</th></tr></thead>
+      <tbody>${gaps}</tbody>
+    </table>` : ''}
+
+    <div class="section-hdr">Prioritized Remediation Actions</div>
+    ${actions}
+  `;
+  show('reg-result');
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────────
+function show(id){ document.getElementById(id).classList.add('show') }
+function hide(id){ document.getElementById(id).classList.remove('show') }
+function esc(s){ const d=document.createElement('div');d.textContent=s;return d.innerHTML }
+function riskBg(r){ return r==='HIGH'?'risk-h':r==='LOW'?'risk-l':'risk-m' }
+
+// Inline risk colors
+document.head.insertAdjacentHTML('beforeend',`<style>
+  .risk-h{background:rgba(248,81,73,.2);color:#f85149}
+  .risk-m{background:rgba(210,153,34,.2);color:#d29922}
+  .risk-l{background:rgba(63,185,80,.2);color:#3fb950}
+</style>`);
+
+init();
+</script>
+</body>
+</html>
