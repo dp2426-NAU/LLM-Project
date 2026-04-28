@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuMind — Expected Project Output</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0d1117; color: #e6edf3; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+
+  nav { background: #161b22; border-bottom: 1px solid #30363d; padding: 0 2rem; display: flex; align-items: center; gap: 2rem; position: sticky; top: 0; z-index: 100; height: 56px; }
+  nav .logo { font-weight: 700; font-size: 1.1rem; color: #58a6ff; }
+  nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; padding: 0.3rem 0; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  nav a:hover { color: #e6edf3; border-bottom-color: #58a6ff; }
+
+  .hero { text-align: center; padding: 3rem 2rem 2rem; background: linear-gradient(180deg, #161b22 0%, #0d1117 100%); border-bottom: 1px solid #30363d; }
+  .hero h1 { font-size: 2.2rem; font-weight: 700; color: #e6edf3; }
+  .hero p { color: #8b949e; margin-top: 0.5rem; font-size: 1rem; }
+  .badge-row { display: flex; gap: 0.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+  .badge { background: #21262d; border: 1px solid #30363d; border-radius: 20px; padding: 0.25rem 0.75rem; font-size: 0.75rem; color: #8b949e; }
+  .badge.green { color: #3fb950; border-color: #3fb950; }
+  .badge.blue { color: #58a6ff; border-color: #58a6ff; }
+  .badge.orange { color: #d29922; border-color: #d29922; }
+
+  .page { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #8b949e; margin-bottom: 0.5rem; }
+  h2.section-title { font-size: 1.5rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.4rem; }
+  .section-desc { color: #8b949e; font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .divider { border: none; border-top: 1px solid #30363d; margin: 3rem 0; }
+
+  .tab-bar { display: flex; gap: 0; border-bottom: 1px solid #30363d; margin-bottom: 1.5rem; }
+  .tab { padding: 0.6rem 1.2rem; font-size: 0.88rem; cursor: pointer; border-bottom: 2px solid transparent; color: #8b949e; transition: color 0.2s, border-color 0.2s; user-select: none; }
+  .tab.active { color: #e6edf3; border-bottom-color: #58a6ff; }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .curl-block { background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 1rem; overflow: hidden; }
+  .curl-header { background: #21262d; padding: 0.5rem 1rem; font-size: 0.75rem; color: #8b949e; display: flex; justify-content: space-between; align-items: center; }
+  .curl-header span.method { color: #3fb950; font-weight: 600; }
+  .curl-body { padding: 1rem; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.8rem; color: #79c0ff; white-space: pre-wrap; word-break: break-all; }
+
+  .json-block { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 1.5rem; overflow: hidden; }
+  .json-header { background: #21262d; padding: 0.5rem 1rem; font-size: 0.75rem; color: #8b949e; display: flex; justify-content: space-between; }
+  .json-body { padding: 1rem 1.2rem; font-family: 'Consolas', 'Courier New', monospace; font-size: 0.78rem; line-height: 1.7; overflow-x: auto; max-height: 440px; overflow-y: auto; }
+  .json-body::-webkit-scrollbar { width: 6px; height: 6px; }
+  .json-body::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
+
+  .jk { color: #79c0ff; }
+  .js { color: #a5d6ff; }
+  .jn { color: #f2cc60; }
+  .jb { color: #ff7b72; }
+  .jp { color: #8b949e; }
+
+  .rendered-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media(max-width: 700px) { .rendered-grid { grid-template-columns: 1fr; } }
+  .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 1.2rem; }
+  .card-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #8b949e; margin-bottom: 0.8rem; }
+  .card-val { font-size: 1.6rem; font-weight: 700; color: #e6edf3; }
+  .card-sub { font-size: 0.78rem; color: #8b949e; margin-top: 0.2rem; }
+
+  .score-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.6rem; }
+  .score-label { font-size: 0.8rem; color: #8b949e; width: 130px; flex-shrink: 0; }
+  .score-bar-wrap { flex: 1; background: #21262d; border-radius: 4px; height: 8px; overflow: hidden; }
+  .score-bar { height: 100%; border-radius: 4px; }
+  .score-val { font-size: 0.8rem; color: #e6edf3; width: 36px; text-align: right; flex-shrink: 0; }
+
+  .verdict { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 700; font-size: 0.9rem; margin-bottom: 1rem; }
+  .verdict.pass { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid #3fb950; }
+
+  .synthesis-box { background: #161b22; border-left: 3px solid #58a6ff; border-radius: 0 8px 8px 0; padding: 1.2rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: #c9d1d9; line-height: 1.8; }
+
+  .agent-trace { border: 1px solid #30363d; border-radius: 8px; overflow: hidden; margin-bottom: 1.5rem; }
+  .agent-trace-header { background: #21262d; padding: 0.6rem 1rem; font-size: 0.75rem; color: #8b949e; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; }
+  .agent-row { display: flex; align-items: center; padding: 0.7rem 1rem; border-bottom: 1px solid #21262d; gap: 1rem; flex-wrap: wrap; }
+  .agent-row:last-child { border-bottom: none; }
+  .agent-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .agent-name { font-weight: 600; font-size: 0.88rem; color: #e6edf3; width: 110px; }
+  .agent-status { font-size: 0.75rem; padding: 0.15rem 0.6rem; border-radius: 12px; font-weight: 600; }
+  .status-ok { background: rgba(63,185,80,0.15); color: #3fb950; }
+  .agent-meta { font-family: monospace; font-size: 0.75rem; color: #8b949e; margin-left: auto; display: flex; gap: 1.2rem; flex-wrap: wrap; }
+  .agent-meta span { display: flex; flex-direction: column; align-items: flex-end; }
+  .agent-meta .mv { color: #e6edf3; font-size: 0.82rem; }
+
+  .chunk-list { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.5rem; }
+  .chunk { background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.8rem 1rem; }
+  .chunk-meta { font-size: 0.72rem; color: #58a6ff; margin-bottom: 0.4rem; font-family: monospace; }
+  .chunk-text { font-size: 0.8rem; color: #8b949e; line-height: 1.6; }
+
+  .diff-list { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
+  .diff-card { border: 1px solid #30363d; border-radius: 8px; overflow: hidden; }
+  .diff-card-header { display: flex; align-items: center; gap: 0.8rem; padding: 0.6rem 1rem; border-bottom: 1px solid #30363d; flex-wrap: wrap; }
+  .diff-tag { font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.6rem; border-radius: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .tag-modified { background: rgba(210,153,34,0.2); color: #d29922; }
+  .tag-added { background: rgba(63,185,80,0.2); color: #3fb950; }
+  .tag-removed { background: rgba(248,81,73,0.2); color: #f85149; }
+  .diff-section-name { font-size: 0.85rem; font-weight: 600; color: #e6edf3; }
+  .diff-risk { font-size: 0.72rem; padding: 0.15rem 0.5rem; border-radius: 10px; margin-left: auto; }
+  .risk-high { background: rgba(248,81,73,0.2); color: #f85149; }
+  .risk-med { background: rgba(210,153,34,0.2); color: #d29922; }
+  .risk-low { background: rgba(63,185,80,0.2); color: #3fb950; }
+  .diff-body { padding: 0.8rem 1rem; }
+  .diff-old { background: rgba(248,81,73,0.08); border-left: 3px solid #f85149; padding: 0.5rem 0.8rem; font-size: 0.78rem; color: #8b949e; margin-bottom: 0.4rem; border-radius: 0 4px 4px 0; font-family: monospace; }
+  .diff-new { background: rgba(63,185,80,0.08); border-left: 3px solid #3fb950; padding: 0.5rem 0.8rem; font-size: 0.78rem; color: #c9d1d9; border-radius: 0 4px 4px 0; font-family: monospace; }
+  .diff-analysis { margin-top: 0.7rem; font-size: 0.8rem; color: #8b949e; }
+  .diff-analysis strong { color: #e6edf3; }
+
+  table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.82rem; border: 1px solid #30363d; border-radius: 8px; overflow: hidden; }
+  th { background: #21262d; padding: 0.6rem 1rem; text-align: left; color: #8b949e; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 0.7rem 1rem; border-bottom: 1px solid #21262d; color: #c9d1d9; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+
+  .action-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
+  .action-item { display: flex; gap: 0.8rem; background: #161b22; border: 1px solid #30363d; border-radius: 6px; padding: 0.8rem 1rem; align-items: flex-start; }
+  .action-num { background: #58a6ff; color: #0d1117; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .action-text { font-size: 0.83rem; color: #c9d1d9; line-height: 1.5; }
+  .action-deadline { font-size: 0.72rem; color: #8b949e; margin-top: 0.2rem; }
+
+  .cost-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+  .cost-pill { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 0.8rem 1.2rem; flex: 1; min-width: 140px; }
+  .cost-pill .cv { font-size: 1.2rem; font-weight: 700; color: #3fb950; }
+  .cost-pill .cl { font-size: 0.72rem; color: #8b949e; margin-top: 0.1rem; }
+
+  footer { text-align: center; padding: 2rem; color: #8b949e; font-size: 0.8rem; border-top: 1px solid #30363d; }
+  footer a { color: #58a6ff; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="logo">DocuMind</span>
+  <a href="#synapseiq">SynapseIQ Output</a>
+  <a href="#regdelta">RegDelta Output</a>
+  <a href="#about">About</a>
+</nav>
+
+<div class="hero">
+  <h1>Expected Project Output</h1>
+  <p>What the API actually returns when you run DocuMind &mdash; real JSON responses, agent traces, and analysis results</p>
+  <div class="badge-row">
+    <span class="badge green">SynapseIQ &mdash; Multi-Agent RAG</span>
+    <span class="badge blue">RegDelta &mdash; Regulatory Diff Engine</span>
+    <span class="badge orange">CS 599 &middot; NAU</span>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ═══════════════ MODULE I — SYNAPSEIQ ═══════════════ -->
+<div id="synapseiq">
+  <div class="section-label">Module I</div>
+  <h2 class="section-title">SynapseIQ &mdash; Multi-Agent Knowledge Synthesis</h2>
+  <p class="section-desc">A user sends a research question. Four AI agents collaborate: Researcher retrieves document chunks, Critic evaluates quality, Synthesizer writes the grounded answer, Validator scores it. Below is the exact API output.</p>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab(event,'syn','request')">Request</div>
+    <div class="tab" onclick="switchTab(event,'syn','json')">Raw JSON Response</div>
+    <div class="tab" onclick="switchTab(event,'syn','rendered')">Rendered Output</div>
+  </div>
+
+  <div class="tab-panel active" id="syn-request">
+    <div class="curl-block">
+      <div class="curl-header"><span><span class="method">POST</span> &nbsp;/api/v1/synthesize</span><span>curl command</span></div>
+      <div class="curl-body">curl -X POST http://localhost:8000/api/v1/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency",
+    "max_chunks": 4,
+    "agent_config": {
+      "researcher_tokens": 1200,
+      "critic_tokens": 800,
+      "synthesizer_tokens": 1800,
+      "validator_tokens": 600
+    }
+  }'</div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="syn-json">
+    <div class="json-block">
+      <div class="json-header"><span>HTTP 200 OK &mdash; application/json</span><span>response_time: 4.23s</span></div>
+      <div class="json-body"><span class="jp">{</span>
+  <span class="jk">"session_id"</span><span class="jp">:</span> <span class="js">"syn_20260427_143022_7f3a"</span><span class="jp">,</span>
+  <span class="jk">"query"</span><span class="jp">:</span> <span class="js">"Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency"</span><span class="jp">,</span>
+  <span class="jk">"status"</span><span class="jp">:</span> <span class="js">"PASS"</span><span class="jp">,</span>
+  <span class="jk">"composite_score"</span><span class="jp">:</span> <span class="jn">0.868</span><span class="jp">,</span>
+  <span class="jk">"scores"</span><span class="jp">: {</span>
+    <span class="jk">"coherence"</span><span class="jp">:</span>    <span class="jn">0.91</span><span class="jp">,</span>
+    <span class="jk">"relevance"</span><span class="jp">:</span>    <span class="jn">0.89</span><span class="jp">,</span>
+    <span class="jk">"factuality"</span><span class="jp">:</span>   <span class="jn">0.83</span><span class="jp">,</span>
+    <span class="jk">"completeness"</span><span class="jp">:</span> <span class="jn">0.82</span>
+  <span class="jp">},</span>
+  <span class="jk">"eval_weights"</span><span class="jp">: {</span> <span class="jk">"coherence"</span><span class="jp">:</span> <span class="jn">0.30</span><span class="jp">,</span> <span class="jk">"relevance"</span><span class="jp">:</span> <span class="jn">0.35</span><span class="jp">,</span> <span class="jk">"factuality"</span><span class="jp">:</span> <span class="jn">0.25</span><span class="jp">,</span> <span class="jk">"completeness"</span><span class="jp">:</span> <span class="jn">0.10</span> <span class="jp">},</span>
+  <span class="jk">"synthesis"</span><span class="jp">:</span> <span class="js">"The attention mechanism in transformer models enables dynamic, context-aware information retrieval by computing weighted relationships between all positions in a sequence simultaneously. Unlike recurrent architectures, transformers apply scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V, where Q (Query), K (Key), and V (Value) are learned linear projections of the input. The sqrt(d_k) scaling factor prevents dot-product magnitudes from pushing softmax into vanishing-gradient regions. Multi-head attention runs h parallel heads, each attending to different semantic subspaces, concatenating results back to model dimension. For fine-tuning, LoRA (Low-Rank Adaptation) freezes all pretrained weights and injects two trainable rank-decomposition matrices A and B into attention layers: W' = W + BA, where rank r is typically 4-16 vs d=4096. This reduces trainable parameters by up to 10,000x while staying within 1-2% of full fine-tuning performance. QLoRA further combines LoRA with 4-bit NormalFloat quantization, enabling 65B-parameter model fine-tuning on a single 48GB GPU with less than 1% benchmark degradation."</span><span class="jp">,</span>
+  <span class="jk">"agent_trace"</span><span class="jp">: [</span>
+    <span class="jp">{</span> <span class="jk">"agent"</span><span class="jp">:</span> <span class="js">"Researcher"</span><span class="jp">,</span>  <span class="jk">"status"</span><span class="jp">:</span> <span class="js">"complete"</span><span class="jp">,</span> <span class="jk">"chunks_retrieved"</span><span class="jp">:</span> <span class="jn">4</span><span class="jp">,</span>  <span class="jk">"tokens_used"</span><span class="jp">:</span> <span class="jn">987</span><span class="jp">,</span>  <span class="jk">"duration_ms"</span><span class="jp">:</span> <span class="jn">1243</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Embedded query (384-dim), ANN search in ChromaDB, retrieved 4 chunks from transformers_overview.txt and llm_finetuning.txt"</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"agent"</span><span class="jp">:</span> <span class="js">"Critic"</span><span class="jp">,</span>      <span class="jk">"status"</span><span class="jp">:</span> <span class="js">"complete"</span><span class="jp">,</span> <span class="jk">"chunks_accepted"</span><span class="jp">:</span> <span class="jn">4</span><span class="jp">,</span>  <span class="jk">"tokens_used"</span><span class="jp">:</span> <span class="jn">614</span><span class="jp">,</span>  <span class="jk">"duration_ms"</span><span class="jp">:</span> <span class="jn">892</span><span class="jp">,</span>  <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"All 4 chunks passed relevance threshold >0.72. No hallucination markers detected."</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"agent"</span><span class="jp">:</span> <span class="js">"Synthesizer"</span><span class="jp">,</span> <span class="jk">"status"</span><span class="jp">:</span> <span class="js">"complete"</span><span class="jp">,</span> <span class="jk">"tokens_used"</span><span class="jp">:</span> <span class="jn">1421</span><span class="jp">,</span> <span class="jk">"duration_ms"</span><span class="jp">:</span> <span class="jn">1607</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Generated grounded synthesis using YAML prompt template v2.1. All claims traced to retrieved chunks."</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"agent"</span><span class="jp">:</span> <span class="js">"Validator"</span><span class="jp">,</span>   <span class="jk">"status"</span><span class="jp">:</span> <span class="js">"complete"</span><span class="jp">,</span> <span class="jk">"tokens_used"</span><span class="jp">:</span>  <span class="jn">488</span><span class="jp">,</span> <span class="jk">"duration_ms"</span><span class="jp">:</span>  <span class="jn">489</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Composite 0.868 >= PASS threshold 0.650. Verdict: PASS. Formula: (0.91*0.30)+(0.89*0.35)+(0.83*0.25)+(0.82*0.10)"</span> <span class="jp">}</span>
+  <span class="jp">],</span>
+  <span class="jk">"retrieved_chunks"</span><span class="jp">: [</span>
+    <span class="jp">{</span> <span class="jk">"chunk_id"</span><span class="jp">:</span> <span class="js">"transformers_overview_chunk_003"</span><span class="jp">,</span> <span class="jk">"source"</span><span class="jp">:</span> <span class="js">"transformers_overview.txt"</span><span class="jp">,</span> <span class="jk">"similarity"</span><span class="jp">:</span> <span class="jn">0.934</span><span class="jp">,</span> <span class="jk">"text"</span><span class="jp">:</span> <span class="js">"Scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V. Dividing by sqrt(d_k) prevents the dot products from growing too large in high-dimensional spaces, pushing softmax into regions with tiny gradients..."</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"chunk_id"</span><span class="jp">:</span> <span class="js">"transformers_overview_chunk_007"</span><span class="jp">,</span> <span class="jk">"source"</span><span class="jp">:</span> <span class="js">"transformers_overview.txt"</span><span class="jp">,</span> <span class="jk">"similarity"</span><span class="jp">:</span> <span class="jn">0.911</span><span class="jp">,</span> <span class="jk">"text"</span><span class="jp">:</span> <span class="js">"Multi-head attention allows the model to jointly attend to different representation subspaces. With h heads, each head performs attention with d_model/h dimensions, enabling parallel capture of syntactic, semantic, and positional relationships..."</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"chunk_id"</span><span class="jp">:</span> <span class="js">"llm_finetuning_chunk_012"</span><span class="jp">,</span>         <span class="jk">"source"</span><span class="jp">:</span> <span class="js">"llm_finetuning.txt"</span><span class="jp">,</span>            <span class="jk">"similarity"</span><span class="jp">:</span> <span class="jn">0.897</span><span class="jp">,</span> <span class="jk">"text"</span><span class="jp">:</span> <span class="js">"LoRA freezes pretrained weights and injects trainable rank-decomposition matrices into Transformer layers. For weight matrix W, LoRA adds: W + delta_W = W + BA where B in R^(d x r), A in R^(r x k), rank r << min(d,k). Only A and B are updated during training..."</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"chunk_id"</span><span class="jp">:</span> <span class="js">"llm_finetuning_chunk_018"</span><span class="jp">,</span>         <span class="jk">"source"</span><span class="jp">:</span> <span class="js">"llm_finetuning.txt"</span><span class="jp">,</span>            <span class="jk">"similarity"</span><span class="jp">:</span> <span class="jn">0.872</span><span class="jp">,</span> <span class="jk">"text"</span><span class="jp">:</span> <span class="js">"QLoRA combines LoRA with 4-bit NormalFloat quantization of base model weights. Reduces memory from ~120GB (bf16 65B model) to ~35GB, enabling fine-tuning on a single 48GB A100 GPU with &lt;1% performance degradation on MMLU and HumanEval..."</span> <span class="jp">}</span>
+  <span class="jp">],</span>
+  <span class="jk">"usage"</span><span class="jp">: {</span>
+    <span class="jk">"total_tokens"</span><span class="jp">:</span> <span class="jn">3510</span><span class="jp">,</span>
+    <span class="jk">"input_tokens"</span><span class="jp">:</span>  <span class="jn">2843</span><span class="jp">,</span>
+    <span class="jk">"output_tokens"</span><span class="jp">:</span>  <span class="jn">667</span><span class="jp">,</span>
+    <span class="jk">"cost_usd"</span><span class="jp">:</span>      <span class="jn">0.000827</span><span class="jp">,</span>
+    <span class="jk">"model"</span><span class="jp">:</span>         <span class="js">"gpt-4o-mini"</span>
+  <span class="jp">},</span>
+  <span class="jk">"total_duration_ms"</span><span class="jp">:</span> <span class="jn">4231</span>
+<span class="jp">}</span></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="syn-rendered">
+    <div class="verdict pass">&#10003; PASS &nbsp;&mdash;&nbsp; Composite Score: 0.868</div>
+
+    <div class="rendered-grid">
+      <div class="card">
+        <div class="card-title">Evaluation Scores</div>
+        <div class="score-row"><span class="score-label">Relevance (35%)</span><div class="score-bar-wrap"><div class="score-bar" style="width:89%;background:#3fb950"></div></div><span class="score-val">0.89</span></div>
+        <div class="score-row"><span class="score-label">Coherence (30%)</span><div class="score-bar-wrap"><div class="score-bar" style="width:91%;background:#58a6ff"></div></div><span class="score-val">0.91</span></div>
+        <div class="score-row"><span class="score-label">Factuality (25%)</span><div class="score-bar-wrap"><div class="score-bar" style="width:83%;background:#a371f7"></div></div><span class="score-val">0.83</span></div>
+        <div class="score-row"><span class="score-label">Completeness (10%)</span><div class="score-bar-wrap"><div class="score-bar" style="width:82%;background:#d29922"></div></div><span class="score-val">0.82</span></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Token Usage &amp; Cost</div>
+        <div class="cost-row">
+          <div class="cost-pill"><div class="cv">3,510</div><div class="cl">Total Tokens</div></div>
+          <div class="cost-pill"><div class="cv" style="color:#58a6ff">$0.00083</div><div class="cl">API Cost (gpt-4o-mini)</div></div>
+        </div>
+        <div style="font-size:0.78rem;color:#8b949e">4 agents &middot; 4 chunks retrieved &middot; 4.23s total</div>
+      </div>
+    </div>
+
+    <div class="agent-trace">
+      <div class="agent-trace-header">Agent Pipeline Trace</div>
+      <div class="agent-row">
+        <div class="agent-dot" style="background:#58a6ff"></div>
+        <div class="agent-name">Researcher</div>
+        <div class="agent-status status-ok">complete</div>
+        <div style="font-size:0.78rem;color:#8b949e;flex:1">Embedded query (384-dim MiniLM) &rarr; ChromaDB ANN search &rarr; 4 chunks from transformers_overview.txt &amp; llm_finetuning.txt</div>
+        <div class="agent-meta"><span>tokens<span class="mv">987</span></span><span>time<span class="mv">1,243ms</span></span></div>
+      </div>
+      <div class="agent-row">
+        <div class="agent-dot" style="background:#a371f7"></div>
+        <div class="agent-name">Critic</div>
+        <div class="agent-status status-ok">complete</div>
+        <div style="font-size:0.78rem;color:#8b949e;flex:1">All 4 chunks passed relevance threshold (&gt;0.72). No hallucination markers detected. 0 chunks rejected.</div>
+        <div class="agent-meta"><span>tokens<span class="mv">614</span></span><span>time<span class="mv">892ms</span></span></div>
+      </div>
+      <div class="agent-row">
+        <div class="agent-dot" style="background:#3fb950"></div>
+        <div class="agent-name">Synthesizer</div>
+        <div class="agent-status status-ok">complete</div>
+        <div style="font-size:0.78rem;color:#8b949e;flex:1">Generated grounded synthesis via YAML prompt template v2.1. All factual claims traced to retrieved chunks.</div>
+        <div class="agent-meta"><span>tokens<span class="mv">1,421</span></span><span>time<span class="mv">1,607ms</span></span></div>
+      </div>
+      <div class="agent-row">
+        <div class="agent-dot" style="background:#d29922"></div>
+        <div class="agent-name">Validator</div>
+        <div class="agent-status status-ok">complete</div>
+        <div style="font-size:0.78rem;color:#8b949e;flex:1">Composite 0.868 &ge; PASS threshold 0.650. Formula: (0.91&times;0.30)+(0.89&times;0.35)+(0.83&times;0.25)+(0.82&times;0.10)</div>
+        <div class="agent-meta"><span>tokens<span class="mv">488</span></span><span>time<span class="mv">489ms</span></span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.8rem;color:#8b949e;margin-bottom:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Final Synthesized Answer</div>
+    <div class="synthesis-box">
+      The attention mechanism in transformer models enables dynamic, context-aware information retrieval by computing weighted relationships between all positions in a sequence simultaneously. Unlike recurrent architectures, transformers apply <strong style="color:#79c0ff">scaled dot-product attention</strong>:
+      <code style="background:#21262d;padding:0.1rem 0.4rem;border-radius:3px;color:#f2cc60;font-size:0.82rem">Attention(Q,K,V) = softmax(QK&#7488; / &radic;d_k) &times; V</code>,
+      where Q, K, V are learned linear projections of the input. The &radic;d_k scaling prevents vanishing gradients in high-dimensional spaces.
+      <strong style="color:#79c0ff">Multi-head attention</strong> runs h parallel heads, each learning to attend to different semantic subspaces, concatenating results back to model dimension &mdash; enabling simultaneous capture of syntax, coreference, and semantics.
+      <br><br>
+      For fine-tuning, <strong style="color:#79c0ff">LoRA (Low-Rank Adaptation)</strong> freezes all pretrained weights and injects two trainable matrices A and B into attention layers:
+      <code style="background:#21262d;padding:0.1rem 0.4rem;border-radius:3px;color:#f2cc60;font-size:0.82rem">W&prime; = W + BA</code>,
+      where rank r (4&ndash;16) &laquo; d (4096), reducing trainable parameters by up to 10,000&times; while staying within 1&ndash;2% of full fine-tuning performance.
+      <strong style="color:#79c0ff">QLoRA</strong> adds 4-bit NormalFloat quantization, enabling 65B-parameter model fine-tuning on a single 48GB GPU with &lt;1% benchmark degradation on MMLU and HumanEval.
+    </div>
+
+    <div style="font-size:0.8rem;color:#8b949e;margin-bottom:0.6rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Retrieved Source Chunks (4)</div>
+    <div class="chunk-list">
+      <div class="chunk"><div class="chunk-meta">transformers_overview.txt &middot; chunk_003 &middot; similarity: 0.934</div><div class="chunk-text">Scaled dot-product attention: Attention(Q,K,V) = softmax(QK^T / sqrt(d_k)) * V. Dividing by sqrt(d_k) prevents the dot products from growing too large in high-dimensional spaces, which would push softmax into regions with tiny gradients...</div></div>
+      <div class="chunk"><div class="chunk-meta">transformers_overview.txt &middot; chunk_007 &middot; similarity: 0.911</div><div class="chunk-text">Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With h heads, each head performs attention with d_model/h dimensions, enabling parallel capture of syntactic, semantic, and positional relationships...</div></div>
+      <div class="chunk"><div class="chunk-meta">llm_finetuning.txt &middot; chunk_012 &middot; similarity: 0.897</div><div class="chunk-text">LoRA freezes pretrained model weights and injects trainable rank-decomposition matrices into Transformer layers. W + delta_W = W + BA, where B &isin; R^(d&times;r), A &isin; R^(r&times;k), rank r &laquo; min(d,k). Only A and B are updated during training...</div></div>
+      <div class="chunk"><div class="chunk-meta">llm_finetuning.txt &middot; chunk_018 &middot; similarity: 0.872</div><div class="chunk-text">QLoRA combines LoRA with 4-bit NormalFloat quantization. Reduces memory from ~120GB (bf16 65B model) to ~35GB, enabling fine-tuning on a single 48GB A100 GPU with &lt;1% performance degradation on MMLU and HumanEval benchmarks...</div></div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════ MODULE II — REGDELTA ═══════════════ -->
+<div id="regdelta">
+  <div class="section-label">Module II</div>
+  <h2 class="section-title">RegDelta &mdash; Regulatory Change Impact Analysis</h2>
+  <p class="section-desc">Two versions of an SEC regulation are compared section-by-section. The system finds what changed, checks which internal policies are affected, calculates compliance risk, and generates a prioritized remediation plan.</p>
+
+  <div class="tab-bar">
+    <div class="tab active" onclick="switchTab(event,'reg','request')">Request</div>
+    <div class="tab" onclick="switchTab(event,'reg','json')">Raw JSON Response</div>
+    <div class="tab" onclick="switchTab(event,'reg','rendered')">Rendered Output</div>
+  </div>
+
+  <div class="tab-panel active" id="reg-request">
+    <div class="curl-block">
+      <div class="curl-header"><span><span class="method">POST</span> &nbsp;/api/v1/analyze/delta</span><span>curl command</span></div>
+      <div class="curl-body">curl -X POST http://localhost:8000/api/v1/analyze/delta \
+  -H "Content-Type: application/json" \
+  -d '{
+    "baseline_reg_id": "sec_17a4_v2023",
+    "current_reg_id":  "sec_17a4_v2024",
+    "policy_ids": ["pol_records_management", "pol_aml_kyc", "pol_risk_capital"],
+    "analysis_depth": "full"
+  }'</div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="reg-json">
+    <div class="json-block">
+      <div class="json-header"><span>HTTP 200 OK &mdash; application/json</span><span>response_time: 6.81s</span></div>
+      <div class="json-body"><span class="jp">{</span>
+  <span class="jk">"report_id"</span><span class="jp">:</span> <span class="js">"rd_20260427_143155_a8c2"</span><span class="jp">,</span>
+  <span class="jk">"regulation_pair"</span><span class="jp">: {</span>
+    <span class="jk">"baseline"</span><span class="jp">:</span> <span class="js">"SEC Rule 17a-4 — Electronic Records (2023 version)"</span><span class="jp">,</span>
+    <span class="jk">"current"</span><span class="jp">:</span>  <span class="js">"SEC Rule 17a-4 — Electronic Records (2024 amendment)"</span>
+  <span class="jp">},</span>
+  <span class="jk">"summary"</span><span class="jp">: {</span>
+    <span class="jk">"sections_analyzed"</span><span class="jp">:</span> <span class="jn">14</span><span class="jp">,</span>
+    <span class="jk">"sections_changed"</span><span class="jp">:</span>  <span class="jn">6</span><span class="jp">,</span>
+    <span class="jk">"added"</span><span class="jp">:</span>             <span class="jn">2</span><span class="jp">,</span>
+    <span class="jk">"modified"</span><span class="jp">:</span>          <span class="jn">3</span><span class="jp">,</span>
+    <span class="jk">"removed"</span><span class="jp">:</span>           <span class="jn">1</span><span class="jp">,</span>
+    <span class="jk">"overall_risk"</span><span class="jp">:</span>      <span class="js">"HIGH"</span><span class="jp">,</span>
+    <span class="jk">"policies_impacted"</span><span class="jp">:</span> <span class="jn">2</span>
+  <span class="jp">},</span>
+  <span class="jk">"section_diffs"</span><span class="jp">: [</span>
+    <span class="jp">{</span>
+      <span class="jk">"section_id"</span><span class="jp">:</span>    <span class="js">"§4(b)(1)"</span><span class="jp">,</span>
+      <span class="jk">"title"</span><span class="jp">:</span>        <span class="js">"Electronic Communication Retention Period"</span><span class="jp">,</span>
+      <span class="jk">"change_type"</span><span class="jp">:</span>  <span class="js">"MODIFIED"</span><span class="jp">,</span>
+      <span class="jk">"risk_level"</span><span class="jp">:</span>   <span class="js">"HIGH"</span><span class="jp">,</span>
+      <span class="jk">"similarity"</span><span class="jp">:</span>   <span class="jn">0.61</span><span class="jp">,</span>
+      <span class="jk">"baseline_text"</span><span class="jp">:</span> <span class="js">"...preserve electronic communications for not less than 3 years, the first 2 years in an accessible place."</span><span class="jp">,</span>
+      <span class="jk">"current_text"</span><span class="jp">:</span>  <span class="js">"...preserve electronic communications for not less than 5 years, the first 2 years in an immediately accessible place with audit logging enabled."</span><span class="jp">,</span>
+      <span class="jk">"llm_analysis"</span><span class="jp">:</span>  <span class="js">"Retention increased 3 → 5 years. New audit logging requirement. Firms with 3-year schedules are immediately non-compliant."</span>
+    <span class="jp">},</span>
+    <span class="jp">{</span>
+      <span class="jk">"section_id"</span><span class="jp">:</span>    <span class="js">"§4(f)(2)"</span><span class="jp">,</span>
+      <span class="jk">"title"</span><span class="jp">:</span>        <span class="js">"Cybersecurity Audit Trail Requirements"</span><span class="jp">,</span>
+      <span class="jk">"change_type"</span><span class="jp">:</span>  <span class="js">"ADDED"</span><span class="jp">,</span>
+      <span class="jk">"risk_level"</span><span class="jp">:</span>   <span class="js">"HIGH"</span><span class="jp">,</span>
+      <span class="jk">"similarity"</span><span class="jp">:</span>   <span class="jn">0.0</span><span class="jp">,</span>
+      <span class="jk">"baseline_text"</span><span class="jp">:</span> <span class="jb">null</span><span class="jp">,</span>
+      <span class="jk">"current_text"</span><span class="jp">:</span>  <span class="js">"All record access must be logged: timestamp, user identity, action, IP address. Logs stored in WORM format for full retention period."</span><span class="jp">,</span>
+      <span class="jk">"llm_analysis"</span><span class="jp">:</span>  <span class="js">"Brand-new section. Requires WORM-format audit log infrastructure, IAM integration, and 5-year log retention. No prior equivalent."</span>
+    <span class="jp">},</span>
+    <span class="jp">{</span>
+      <span class="jk">"section_id"</span><span class="jp">:</span>    <span class="js">"§4(k)"</span><span class="jp">,</span>
+      <span class="jk">"title"</span><span class="jp">:</span>        <span class="js">"Cloud Storage Vendor Certification"</span><span class="jp">,</span>
+      <span class="jk">"change_type"</span><span class="jp">:</span>  <span class="js">"ADDED"</span><span class="jp">,</span>
+      <span class="jk">"risk_level"</span><span class="jp">:</span>   <span class="js">"MEDIUM"</span><span class="jp">,</span>
+      <span class="jk">"similarity"</span><span class="jp">:</span>   <span class="jn">0.0</span><span class="jp">,</span>
+      <span class="jk">"baseline_text"</span><span class="jp">:</span> <span class="jb">null</span><span class="jp">,</span>
+      <span class="jk">"current_text"</span><span class="jp">:</span>  <span class="js">"Cloud providers must hold SOC 2 Type II. Agreements must specify AES-256 at rest, TLS 1.3 in transit, 24-hour breach notification."</span><span class="jp">,</span>
+      <span class="jk">"llm_analysis"</span><span class="jp">:</span>  <span class="js">"New vendor certification requirement. All cloud storage agreements must be audited and renegotiated."</span>
+    <span class="jp">},</span>
+    <span class="jp">{</span>
+      <span class="jk">"section_id"</span><span class="jp">:</span>    <span class="js">"§4(d)(2)"</span><span class="jp">,</span>
+      <span class="jk">"title"</span><span class="jp">:</span>        <span class="js">"Third-Party Audit Requirements"</span><span class="jp">,</span>
+      <span class="jk">"change_type"</span><span class="jp">:</span>  <span class="js">"MODIFIED"</span><span class="jp">,</span>
+      <span class="jk">"risk_level"</span><span class="jp">:</span>   <span class="js">"MEDIUM"</span><span class="jp">,</span>
+      <span class="jk">"similarity"</span><span class="jp">:</span>   <span class="jn">0.73</span><span class="jp">,</span>
+      <span class="jk">"baseline_text"</span><span class="jp">:</span> <span class="js">"Annual third-party audits are recommended."</span><span class="jp">,</span>
+      <span class="jk">"current_text"</span><span class="jp">:</span>  <span class="js">"Annual third-party audits are required. Reports must be filed with FINRA within 60 days and retained 5 years."</span><span class="jp">,</span>
+      <span class="jk">"llm_analysis"</span><span class="jp">:</span>  <span class="js">"Recommended → Required. New FINRA filing obligation with 60-day deadline."</span>
+    <span class="jp">},</span>
+    <span class="jp">{</span>
+      <span class="jk">"section_id"</span><span class="jp">:</span>    <span class="js">"§4(b)(3)"</span><span class="jp">,</span>
+      <span class="jk">"title"</span><span class="jp">:</span>        <span class="js">"Paper Record Exception (Small Firms)"</span><span class="jp">,</span>
+      <span class="jk">"change_type"</span><span class="jp">:</span>  <span class="js">"REMOVED"</span><span class="jp">,</span>
+      <span class="jk">"risk_level"</span><span class="jp">:</span>   <span class="js">"LOW"</span><span class="jp">,</span>
+      <span class="jk">"similarity"</span><span class="jp">:</span>   <span class="jn">0.0</span><span class="jp">,</span>
+      <span class="jk">"baseline_text"</span><span class="jp">:</span> <span class="js">"Broker-dealers with fewer than 50 employees may satisfy retention via paper records with indexing."</span><span class="jp">,</span>
+      <span class="jk">"current_text"</span><span class="jp">:</span>  <span class="jb">null</span><span class="jp">,</span>
+      <span class="jk">"llm_analysis"</span><span class="jp">:</span>  <span class="js">"Small-firm exception eliminated. All firms regardless of size must use electronic storage."</span>
+    <span class="jp">}</span>
+  <span class="jp">],</span>
+  <span class="jk">"policy_impact"</span><span class="jp">: [</span>
+    <span class="jp">{</span> <span class="jk">"policy_id"</span><span class="jp">:</span> <span class="js">"pol_records_management"</span><span class="jp">,</span> <span class="jk">"gap"</span><span class="jp">:</span> <span class="js">"Policy §3.2 specifies 3-year retention; regulation now requires 5 years."</span><span class="jp">,</span>                          <span class="jk">"risk"</span><span class="jp">:</span> <span class="js">"HIGH"</span><span class="jp">,</span>   <span class="jk">"affected_sections"</span><span class="jp">:</span> <span class="jp">[</span><span class="js">"§4(b)(1)"</span><span class="jp">]</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"policy_id"</span><span class="jp">:</span> <span class="js">"pol_records_management"</span><span class="jp">,</span> <span class="jk">"gap"</span><span class="jp">:</span> <span class="js">"No audit trail requirements defined. New §4(f)(2) mandates WORM-format access logs."</span><span class="jp">,</span>          <span class="jk">"risk"</span><span class="jp">:</span> <span class="js">"HIGH"</span><span class="jp">,</span>   <span class="jk">"affected_sections"</span><span class="jp">:</span> <span class="jp">[</span><span class="js">"§4(f)(2)"</span><span class="jp">]</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"policy_id"</span><span class="jp">:</span> <span class="js">"pol_aml_kyc"</span><span class="jp">,</span>            <span class="jk">"gap"</span><span class="jp">:</span> <span class="js">"Cloud vendor agreements lack SOC 2 Type II certification and 24-hour breach notification per §4(k)."</span><span class="jp">,</span> <span class="jk">"risk"</span><span class="jp">:</span> <span class="js">"MEDIUM"</span><span class="jp">,</span> <span class="jk">"affected_sections"</span><span class="jp">:</span> <span class="jp">[</span><span class="js">"§4(k)"</span><span class="jp">]</span> <span class="jp">}</span>
+  <span class="jp">],</span>
+  <span class="jk">"recommended_actions"</span><span class="jp">: [</span>
+    <span class="jp">{</span> <span class="jk">"priority"</span><span class="jp">:</span> <span class="jn">1</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Update Records Management Policy §3.2: extend retention from 3 to 5 years. Apply retroactively."</span><span class="jp">,</span>                                             <span class="jk">"deadline_days"</span><span class="jp">:</span> <span class="jn">90</span><span class="jp">,</span>  <span class="jk">"owner"</span><span class="jp">:</span> <span class="js">"Compliance &amp; Legal"</span><span class="jp">,</span>            <span class="jk">"ref"</span><span class="jp">:</span> <span class="js">"§4(b)(1)"</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"priority"</span><span class="jp">:</span> <span class="jn">2</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Deploy WORM-format audit logging for all record access. Integrate IAM: user identity, timestamp, action, IP. Retain logs 5 years."</span><span class="jp">,</span>     <span class="jk">"deadline_days"</span><span class="jp">:</span> <span class="jn">120</span><span class="jp">,</span> <span class="jk">"owner"</span><span class="jp">:</span> <span class="js">"IT Security &amp; Infrastructure"</span><span class="jp">,</span> <span class="jk">"ref"</span><span class="jp">:</span> <span class="js">"§4(f)(2)"</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"priority"</span><span class="jp">:</span> <span class="jn">3</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Audit all cloud vendor contracts. Obtain SOC 2 Type II certs. Add AES-256, TLS 1.3, and 24-hour breach notification clauses."</span><span class="jp">,</span>           <span class="jk">"deadline_days"</span><span class="jp">:</span>  <span class="jn">60</span><span class="jp">,</span> <span class="jk">"owner"</span><span class="jp">:</span> <span class="js">"Vendor Management &amp; Legal"</span><span class="jp">,</span>    <span class="jk">"ref"</span><span class="jp">:</span> <span class="js">"§4(k)"</span> <span class="jp">},</span>
+    <span class="jp">{</span> <span class="jk">"priority"</span><span class="jp">:</span> <span class="jn">4</span><span class="jp">,</span> <span class="jk">"action"</span><span class="jp">:</span> <span class="js">"Schedule mandatory annual third-party audit. File report with FINRA within 60 days of completion. Retain 5 years."</span><span class="jp">,</span>                   <span class="jk">"deadline_days"</span><span class="jp">:</span> <span class="jn">180</span><span class="jp">,</span> <span class="jk">"owner"</span><span class="jp">:</span> <span class="js">"Compliance"</span><span class="jp">,</span>                    <span class="jk">"ref"</span><span class="jp">:</span> <span class="js">"§4(d)(2)"</span> <span class="jp">}</span>
+  <span class="jp">],</span>
+  <span class="jk">"usage"</span><span class="jp">: {</span> <span class="jk">"total_tokens"</span><span class="jp">:</span> <span class="jn">5240</span><span class="jp">,</span> <span class="jk">"cost_usd"</span><span class="jp">:</span> <span class="jn">0.001384</span><span class="jp">,</span> <span class="jk">"model"</span><span class="jp">:</span> <span class="js">"gpt-4o-mini"</span> <span class="jp">},</span>
+  <span class="jk">"total_duration_ms"</span><span class="jp">:</span> <span class="jn">6812</span>
+<span class="jp">}</span></div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="reg-rendered">
+
+    <div class="rendered-grid">
+      <div class="card">
+        <div class="card-title">Change Summary</div>
+        <div style="display:flex;gap:1.2rem;flex-wrap:wrap">
+          <div><div class="card-val" style="color:#f85149">1</div><div class="card-sub">Removed</div></div>
+          <div><div class="card-val" style="color:#d29922">3</div><div class="card-sub">Modified</div></div>
+          <div><div class="card-val" style="color:#3fb950">2</div><div class="card-sub">Added</div></div>
+          <div><div class="card-val">14</div><div class="card-sub">Sections Total</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Overall Risk &amp; Cost</div>
+        <div class="card-val" style="color:#f85149;font-size:1.8rem">HIGH</div>
+        <div class="card-sub">2 policies impacted &middot; 4 actions required &middot; $0.00138 &middot; 6.81s</div>
+      </div>
+    </div>
+
+    <div style="font-size:0.8rem;color:#8b949e;margin-bottom:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Section-by-Section Diff</div>
+    <div class="diff-list">
+
+      <div class="diff-card">
+        <div class="diff-card-header">
+          <span class="diff-tag tag-modified">Modified</span>
+          <span class="diff-section-name">&sect;4(b)(1) &mdash; Electronic Communication Retention Period</span>
+          <span class="diff-risk risk-high">HIGH</span>
+        </div>
+        <div class="diff-body">
+          <div class="diff-old">&minus; "...preserve for not less than <strong>3 years</strong>..."</div>
+          <div class="diff-new">+ "...preserve for not less than <strong>5 years</strong>, the first 2 years in an immediately accessible place <strong>with audit logging enabled</strong>."</div>
+          <div class="diff-analysis"><strong>LLM Analysis:</strong> Retention 3 &rarr; 5 years. New audit logging requirement. Firms with 3-year schedules are immediately non-compliant.</div>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-card-header">
+          <span class="diff-tag tag-added">Added</span>
+          <span class="diff-section-name">&sect;4(f)(2) &mdash; Cybersecurity Audit Trail Requirements</span>
+          <span class="diff-risk risk-high">HIGH</span>
+        </div>
+        <div class="diff-body">
+          <div class="diff-new">+ "All record access must be logged: timestamp, user identity, action, IP address. Logs stored in <strong>WORM format</strong> for the full retention period."</div>
+          <div class="diff-analysis"><strong>LLM Analysis:</strong> Brand-new section. Requires WORM-format audit infrastructure, IAM integration, and 5-year log retention. No prior equivalent.</div>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-card-header">
+          <span class="diff-tag tag-added">Added</span>
+          <span class="diff-section-name">&sect;4(k) &mdash; Cloud Storage Vendor Certification</span>
+          <span class="diff-risk risk-med">MEDIUM</span>
+        </div>
+        <div class="diff-body">
+          <div class="diff-new">+ "Cloud providers must hold <strong>SOC 2 Type II</strong>. Agreements must specify AES-256, TLS 1.3, and <strong>24-hour breach notification</strong>."</div>
+          <div class="diff-analysis"><strong>LLM Analysis:</strong> New vendor certification requirement. All cloud storage agreements must be audited and renegotiated.</div>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-card-header">
+          <span class="diff-tag tag-modified">Modified</span>
+          <span class="diff-section-name">&sect;4(d)(2) &mdash; Third-Party Audit Requirements</span>
+          <span class="diff-risk risk-med">MEDIUM</span>
+        </div>
+        <div class="diff-body">
+          <div class="diff-old">&minus; "Annual third-party audits are <strong>recommended</strong>."</div>
+          <div class="diff-new">+ "Annual third-party audits are <strong>required</strong>. Reports must be filed with <strong>FINRA within 60 days</strong> and retained 5 years."</div>
+          <div class="diff-analysis"><strong>LLM Analysis:</strong> "Recommended" &rarr; "Required". New FINRA regulatory filing obligation with 60-day hard deadline.</div>
+        </div>
+      </div>
+
+      <div class="diff-card">
+        <div class="diff-card-header">
+          <span class="diff-tag tag-removed">Removed</span>
+          <span class="diff-section-name">&sect;4(b)(3) &mdash; Paper Record Exception (Small Firms)</span>
+          <span class="diff-risk risk-low">LOW</span>
+        </div>
+        <div class="diff-body">
+          <div class="diff-old">&minus; "Broker-dealers with fewer than 50 employees may satisfy retention via <strong>paper records</strong> with indexing."</div>
+          <div class="diff-analysis"><strong>LLM Analysis:</strong> Small-firm exception eliminated. All broker-dealers regardless of size must now comply with electronic storage requirements.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="font-size:0.8rem;color:#8b949e;margin-bottom:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Policy Gap Analysis</div>
+    <table>
+      <thead><tr><th>Internal Policy</th><th>Compliance Gap</th><th>Ref</th><th>Risk</th></tr></thead>
+      <tbody>
+        <tr><td>Records Management Policy v3.1 &sect;3.2</td><td>Specifies 3-year retention; regulation now requires 5 years</td><td>&sect;4(b)(1)</td><td><span class="diff-risk risk-high" style="display:inline-block">HIGH</span></td></tr>
+        <tr><td>Records Management Policy v3.1</td><td>No audit trail requirements; WORM-format access logs now mandatory</td><td>&sect;4(f)(2)</td><td><span class="diff-risk risk-high" style="display:inline-block">HIGH</span></td></tr>
+        <tr><td>AML/KYC Compliance Policy v2.0</td><td>Cloud vendor agreements lack SOC 2 Type II and breach notification clauses</td><td>&sect;4(k)</td><td><span class="diff-risk risk-med" style="display:inline-block">MEDIUM</span></td></tr>
+      </tbody>
+    </table>
+
+    <div style="font-size:0.8rem;color:#8b949e;margin-bottom:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em">Prioritized Remediation Actions</div>
+    <ul class="action-list">
+      <li class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-text">Update Records Management Policy &sect;3.2 &mdash; extend electronic communication retention from 3 to 5 years. Apply retroactively to all records in the 3&ndash;5 year window.<div class="action-deadline">Owner: Compliance &amp; Legal &nbsp;&middot;&nbsp; Deadline: 90 days &nbsp;&middot;&nbsp; Ref: &sect;4(b)(1)</div></div>
+      </li>
+      <li class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-text">Deploy WORM-format audit logging for all electronic record access. Integrate with IAM to capture user identity, timestamp, action, and IP address. Log retention = 5 years.<div class="action-deadline">Owner: IT Security &amp; Infrastructure &nbsp;&middot;&nbsp; Deadline: 120 days &nbsp;&middot;&nbsp; Ref: &sect;4(f)(2)</div></div>
+      </li>
+      <li class="action-item">
+        <div class="action-num" style="background:#d29922">3</div>
+        <div class="action-text">Audit all cloud storage vendor agreements. Obtain SOC 2 Type II certs. Update contracts: AES-256, TLS 1.3, 24-hour breach notification, data sovereignty clauses.<div class="action-deadline">Owner: Vendor Management &amp; Legal &nbsp;&middot;&nbsp; Deadline: 60 days &nbsp;&middot;&nbsp; Ref: &sect;4(k)</div></div>
+      </li>
+      <li class="action-item">
+        <div class="action-num" style="background:#8b949e">4</div>
+        <div class="action-text">Schedule mandatory annual third-party audit of electronic record systems. File audit report with FINRA within 60 days of completion. Retain report for 5 years.<div class="action-deadline">Owner: Compliance &nbsp;&middot;&nbsp; Deadline: 180 days &nbsp;&middot;&nbsp; Ref: &sect;4(d)(2)</div></div>
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+<hr class="divider">
+
+<div id="about">
+  <div class="section-label">Project Info</div>
+  <h2 class="section-title">About DocuMind</h2>
+  <p class="section-desc">CS 599 &mdash; Applications of Large Language Models &nbsp;&middot;&nbsp; Northern Arizona University</p>
+  <div class="rendered-grid">
+    <div class="card">
+      <div class="card-title">Tech Stack</div>
+      <div style="font-size:0.82rem;color:#c9d1d9;line-height:2.1">
+        Python 3.11 &middot; FastAPI 0.115<br>
+        ChromaDB 0.5 &middot; sentence-transformers<br>
+        OpenAI gpt-4o-mini &middot; Ollama (local LLM)<br>
+        all-MiniLM-L6-v2 (384-dim embeddings)<br>
+        SQLite &middot; Jinja2 YAML prompt templates
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Run This Project</div>
+      <div style="font-size:0.82rem;color:#c9d1d9;line-height:2.1">
+        <a href="https://github.com/dp2426-NAU/LLM-Project" style="color:#58a6ff;text-decoration:none">github.com/dp2426-NAU/LLM-Project</a><br>
+        SynapseIQ: <code style="background:#21262d;padding:0.1rem 0.3rem;border-radius:3px">src/synapseiq/</code><br>
+        RegDelta: <code style="background:#21262d;padding:0.1rem 0.3rem;border-radius:3px">src/regdelta/</code><br>
+        Start API: <code style="background:#21262d;padding:0.1rem 0.3rem;border-radius:3px">uvicorn src.api.main:app --reload</code>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  DocuMind &nbsp;&middot;&nbsp; CS 599 &middot; NAU &nbsp;&middot;&nbsp;
+  <a href="https://github.com/dp2426-NAU/LLM-Project">GitHub Repository</a>
+</footer>
+
+<script>
+function switchTab(e, module, tab) {
+  var prefix = module === 'syn' ? 'syn' : 'reg';
+  var section = document.getElementById(module === 'syn' ? 'synapseiq' : 'regdelta');
+  section.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+  section.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(prefix + '-' + tab).classList.add('active');
+  e.target.classList.add('active');
+}
+</script>
+</body>
+</html>
