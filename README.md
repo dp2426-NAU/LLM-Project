@@ -12,6 +12,8 @@
 
 *A unified enterprise AI platform implementing RAG pipelines and multi-agent LLM architectures for real-world document intelligence.*
 
+**[🔴 Live Demo Output](https://htmlpreview.github.io/?https://github.com/dp2426-NAU/LLM-Project/blob/main/docs/demo_output.html)** · **[📄 Project Proposal](docs/proposal.md)** · **[📚 Full Documentation](docs/documentation.md)** · **[📊 Presentation Slides](docs/presentation.md)**
+
 </div>
 
 ---
