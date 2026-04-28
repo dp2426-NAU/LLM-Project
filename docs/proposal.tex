@@ -1,0 +1,544 @@
+\documentclass[12pt,letterpaper]{article}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{listings}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+% ── Color Definitions ─────────────────────────────────────────────────────────
+\definecolor{navyblue}{RGB}{31,56,100}
+\definecolor{accentblue}{RGB}{46,116,181}
+\definecolor{accentgreen}{RGB}{35,134,54}
+\definecolor{accentorange}{RGB}{224,98,9}
+\definecolor{lightgray}{RGB}{245,247,250}
+\definecolor{codegray}{RGB}{100,110,120}
+\definecolor{linkblue}{RGB}{56,139,253}
+
+% ── Hyperref Setup ────────────────────────────────────────────────────────────
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accentblue,
+    urlcolor=linkblue,
+    citecolor=navyblue,
+    pdfauthor={CS 599 -- DocuMind Project},
+    pdftitle={DocuMind: A Multi-Module AI Platform for Regulatory Intelligence and Knowledge Synthesis},
+}
+
+% ── Section Formatting ────────────────────────────────────────────────────────
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{navyblue}}
+  {\thesection.}{0.6em}{}[\color{navyblue}\titlerule]
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{accentblue}}
+  {\thesubsection}{0.6em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{accentorange}}
+  {\thesubsubsection}{0.6em}{}
+
+% ── Header / Footer ───────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small\color{codegray}CS 599 -- Applications of Large Language Models}
+\lhead{\small\color{codegray}DocuMind Project Proposal}
+\rfoot{\small\thepage}
+\lfoot{\small\color{codegray}Northern Arizona University}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% ── Code Listing Style ────────────────────────────────────────────────────────
+\lstset{
+  backgroundcolor=\color{lightgray},
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{navyblue}\bfseries,
+  commentstyle=\color{codegray}\itshape,
+  stringstyle=\color{accentblue},
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{lightgray!60!black},
+  framesep=4pt,
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+}
+
+% ── Table Column Types ────────────────────────────────────────────────────────
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── TITLE PAGE ────────────────────────────────────────────────────────────────
+\begin{titlepage}
+  \centering
+  \vspace*{2.5cm}
+
+  {\Huge\bfseries\color{navyblue} DocuMind\par}
+  \vspace{0.6cm}
+  {\Large\bfseries\color{accentblue}
+    Production-Grade LLM Intelligence Platform \\
+    for Regulatory Analysis and Knowledge Synthesis\par}
+  \vspace{1.2cm}
+
+  \noindent\rule{\textwidth}{1.5pt}
+  \vspace{0.4cm}
+
+  {\large\itshape
+    Regulatory Change Analysis $\cdot$
+    Multi-Agent Knowledge Synthesis $\cdot$
+    Retrieval-Augmented Generation\par}
+  \vspace{0.4cm}
+  \noindent\rule{\textwidth}{0.4pt}
+
+  \vspace{1.8cm}
+
+  \begin{tabular}{rl}
+    \textbf{Course:}      & CS 599 --- Contemporary Developments: Applications of LLMs \\[4pt]
+    \textbf{Institution:} & Northern Arizona University \\[4pt]
+    \textbf{Department:}  & Department of Computer Science \\[4pt]
+    \textbf{Modules:}     & RegDelta $|$ SynapseIQ \\[4pt]
+    \textbf{Repository:}  &
+      \href{https://github.com/dp2426-NAU/LLM-Project}
+           {\texttt{github.com/dp2426-NAU/LLM-Project}} \\
+  \end{tabular}
+
+  \vfill
+  {\small\color{codegray} Version 1.0 $\cdot$ 2026}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Abstract}
+% ─────────────────────────────────────────────────────────────────────────────
+
+Organizations operating in regulated industries generate and consume enormous volumes of
+structured and unstructured documents daily. Two critical knowledge-work bottlenecks remain
+unsolved at enterprise scale: (1) compliance teams cannot efficiently propagate regulatory
+amendments across internal policy inventories, and (2) knowledge workers lack automated
+tools that synthesize multi-document corpora into rigorously evaluated artifacts.
+
+This project presents \textbf{DocuMind}, a production-grade AI platform comprising two
+complementary modules --- \textbf{RegDelta} and \textbf{SynapseIQ} --- both built on
+Retrieval-Augmented Generation (RAG) and Large Language Model (LLM) inference.
+RegDelta detects section-level regulatory changes, retrieves semantically matched internal
+policies from a vector store, and generates risk-classified impact reports via an LLM
+pipeline. SynapseIQ implements a four-agent sequential architecture
+(Researcher $\to$ Critic $\to$ Synthesizer $\to$ Validator) that produces self-evaluated
+knowledge syntheses with composite quality scoring.
+
+Both modules are deployed as production FastAPI services with ChromaDB vector stores,
+SQLite analytics databases, and Docker containerization. The platform demonstrates that
+LLMs, when combined with retrieval grounding and multi-agent oversight, can significantly
+reduce manual knowledge-work overhead in regulated domains.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Problem Statement}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Regulatory Change Propagation}
+
+When regulatory bodies such as the SEC, FINRA, or Basel Committee amend rules, compliance
+teams at financial and healthcare institutions must manually cross-reference hundreds of
+internal policy documents to identify what requires updating. This process typically
+requires \textbf{2--4 weeks} per major amendment, is highly error-prone under deadline
+pressure, and produces no systematic audit trail linking identified policy gaps to specific
+changed regulatory clauses. The problem scales linearly with the size of both the
+regulation corpus and the organization's internal policy inventory.
+
+\subsection{Research and Knowledge Synthesis at Scale}
+
+Analysts, legal professionals, and researchers spend the majority of their cognitive effort
+reading, extracting, and manually integrating information from heterogeneous document
+corpora into coherent reports. Existing LLM-based tools --- document summarizers and Q\&A
+chatbots --- retrieve relevant text but do not:
+\begin{itemize}[leftmargin=1.5em]
+  \item Reason about logical gaps and contradictions across multiple sources
+  \item Apply structured critique before producing a final synthesis
+  \item Self-evaluate output quality before delivery to a decision-maker
+  \item Maintain a traceable reasoning chain from raw source documents to the final artifact
+\end{itemize}
+
+\subsection{Limitations of Existing Approaches}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{L{4.5cm} L{9.5cm}}
+\toprule
+\textbf{Approach} & \textbf{Limitation} \\
+\midrule
+Simple RAG chatbots        & Returns raw chunks; no synthesized analysis; no quality gate \\
+Document summarizers       & Single-document scope; no cross-document reasoning \\
+Manual compliance review   & Non-scalable; no systematic gap detection; no audit trail \\
+Generic LLM API calls      & No domain retrieval; hallucination risk without grounding \\
+Rule-based diff tools      & No semantic understanding of regulatory significance \\
+\bottomrule
+\end{tabular}
+\caption{Limitations of existing document intelligence approaches}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Objectives}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Module I --- RegDelta}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{C{0.6cm} L{4.5cm} L{8.4cm}}
+\toprule
+\textbf{ID} & \textbf{Objective} & \textbf{Success Criterion} \\
+\midrule
+M1 & Section-level change detection   & ADDED/MODIFIED/REMOVED classification with similarity score \\
+M2 & Semantic policy impact retrieval & Retrieve policies with cosine similarity $\geq 0.35$ \\
+M3 & LLM-generated impact report      & JSON: risk\_level, executive\_summary, recommended\_actions \\
+M4 & Version registry                 & SQLite tracks all regulation versions and reports with metadata \\
+M5 & Production REST API              & FastAPI endpoints with OpenAPI docs, Pydantic validation, health check \\
+\bottomrule
+\end{tabular}
+\caption{RegDelta module objectives and success criteria}
+\end{table}
+
+\subsection{Module II --- SynapseIQ}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{C{0.6cm} L{4.5cm} L{8.4cm}}
+\toprule
+\textbf{ID} & \textbf{Objective} & \textbf{Success Criterion} \\
+\midrule
+S1 & 4-agent sequential pipeline  & Researcher$\to$Critic$\to$Synthesizer$\to$Validator with shared \texttt{AgentContext} \\
+S2 & Self-evaluating output       & Composite score computed; PASS/CONDITIONAL\_PASS/FAIL verdict issued \\
+S3 & Format-adaptive synthesis    & brief ($\sim$300w), standard ($\sim$800w), detailed ($\sim$2000w) modes \\
+S4 & Agent observability          & Per-agent token count, latency, success recorded per session \\
+S5 & Cost-bounded inference       & Per-agent token budgets enforced; USD cost tracked per query \\
+\bottomrule
+\end{tabular}
+\caption{SynapseIQ module objectives and success criteria}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Methodology}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{Retrieval-Augmented Generation (RAG)}
+
+Both modules ground all LLM inference in retrieved document evidence rather than relying on
+parametric knowledge. The RAG pipeline operates in two phases:
+
+\subsubsection*{Offline Indexing}
+Raw documents (PDF, TXT, Markdown) are parsed, cleaned, and split into overlapping
+fixed-size chunks (512--800 tokens, 50--100 token overlap). Each chunk is embedded using
+\texttt{sentence-transformers/all-MiniLM-L6-v2} (384-dimensional, L2-normalized dense
+vectors) and upserted into ChromaDB with SHA-256-based document IDs for idempotent
+re-ingestion.
+
+\subsubsection*{Online Retrieval}
+At query time, the user's query is embedded with the same model and passed to ChromaDB's
+HNSW index for approximate nearest-neighbor (ANN) search. The top-$K$ chunks above a
+minimum relevance threshold are returned as the LLM grounding context.
+
+\subsection{Section-Level Differential Analysis (RegDelta)}
+
+RegDelta implements a domain-specific diff engine at heading-level document granularity.
+Documents are parsed using a compiled regex matching standard regulatory heading conventions
+(\texttt{Section}, \texttt{Article}, \texttt{Rule}, \texttt{\S} prefixes). Python's
+\texttt{difflib.SequenceMatcher} computes a similarity ratio in $[0, 1]$ for each matched
+section pair. Sections are classified as \texttt{ADDED}, \texttt{REMOVED}, or
+\texttt{MODIFIED}, and sorted by ascending similarity to surface the most significant
+changes first.
+
+\subsection{Multi-Agent Sequential Architecture (SynapseIQ)}
+
+SynapseIQ implements a four-stage sequential agent pipeline, all sharing an
+\texttt{AgentContext} dataclass that acts as a mutable state graph:
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{ResearcherAgent} --- Extracts structured findings, key concepts, and
+        evidence gaps from retrieved chunks. YAML+Jinja2 prompt. Budget: 1,200 tokens.
+
+  \item \textbf{CriticAgent} --- Identifies logical gaps, unsupported claims, and bias
+        signals. Outputs structured JSON critique. Budget: 800 tokens.
+
+  \item \textbf{SynthesizerAgent} --- Integrates findings and critique into a
+        format-appropriate knowledge artifact (brief/standard/detailed).
+        Budget: 1,800 tokens.
+
+  \item \textbf{ValidatorAgent} --- Scores synthesis on four dimensions (coherence,
+        relevance, factuality, completeness); issues a verdict. Budget: 600 tokens.
+\end{enumerate}
+
+All agents inherit from \texttt{BaseAgent}, which provides \texttt{\_timed\_llm\_call()}
+(returns content, token count, and latency) and \texttt{\_safe\_run()} (with retry logic
+and graceful degradation on failure).
+
+\subsection{Evaluation Framework}
+
+\subsubsection*{RegDelta}
+Risk-level classification (\texttt{LOW}, \texttt{MEDIUM}, \texttt{HIGH}, \texttt{CRITICAL})
+is determined by the LLM based on regulatory significance and affected policy count.
+
+\subsubsection*{SynapseIQ}
+A weighted composite evaluation score is computed before response delivery:
+
+\begin{equation}
+  \text{Composite} = 0.30 \times \text{coherence} + 0.35 \times \text{relevance}
+                   + 0.25 \times \text{factuality} + 0.10 \times \text{completeness}
+\end{equation}
+
+Verdict thresholds:
+\[
+  \text{Verdict} =
+  \begin{cases}
+    \texttt{PASS}             & \text{if Composite} \geq 0.65 \\
+    \texttt{CONDITIONAL\_PASS} & \text{if } 0.45 \leq \text{Composite} < 0.65 \\
+    \texttt{FAIL}             & \text{if Composite} < 0.45
+  \end{cases}
+\]
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{System Architecture}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\subsection{High-Level Layered Design}
+
+\begin{lstlisting}[caption={DocuMind 5-layer system architecture}]
+CLIENT LAYER     HTTP / REST  |  Swagger UI  |  Python SDK  |  CI/CD
+       |
+API GATEWAY      FastAPI / Uvicorn ASGI  |  Pydantic  |  OpenAPI 3.0
+       |
+DOMAIN MODULES   RegDelta  (Diff Engine -> ImpactAnalyzer -> Report)
+                 SynapseIQ (Researcher -> Critic -> Synthesizer -> Validator)
+       |
+SHARED INFRA     ChromaDB  |  Embedding Engine  |  LLM Client  |  Config
+       |
+PERSISTENCE      SQLite (RegDelta versions + reports)
+                 SQLite (SynapseIQ sessions + agent traces)
+                 ChromaDB on-disk  |  OpenAI API / Ollama local
+\end{lstlisting}
+
+\subsection{RegDelta Data Flow}
+
+\begin{lstlisting}[caption={RegDelta request lifecycle}]
+POST /api/v1/analyze/delta
+  -> VersionTracker.get_latest_two()         [fetch old + new text from SQLite]
+  -> DiffEngine.compute_section_diffs()      [regex split + SequenceMatcher]
+  -> ImpactAnalyzer._annotate_sections()     [LLM: 1 call per section, <=10]
+  -> Retriever.retrieve_policies()           [ChromaDB ANN on policies collection]
+  -> LLMGenerator.generate_json()            [full ImpactReport JSON]
+  -> VersionTracker.save_report()            [persist to SQLite]
+  <- ImpactReport.to_dict()                  [JSON response]
+\end{lstlisting}
+
+\subsection{SynapseIQ Pipeline Flow}
+
+\begin{lstlisting}[caption={SynapseIQ multi-agent pipeline}]
+POST /api/v1/synthesize
+  -> CorpusStore.search(query, top_k=6)      [ChromaDB HNSW ANN search]
+  -> ResearcherAgent._safe_run(context)      [YAML prompt -> LLM -> findings]
+  -> CriticAgent._safe_run(context)          [YAML prompt -> LLM -> gaps]
+  -> SynthesizerAgent._safe_run(context)     [YAML prompt -> LLM -> artifact]
+  -> ValidatorAgent._safe_run(context)       [YAML prompt -> LLM -> scores]
+  -> PipelineEvaluator.evaluate(context)     [composite score + verdict]
+  -> PipelineTracer.end_session(...)         [SQLite analytics]
+  <- SynthesisResponse JSON
+\end{lstlisting}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Technologies Used}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{L{2.8cm} L{4.2cm} L{6.8cm}}
+\toprule
+\textbf{Category} & \textbf{Technology} & \textbf{Purpose} \\
+\midrule
+Language         & Python 3.11+           & Primary implementation language \\
+Web Framework    & FastAPI + Uvicorn      & ASGI REST API server \\
+LLM (cloud)      & OpenAI gpt-4o-mini     & Default inference backend \\
+LLM (local)      & Ollama llama3          & Zero-cost local inference alternative \\
+Vector Database  & ChromaDB 0.5           & Dense vector storage and ANN search \\
+Embedding Model  & all-MiniLM-L6-v2      & 384-dim sentence embeddings \\
+Persistence      & SQLite3                & Version tracking and session analytics \\
+Data Validation  & Pydantic v2            & Request/response models and settings \\
+Prompt System    & Jinja2 + YAML          & Versioned, hot-reloadable agent prompts \\
+Diff Engine      & difflib (stdlib)       & Section-level text comparison \\
+Containerization & Docker                 & Production deployment packaging \\
+Testing          & pytest                 & Unit, integration, evaluation tests \\
+\bottomrule
+\end{tabular}
+\caption{Technology stack for DocuMind}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Role of Large Language Models}
+% ─────────────────────────────────────────────────────────────────────────────
+
+LLMs serve as the \emph{reasoning core} of DocuMind. Critically, all LLM calls are supplied
+with retrieved document context from ChromaDB, ensuring factual grounding and preventing
+hallucination from parametric memory alone.
+
+\subsection{LLM Usage in RegDelta}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{L{3.5cm} C{1.5cm} L{3.5cm} L{4.5cm}}
+\toprule
+\textbf{Task} & \textbf{Calls} & \textbf{Input} & \textbf{Output} \\
+\midrule
+Section annotation    & $\leq$10 & Old + new text excerpt (400 chars each) & One-sentence significance note \\
+Impact report gen.    & 1        & Changed sections + matched policy excerpts & JSON: risk\_level, summary, actions \\
+\bottomrule
+\end{tabular}
+\caption{LLM calls in RegDelta per analysis request}
+\end{table}
+
+\subsection{LLM Usage in SynapseIQ}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{L{3.5cm} L{4.5cm} C{2cm} L{3.2cm}}
+\toprule
+\textbf{Agent} & \textbf{Task} & \textbf{Budget} & \textbf{Output Format} \\
+\midrule
+ResearcherAgent  & Extract findings from retrieved chunks & 1,200 tok & core\_findings, key\_concepts, evidence\_gaps \\
+CriticAgent      & Identify gaps, bias, unsupported claims & 800 tok   & Structured JSON critique \\
+SynthesizerAgent & Produce knowledge artifact             & 1,800 tok & Formatted document \\
+ValidatorAgent   & Score 4 dimensions; issue verdict      & 600 tok   & JSON scores + verdict \\
+\bottomrule
+\end{tabular}
+\caption{LLM calls in SynapseIQ per synthesis request (4 agents, 4 calls)}
+\end{table}
+
+\subsection{Prompt Engineering Strategy}
+
+SynapseIQ uses a YAML + Jinja2 prompt engineering system. Each agent's prompts are stored
+in versioned YAML files containing \texttt{version}, \texttt{system}, \texttt{user}
+(Jinja2 template), and \texttt{output\_schema} fields. The \texttt{PromptEngine} class
+loads all templates at server startup and supports hot-reload via
+\texttt{POST /api/v1/agents/prompts/reload}, enabling prompt iteration without restart.
+
+\subsection{Cost Control}
+
+Per-agent token budgets are enforced via \texttt{AGENT\_TOKEN\_BUDGETS} in
+\texttt{constants.py}. A \texttt{CostReport} (estimated USD) is included in every
+\texttt{/analytics} API response. Cost is estimated using:
+\[
+  \text{Cost} = \frac{T_\text{in} \times \$0.00015}{1000}
+              + \frac{T_\text{out} \times \$0.00060}{1000}
+  \quad \text{(gpt-4o-mini pricing)}
+\]
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Expected Outcomes}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{Automated regulatory compliance gap detection} --- RegDelta reduces manual
+        policy review time from weeks to minutes by automatically identifying which internal
+        policies are semantically affected by regulation amendments.
+
+  \item \textbf{Rigorous multi-source knowledge synthesis} --- SynapseIQ produces
+        quality-evaluated knowledge artifacts from multi-document corpora, with a traceable
+        agent reasoning chain and a self-issued quality verdict before delivery.
+
+  \item \textbf{Production-grade system design} --- Both modules demonstrate enterprise-
+        quality software engineering: typed Python, dependency injection, structured logging,
+        persistent storage, containerization, and comprehensive test coverage.
+
+  \item \textbf{Transferable RAG + multi-agent patterns} --- The dual-corpus RAG,
+        section-level diff, sequential agent state sharing, and YAML prompt management
+        patterns are domain-agnostic and transferable to legal, medical, and scientific
+        literature domains.
+
+  \item \textbf{Observable LLM inference} --- Per-session agent traces, token counts,
+        latency measurements, and cost estimates provide full observability into LLM usage,
+        enabling optimization and debugging.
+\end{enumerate}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Development Timeline}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{L{3.5cm} C{1.8cm} L{8.0cm}}
+\toprule
+\textbf{Phase} & \textbf{Duration} & \textbf{Deliverables} \\
+\midrule
+Phase 1 --- Infrastructure & Week 1 & ChromaDB, FastAPI skeleton, embedding pipeline, SQLite schema \\
+Phase 2 --- RegDelta Core  & Week 2 & DiffEngine, ImpactAnalyzer, VectorStore, VersionTracker, REST API \\
+Phase 3 --- SynapseIQ Core & Week 3 & All 4 agents, AgentContext, SynapseOrchestrator, PromptEngine \\
+Phase 4 --- Evaluation     & Week 4 & PipelineEvaluator, metrics, cost tracker, analytics endpoints \\
+Phase 5 --- Testing \& Docs & Week 5 & pytest suite (unit, integration, evaluation), README, proposal \\
+Phase 6 --- Finalization   & Week 6 & Docker, GitHub Actions CI, performance tuning, final documentation \\
+\bottomrule
+\end{tabular}
+\caption{Development timeline}
+\end{table}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{References}
+% ─────────────────────────────────────────────────────────────────────────────
+
+\begin{enumerate}[leftmargin=2em,label={[\arabic*]}]
+  \item Lewis, P., et al. (2020).
+        \textit{Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks}.
+        NeurIPS 2020. \href{https://arxiv.org/abs/2005.11401}{arXiv:2005.11401}.
+
+  \item Reimers, N., \& Gurevych, I. (2019).
+        \textit{Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks}.
+        EMNLP 2019. \href{https://arxiv.org/abs/1908.10084}{arXiv:1908.10084}.
+
+  \item OpenAI. (2024).
+        \textit{GPT-4o Technical Report}.
+        \href{https://openai.com/research/gpt-4o}{openai.com/research/gpt-4o}.
+
+  \item Chromadb. (2024).
+        \textit{ChromaDB: The AI-Native Open-Source Embedding Database}.
+        \href{https://github.com/chroma-core/chroma}{github.com/chroma-core/chroma}.
+
+  \item Yao, S., et al. (2023).
+        \textit{ReAct: Synergizing Reasoning and Acting in Language Models}.
+        ICLR 2023. \href{https://arxiv.org/abs/2210.03629}{arXiv:2210.03629}.
+
+  \item Wang, L., et al. (2024).
+        \textit{A Survey on Large Language Model based Autonomous Agents}.
+        \textit{Frontiers of Computer Science}.
+        \href{https://arxiv.org/abs/2308.11432}{arXiv:2308.11432}.
+
+  \item Peng, B., et al. (2023).
+        \textit{Check Your Facts and Try Again: Improving LLMs with External Knowledge and Automated Feedback}.
+        \href{https://arxiv.org/abs/2302.12813}{arXiv:2302.12813}.
+
+  \item Gao, Y., et al. (2024).
+        \textit{Retrieval-Augmented Generation for Large Language Models: A Survey}.
+        \href{https://arxiv.org/abs/2312.10997}{arXiv:2312.10997}.
+
+  \item Hu, E., et al. (2022).
+        \textit{LoRA: Low-Rank Adaptation of Large Language Models}.
+        ICLR 2022. \href{https://arxiv.org/abs/2106.09685}{arXiv:2106.09685}.
+
+  \item FastAPI. (2024).
+        \textit{FastAPI Framework Documentation}.
+        \href{https://fastapi.tiangolo.com}{fastapi.tiangolo.com}.
+\end{enumerate}
+
+\end{document}
