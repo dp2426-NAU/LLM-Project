@@ -1,761 +1,506 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DocuMind — Live Demo Output</title>
-  <style>
-    :root {
-      --bg: #0d1117; --bg2: #161b22; --bg3: #1c2128; --bg4: #21262d;
-      --border: #30363d; --text: #e6edf3; --text2: #c9d1d9; --muted: #8b949e; --dim: #6e7681;
-      --blue: #388bfd; --blue-dim: #1f6feb; --blue-bg: #0c2a4a;
-      --green: #3fb950; --green-dim: #238636; --green-bg: #0a1f0f;
-      --orange: #f0883e; --orange-dim: #e36209; --orange-bg: #2d1900;
-      --purple: #d2a8ff; --purple-dim: #8957e5; --purple-bg: #1f1040;
-      --red: #f85149; --red-bg: #2a0a09;
-      --yellow: #e3b341; --yellow-bg: #2a1f00;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      font-size: 14px; line-height: 1.6;
-    }
-    a { color: var(--blue); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DocuMind — Live Demo Output</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0d1117;color:#e6edf3;font-family:'Segoe UI',system-ui,Arial,sans-serif;line-height:1.6}
+a{color:#58a6ff;text-decoration:none}
+code{background:#21262d;padding:.1rem .4rem;border-radius:3px;font-family:'Consolas','Courier New',monospace;font-size:.85em}
 
-    /* HEADER */
-    header {
-      background: var(--bg2); border-bottom: 2px solid var(--border);
-      padding: 24px 40px; position: sticky; top: 0; z-index: 100;
-    }
-    header h1 { font-size: 22px; font-weight: 700; color: var(--text); }
-    header p { color: var(--muted); font-size: 13px; margin-top: 4px; }
-    .badge-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-    .badge {
-      font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px;
-      border: 1px solid;
-    }
-    .badge-blue { color: var(--blue); border-color: var(--blue-dim); background: var(--blue-bg); }
-    .badge-green { color: var(--green); border-color: var(--green-dim); background: var(--green-bg); }
-    .badge-orange { color: var(--orange); border-color: var(--orange-dim); background: var(--orange-bg); }
-    .badge-purple { color: var(--purple); border-color: var(--purple-dim); background: var(--purple-bg); }
+/* NAV */
+nav{background:#161b22;border-bottom:1px solid #30363d;padding:0 2rem;display:flex;align-items:center;gap:2rem;height:54px;position:sticky;top:0;z-index:100}
+.logo{font-weight:700;font-size:1.1rem;color:#58a6ff;margin-right:auto}
+nav a{color:#8b949e;font-size:.88rem;border-bottom:2px solid transparent;padding:.3rem 0;transition:color .15s,border-color .15s}
+nav a:hover{color:#e6edf3;border-bottom-color:#58a6ff}
 
-    /* LAYOUT */
-    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+/* HERO */
+.hero{text-align:center;padding:2.5rem 1.5rem 1.8rem;background:linear-gradient(180deg,#161b22 0%,#0d1117 100%);border-bottom:1px solid #30363d}
+.hero h1{font-size:2rem;font-weight:700}
+.hero p{color:#8b949e;margin-top:.4rem;font-size:.95rem}
+.badge-row{display:flex;gap:.5rem;justify-content:center;margin-top:.9rem;flex-wrap:wrap}
+.badge{background:#21262d;border:1px solid #30363d;border-radius:20px;padding:.2rem .7rem;font-size:.72rem;color:#8b949e}
+.badge.g{color:#3fb950;border-color:#3fb950}.badge.b{color:#58a6ff;border-color:#58a6ff}.badge.o{color:#d29922;border-color:#d29922}
 
-    /* TABS */
-    .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 28px; }
-    .tab {
-      padding: 10px 24px; cursor: pointer; font-size: 14px; font-weight: 600;
-      color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -2px;
-      transition: all 0.15s; border-radius: 6px 6px 0 0;
-    }
-    .tab:hover { color: var(--text); background: var(--bg3); }
-    .tab.active { color: var(--text); border-bottom-color: var(--blue); }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+/* TABS */
+.tab-nav{display:flex;border-bottom:1px solid #30363d;background:#161b22;padding:0 2rem}
+.tn{padding:.65rem 1.2rem;font-size:.88rem;cursor:pointer;border-bottom:2px solid transparent;color:#8b949e;transition:color .15s,border-color .15s;user-select:none}
+.tn.active{color:#e6edf3;border-bottom-color:#58a6ff}
+.tp{display:none;max-width:980px;margin:0 auto;padding:1.8rem 1.5rem 3rem}
+.tp.active{display:block}
 
-    /* ENDPOINT BAR */
-    .endpoint-bar {
-      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
-      padding: 12px 16px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
-    }
-    .method {
-      font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 4px;
-      background: var(--green-bg); color: var(--green); border: 1px solid var(--green-dim);
-    }
-    .method.post { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-dim); }
-    .method.get { background: var(--green-bg); color: var(--green); border-color: var(--green-dim); }
-    .url { font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace; font-size: 13px; color: var(--text2); }
+/* LAYOUT */
+.section-hdr{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#8b949e;margin-bottom:.6rem;margin-top:1.4rem}
+hr.div{border:none;border-top:1px solid #30363d;margin:2rem 0}
 
-    /* SECTION CARD */
-    .section { margin-bottom: 28px; }
-    .section-title {
-      font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-    }
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+/* VERDICT */
+.verdict{display:inline-flex;align-items:center;gap:.5rem;padding:.35rem .9rem;border-radius:20px;font-weight:700;font-size:.88rem;margin-bottom:1rem}
+.vpass{background:rgba(63,185,80,.15);color:#3fb950;border:1px solid #3fb950}
+.vhigh{background:rgba(248,81,73,.15);color:#f85149;border:1px solid #f85149}
 
-    /* CODE BLOCK */
-    .code-block {
-      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
-      overflow: hidden; margin-bottom: 12px;
-    }
-    .code-header {
-      background: var(--bg3); padding: 8px 16px; border-bottom: 1px solid var(--border);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .code-header .lang { font-size: 11px; color: var(--muted); font-weight: 600; }
-    .code-body {
-      padding: 16px; overflow-x: auto;
-      font-family: 'Cascadia Code', 'Fira Code', 'Courier New', monospace;
-      font-size: 12.5px; line-height: 1.7; color: var(--text2);
-      white-space: pre;
-    }
-    /* JSON syntax coloring */
-    .jk { color: #79c0ff; }   /* key */
-    .js { color: #a5d6ff; }   /* string value */
-    .jn { color: #f0883e; }   /* number */
-    .jb { color: #d2a8ff; }   /* bool/null */
-    .jp { color: var(--muted); } /* punctuation */
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+@media(max-width:620px){.g2{grid-template-columns:1fr}}
 
-    /* VERDICT BOX */
-    .verdict-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
-    .verdict-box {
-      flex: 1; min-width: 180px; border-radius: 10px; padding: 16px 20px;
-      border: 2px solid;
-    }
-    .verdict-pass { background: var(--green-bg); border-color: var(--green-dim); }
-    .verdict-fail { background: var(--red-bg); border-color: #6e1a17; }
-    .verdict-cond { background: var(--yellow-bg); border-color: #5e4108; }
-    .verdict-box .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
-    .verdict-pass .label { color: var(--green); }
-    .verdict-fail .label { color: var(--red); }
-    .verdict-cond .label { color: var(--yellow); }
-    .verdict-box .value { font-size: 24px; font-weight: 700; margin: 4px 0; color: var(--text); }
-    .verdict-box .sub { font-size: 11px; color: var(--muted); }
+/* CARDS */
+.card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.1rem 1.2rem}
+.card-ttl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e;margin-bottom:.8rem}
 
-    /* SCORE BARS */
-    .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .score-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
-    .score-name { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
-    .score-val { font-size: 20px; font-weight: 700; color: var(--text); margin: 4px 0; }
-    .score-bar-bg { background: var(--bg4); border-radius: 4px; height: 6px; margin-top: 6px; }
-    .score-bar { height: 6px; border-radius: 4px; }
-    .bar-blue { background: var(--blue-dim); }
-    .bar-green { background: var(--green-dim); }
-    .bar-purple { background: var(--purple-dim); }
-    .bar-orange { background: var(--orange-dim); }
-    .score-weight { font-size: 10px; color: var(--dim); }
+/* SCORES */
+.sr{display:flex;align-items:center;gap:.7rem;margin-bottom:.5rem}
+.sl{font-size:.78rem;color:#8b949e;width:130px;flex-shrink:0}
+.bw{flex:1;background:#21262d;border-radius:4px;height:7px;overflow:hidden}
+.b{height:100%;border-radius:4px}
+.sv{font-size:.78rem;color:#e6edf3;width:34px;text-align:right;flex-shrink:0}
 
-    /* AGENT TRACE */
-    .agent-row {
-      display: flex; gap: 12px; align-items: flex-start;
-      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
-      padding: 12px 16px; margin-bottom: 8px;
-    }
-    .agent-icon {
-      width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center;
-      justify-content: center; font-size: 14px; flex-shrink: 0; font-weight: 700;
-    }
-    .agent-res { background: #0c2a4a; color: var(--blue); }
-    .agent-cri { background: var(--orange-bg); color: var(--orange); }
-    .agent-syn { background: var(--green-bg); color: var(--green); }
-    .agent-val { background: var(--purple-bg); color: var(--purple); }
-    .agent-info { flex: 1; }
-    .agent-name { font-weight: 700; font-size: 13px; color: var(--text); }
-    .agent-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
-    .agent-chips { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
-    .chip {
-      font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px;
-      border: 1px solid;
-    }
-    .chip-tok { color: var(--blue); border-color: var(--blue-dim); background: var(--blue-bg); }
-    .chip-ms { color: var(--green); border-color: var(--green-dim); background: var(--green-bg); }
-    .chip-ok { color: var(--green); border-color: var(--green-dim); background: var(--green-bg); }
+/* STATS */
+.stats{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:1rem}
+.stat{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:.7rem 1rem;flex:1;min-width:90px}
+.sv2{font-size:1.4rem;font-weight:700;color:#e6edf3}
+.sl2{font-size:.68rem;color:#8b949e;margin-top:.1rem}
 
-    /* RISK PILL */
-    .risk-pill {
-      display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 14px;
-      border-radius: 12px; border: 2px solid;
-    }
-    .risk-high { color: var(--orange); border-color: var(--orange-dim); background: var(--orange-bg); }
-    .risk-med { color: var(--yellow); border-color: #5e4108; background: var(--yellow-bg); }
-    .risk-low { color: var(--green); border-color: var(--green-dim); background: var(--green-bg); }
-    .risk-crit { color: var(--red); border-color: #6e1a17; background: var(--red-bg); }
+/* COST PILLS */
+.cprow{display:flex;gap:.7rem;flex-wrap:wrap;margin-bottom:.8rem}
+.cp{background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.55rem .9rem;flex:1;min-width:100px}
+.cv{font-size:1rem;font-weight:700;color:#3fb950}
+.cl{font-size:.68rem;color:#8b949e;margin-top:.1rem}
 
-    /* SECTION DIFF */
-    .diff-card {
-      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
-      margin-bottom: 10px; overflow: hidden;
-    }
-    .diff-header { padding: 10px 16px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid var(--border); }
-    .diff-type {
-      font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
-    }
-    .diff-modified { background: var(--yellow-bg); color: var(--yellow); border: 1px solid #5e4108; }
-    .diff-added { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-dim); }
-    .diff-removed { background: var(--red-bg); color: var(--red); border: 1px solid #6e1a17; }
-    .diff-title { font-size: 12px; font-weight: 600; color: var(--text2); }
-    .diff-sim { font-size: 11px; color: var(--muted); margin-left: auto; }
-    .diff-body { padding: 10px 16px; font-size: 12px; color: var(--muted); }
+/* AGENT TRACE */
+.trace{border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.trace-h{background:#21262d;padding:.55rem 1rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8b949e}
+.tr{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem 1rem;border-bottom:1px solid #21262d;flex-wrap:wrap}
+.tr:last-child{border-bottom:none}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.tn2{font-weight:600;font-size:.85rem;color:#e6edf3;width:105px;flex-shrink:0}
+.tbadge{font-size:.68rem;padding:.1rem .5rem;border-radius:10px;font-weight:600;background:rgba(63,185,80,.15);color:#3fb950;flex-shrink:0;margin-top:2px}
+.ta{font-size:.77rem;color:#8b949e;flex:1;min-width:0}
+.tm{font-family:'Consolas',monospace;font-size:.7rem;color:#8b949e;display:flex;gap:.9rem;flex-shrink:0;margin-top:2px}
+.tm span{display:flex;flex-direction:column;align-items:flex-end}
+.tm b{color:#e6edf3;font-size:.77rem}
 
-    /* POLICY TABLE */
-    table { width: 100%; border-collapse: collapse; border-radius: 8px; overflow: hidden; }
-    th {
-      background: var(--bg4); padding: 8px 14px; text-align: left;
-      font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase;
-      letter-spacing: 0.08em; border-bottom: 1px solid var(--border);
-    }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); font-size: 12px; color: var(--text2); }
-    tr:last-child td { border-bottom: none; }
-    tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+/* SYNTHESIS */
+.synbox{background:#161b22;border-left:3px solid #58a6ff;border-radius:0 6px 6px 0;padding:1rem 1.2rem;font-size:.86rem;color:#c9d1d9;line-height:1.85;margin-bottom:1rem;white-space:pre-wrap}
 
-    /* INFO GRID */
-    .info-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 20px; }
-    .info-card {
-      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
-      padding: 14px 16px; text-align: center;
-    }
-    .info-card .num { font-size: 28px; font-weight: 700; color: var(--text); }
-    .info-card .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+/* CHUNKS */
+.chunk{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:.65rem .9rem;margin-bottom:.5rem}
+.cm{font-family:'Consolas',monospace;font-size:.68rem;color:#58a6ff;margin-bottom:.3rem}
+.ct{font-size:.77rem;color:#8b949e;line-height:1.6}
 
-    /* CALLOUT */
-    .callout {
-      border-left: 4px solid; border-radius: 0 8px 8px 0;
-      padding: 12px 16px; margin-bottom: 16px; font-size: 13px;
-    }
-    .callout-blue { border-color: var(--blue-dim); background: var(--blue-bg); color: var(--blue); }
-    .callout-green { border-color: var(--green-dim); background: var(--green-bg); color: var(--green); }
-    .callout-orange { border-color: var(--orange-dim); background: var(--orange-bg); color: var(--orange); }
+/* DIFF CARDS */
+.dc{border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:.7rem}
+.dh{display:flex;align-items:center;gap:.65rem;padding:.55rem 1rem;border-bottom:1px solid #30363d;flex-wrap:wrap}
+.dtag{font-size:.68rem;font-weight:700;padding:.1rem .55rem;border-radius:10px;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0}
+.added{background:rgba(63,185,80,.2);color:#3fb950}
+.modified{background:rgba(210,153,34,.2);color:#d29922}
+.removed{background:rgba(248,81,73,.2);color:#f85149}
+.dsec{font-size:.82rem;font-weight:600;color:#e6edf3;flex:1}
+.drisk{font-size:.68rem;padding:.1rem .45rem;border-radius:8px;flex-shrink:0}
+.rh{background:rgba(248,81,73,.2);color:#f85149}
+.rm{background:rgba(210,153,34,.2);color:#d29922}
+.rl{background:rgba(63,185,80,.2);color:#3fb950}
+.db{padding:.75rem 1rem}
+.dold{background:rgba(248,81,73,.07);border-left:3px solid #f85149;padding:.45rem .75rem;font-size:.75rem;color:#8b949e;margin-bottom:.35rem;border-radius:0 4px 4px 0;font-family:'Consolas',monospace}
+.dnew{background:rgba(63,185,80,.07);border-left:3px solid #3fb950;padding:.45rem .75rem;font-size:.75rem;color:#c9d1d9;border-radius:0 4px 4px 0;font-family:'Consolas',monospace}
+.da{margin-top:.6rem;font-size:.77rem;color:#8b949e}
+.da strong{color:#e6edf3}
 
-    /* FOOTER */
-    footer {
-      text-align: center; padding: 24px; color: var(--dim); font-size: 12px;
-      border-top: 1px solid var(--border); margin-top: 40px;
-    }
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:.8rem;border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:1rem}
+th{background:#21262d;padding:.55rem .9rem;text-align:left;color:#8b949e;font-weight:600;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em}
+td{padding:.62rem .9rem;border-bottom:1px solid #21262d;color:#c9d1d9;vertical-align:top}
+tr:last-child td{border-bottom:none}
 
-    @media (max-width: 700px) {
-      .score-grid { grid-template-columns: 1fr; }
-      .info-grid { grid-template-columns: 1fr 1fr; }
-      header { padding: 16px 16px; }
-      .container { padding: 20px 12px; }
-    }
-  </style>
+/* ACTIONS */
+.ai{display:flex;gap:.7rem;background:#161b22;border:1px solid #30363d;border-radius:6px;padding:.75rem 1rem;align-items:flex-start;margin-bottom:.5rem}
+.an{color:#0d1117;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.at{font-size:.81rem;color:#c9d1d9;line-height:1.5}
+.ad{font-size:.7rem;color:#8b949e;margin-top:.2rem}
+
+/* CURL */
+.curl{background:#161b22;border:1px solid #30363d;border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.curl-h{background:#21262d;padding:.45rem 1rem;font-size:.72rem;color:#8b949e;display:flex;justify-content:space-between}
+.curl-h .method{color:#3fb950;font-weight:600}
+.curl-b{padding:.85rem 1rem;font-family:'Consolas','Courier New',monospace;font-size:.77rem;color:#79c0ff;white-space:pre;overflow-x:auto}
+
+/* NOTE BOX */
+.note{background:rgba(31,111,235,.1);border:1px solid rgba(31,111,235,.3);border-radius:8px;padding:.8rem 1rem;font-size:.82rem;color:#79c0ff;margin-bottom:1.4rem}
+
+footer{text-align:center;padding:2rem;color:#8b949e;font-size:.78rem;border-top:1px solid #30363d}
+</style>
 </head>
 <body>
 
-<header>
-  <h1>DocuMind — Live API Demo Output</h1>
-  <p>CS 599 · Applications of Large Language Models · Northern Arizona University</p>
+<nav>
+  <span class="logo">DocuMind</span>
+  <a href="#syn">SynapseIQ Output</a>
+  <a href="#reg">RegDelta Output</a>
+  <a href="#about">About</a>
+</nav>
+
+<div class="hero">
+  <h1>DocuMind &mdash; Expected Project Output</h1>
+  <p>Exact API responses, agent traces, diff analysis &amp; remediation plans when you run DocuMind</p>
   <div class="badge-row">
-    <span class="badge badge-blue">Python 3.11</span>
-    <span class="badge badge-blue">FastAPI</span>
-    <span class="badge badge-green">ChromaDB</span>
-    <span class="badge badge-green">sentence-transformers</span>
-    <span class="badge badge-orange">OpenAI gpt-4o-mini</span>
-    <span class="badge badge-purple">Multi-Agent RAG</span>
+    <span class="badge g">SynapseIQ &mdash; Multi-Agent RAG</span>
+    <span class="badge b">RegDelta &mdash; Regulatory Diff Engine</span>
+    <span class="badge o">CS 599 &middot; Northern Arizona University</span>
   </div>
-</header>
+</div>
 
-<div class="container">
+<div class="tab-nav">
+  <div class="tn active" onclick="tab('syn',this)">SynapseIQ Output</div>
+  <div class="tn" onclick="tab('reg',this)">RegDelta Output</div>
+  <div class="tn" onclick="tab('about',this)">About</div>
+</div>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <div class="tab active" onclick="showTab('synapseiq')">Module II — SynapseIQ Synthesis</div>
-    <div class="tab" onclick="showTab('regdelta')">Module I — RegDelta Impact Analysis</div>
-    <div class="tab" onclick="showTab('about')">About This Demo</div>
+<!-- ═══════════════════════════ SynapseIQ ═══════════════════════════ -->
+<div class="tp active" id="tp-syn">
+
+  <div class="note">
+    This is the <strong>actual JSON response</strong> returned by <code>POST /api/v1/synthesize</code> when you ask:
+    <em>"Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency"</em>
   </div>
 
-  <!-- ===================== TAB: SYNAPSEIQ ===================== -->
-  <div id="tab-synapseiq" class="tab-content active">
+  <div class="curl">
+    <div class="curl-h"><span><span class="method">POST</span> &nbsp;/api/v1/synthesize</span><span>curl command</span></div>
+    <div class="curl-b">curl -X POST https://documind.onrender.com/api/v1/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency",
+    "max_chunks": 4
+  }'</div>
+  </div>
 
-    <div class="endpoint-bar">
-      <span class="method post">POST</span>
-      <span class="url">http://localhost:8000/api/v1/synthesize</span>
+  <span class="verdict vpass">&#10003; PASS &nbsp;&mdash;&nbsp; Composite Score: 0.868</span>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">Evaluation Scores (Validator Agent)</div>
+      <div class="sr"><span class="sl">Relevance (35%)</span><div class="bw"><div class="b" style="width:89%;background:#3fb950"></div></div><span class="sv">0.89</span></div>
+      <div class="sr"><span class="sl">Coherence (30%)</span><div class="bw"><div class="b" style="width:91%;background:#58a6ff"></div></div><span class="sv">0.91</span></div>
+      <div class="sr"><span class="sl">Factuality (25%)</span><div class="bw"><div class="b" style="width:83%;background:#a371f7"></div></div><span class="sv">0.83</span></div>
+      <div class="sr"><span class="sl">Completeness (10%)</span><div class="bw"><div class="b" style="width:82%;background:#d29922"></div></div><span class="sv">0.82</span></div>
+      <div style="margin-top:.7rem;font-size:.72rem;color:#8b949e">Formula: (0.89&times;0.35) + (0.91&times;0.30) + (0.83&times;0.25) + (0.82&times;0.10) = <strong style="color:#3fb950">0.868</strong></div>
     </div>
-
-    <div class="section">
-      <div class="section-title">Request Body</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">JSON</span></div>
-        <div class="code-body"><span class="jp">{</span>
-  <span class="jk">"query"</span><span class="jp">:</span>        <span class="js">"Compare LoRA and full fine-tuning approaches for adapting large language models"</span><span class="jp">,</span>
-  <span class="jk">"output_format"</span><span class="jp">:</span> <span class="js">"standard"</span><span class="jp">,</span>
-  <span class="jk">"citation_style"</span><span class="jp">:</span><span class="js">"inline"</span>
-<span class="jp">}</span></div>
+    <div class="card">
+      <div class="card-ttl">Token Usage &amp; Cost</div>
+      <div class="cprow">
+        <div class="cp"><div class="cv">3,510</div><div class="cl">Total Tokens</div></div>
+        <div class="cp"><div class="cv" style="color:#58a6ff">$0.00083</div><div class="cl">API Cost</div></div>
+        <div class="cp"><div class="cv" style="color:#e6edf3;font-size:.9rem">4.23s</div><div class="cl">Total Time</div></div>
       </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Pipeline Summary</div>
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="num" style="color:var(--blue)">4</div>
-          <div class="lbl">Agents Completed</div>
-        </div>
-        <div class="info-card">
-          <div class="num" style="color:var(--orange)">3,180</div>
-          <div class="lbl">Total Tokens</div>
-        </div>
-        <div class="info-card">
-          <div class="num" style="color:var(--green)">7.2s</div>
-          <div class="lbl">Elapsed Time</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Quality Evaluation Scorecard</div>
-      <div class="verdict-row">
-        <div class="verdict-box verdict-pass">
-          <div class="label">Verdict</div>
-          <div class="value">PASS</div>
-          <div class="sub">Composite ≥ 0.65 threshold met</div>
-        </div>
-        <div class="verdict-box" style="background:var(--bg3); border-color:var(--border);">
-          <div class="label" style="color:var(--muted)">Composite Score</div>
-          <div class="value" style="color:var(--green)">0.848</div>
-          <div class="sub">Weighted average across 4 dimensions</div>
-        </div>
-        <div class="verdict-box" style="background:var(--bg3); border-color:var(--border);">
-          <div class="label" style="color:var(--muted)">Est. Cost</div>
-          <div class="value" style="color:var(--blue)">$0.0052</div>
-          <div class="sub">gpt-4o-mini · 3,180 tokens</div>
-        </div>
-      </div>
-
-      <div class="score-grid">
-        <div class="score-item">
-          <div class="score-name">Coherence</div>
-          <div class="score-val">0.84</div>
-          <div class="score-weight">weight: 0.30 · contribution: 0.252</div>
-          <div class="score-bar-bg"><div class="score-bar bar-blue" style="width:84%"></div></div>
-        </div>
-        <div class="score-item">
-          <div class="score-name">Relevance</div>
-          <div class="score-val">0.91</div>
-          <div class="score-weight">weight: 0.35 · contribution: 0.319</div>
-          <div class="score-bar-bg"><div class="score-bar bar-green" style="width:91%"></div></div>
-        </div>
-        <div class="score-item">
-          <div class="score-name">Factuality</div>
-          <div class="score-val">0.78</div>
-          <div class="score-weight">weight: 0.25 · contribution: 0.195</div>
-          <div class="score-bar-bg"><div class="score-bar bar-orange" style="width:78%"></div></div>
-        </div>
-        <div class="score-item">
-          <div class="score-name">Completeness</div>
-          <div class="score-val">0.82</div>
-          <div class="score-weight">weight: 0.10 · contribution: 0.082</div>
-          <div class="score-bar-bg"><div class="score-bar bar-purple" style="width:82%"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Agent Execution Trace</div>
-      <div class="agent-row">
-        <div class="agent-icon agent-res">R</div>
-        <div class="agent-info">
-          <div class="agent-name">ResearcherAgent</div>
-          <div class="agent-meta">researcher.yaml v1.2 · Retrieved 6 chunks (top: 0.91, 0.87, 0.84)</div>
-          <div class="agent-chips">
-            <span class="chip chip-tok">847 tokens</span>
-            <span class="chip chip-ms">1,840 ms</span>
-            <span class="chip chip-ok">✓ success</span>
-          </div>
-        </div>
-      </div>
-      <div class="agent-row">
-        <div class="agent-icon agent-cri">C</div>
-        <div class="agent-info">
-          <div class="agent-name">CriticAgent</div>
-          <div class="agent-meta">critic.yaml v1.1 · Identified 2 evidence gaps, 0 fabrication flags</div>
-          <div class="agent-chips">
-            <span class="chip chip-tok">612 tokens</span>
-            <span class="chip chip-ms">1,320 ms</span>
-            <span class="chip chip-ok">✓ success</span>
-          </div>
-        </div>
-      </div>
-      <div class="agent-row">
-        <div class="agent-icon agent-syn">S</div>
-        <div class="agent-info">
-          <div class="agent-name">SynthesizerAgent</div>
-          <div class="agent-meta">synthesizer.yaml v1.3 · format=standard · ~820 words generated</div>
-          <div class="agent-chips">
-            <span class="chip chip-tok">1,284 tokens</span>
-            <span class="chip chip-ms">2,940 ms</span>
-            <span class="chip chip-ok">✓ success</span>
-          </div>
-        </div>
-      </div>
-      <div class="agent-row">
-        <div class="agent-icon agent-val">V</div>
-        <div class="agent-info">
-          <div class="agent-name">ValidatorAgent</div>
-          <div class="agent-meta">validator.yaml v1.0 · composite=0.848 · verdict=PASS</div>
-          <div class="agent-chips">
-            <span class="chip chip-tok">437 tokens</span>
-            <span class="chip chip-ms">1,100 ms</span>
-            <span class="chip chip-ok">✓ success</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Synthesized Knowledge Artifact (abbreviated)</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">TEXT — standard format (~820 words)</span></div>
-        <div class="code-body" style="white-space:pre-wrap; color:var(--text2); font-family:'Segoe UI',sans-serif; font-size:13px; line-height:1.7;"><strong style="color:var(--text)">ABSTRACT</strong>
-
-LoRA (Low-Rank Adaptation) and full fine-tuning represent two contrasting strategies for
-adapting pretrained large language models to downstream tasks. Full fine-tuning updates all
-model parameters, offering maximal expressiveness at the cost of computational overhead and
-storage requirements proportional to model size. LoRA constrains updates to low-rank
-decomposition matrices injected into specific weight layers, reducing trainable parameters
-by orders of magnitude while preserving competitive task performance. [source: transformers_overview, chunk_3]
-
-<strong style="color:var(--text)">MAIN FINDINGS</strong>
-
-1. <strong>Parameter Efficiency:</strong> LoRA reduces trainable parameter count by approximately 10,000×
-   relative to full fine-tuning for models in the 7B–70B parameter range. A GPT-3-scale model
-   fine-tuned with LoRA (rank=4) requires ~4.7M trainable parameters vs. 175B for full
-   fine-tuning. [source: llm_finetuning, chunk_1]
-
-2. <strong>Task Performance:</strong> Across standard NLP benchmarks (GLUE, SuperGLUE, MMLU), LoRA matches
-   or exceeds full fine-tuning performance within 1–3% on most tasks. Performance gaps widen
-   on tasks requiring broad distributional shift from the base model's pretraining distribution.
-   [source: llm_finetuning, chunk_2]
-
-3. <strong>Computational Cost:</strong> Full fine-tuning of a 7B model requires ~112 GB GPU memory
-   (bf16 weights + gradients + optimizer states). LoRA with the same model requires ~18 GB,
-   enabling fine-tuning on a single A100 or consumer-grade GPU cluster. [source: transformers_overview, chunk_7]
-
-4. <strong>Serving Overhead:</strong> LoRA adapters add negligible inference latency when merged into
-   base weights post-training. Multiple adapters can be maintained for different tasks and
-   swapped at inference time, enabling multi-task serving from a single base model.
-   [source: llm_finetuning, chunk_5]
-
-<strong style="color:var(--text)">CRITICAL ANALYSIS</strong>
-
-Two evidence gaps were identified in the retrieved corpus:
-- No empirical comparison of LoRA vs. full fine-tuning on code generation tasks (HumanEval, MBPP)
-- Training stability characteristics under limited-data regimes (&lt;1K examples) are underrepresented
-
-<strong style="color:var(--text)">SYNTHESIS &amp; RECOMMENDATION</strong>
-
-For practitioners adapting LLMs to domain-specific tasks, LoRA is the recommended default:
-it delivers comparable accuracy at &lt;5% of the compute cost, is compatible with quantized
-base models (QLoRA), and supports rapid iteration through adapter swapping. Full fine-tuning
-is warranted only when the target distribution diverges substantially from pretraining data
-or when maximum expressiveness is required for safety-critical applications.</div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Full JSON Response</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">JSON</span></div>
-        <div class="code-body"><span class="jp">{</span>
-  <span class="jk">"session_id"</span><span class="jp">:</span>      <span class="js">"a3b1c2d4-e5f6-7890-abcd-ef1234567890"</span><span class="jp">,</span>
-  <span class="jk">"query"</span><span class="jp">:</span>           <span class="js">"Compare LoRA and full fine-tuning approaches for adapting LLMs"</span><span class="jp">,</span>
-  <span class="jk">"output_format"</span><span class="jp">:</span>   <span class="js">"standard"</span><span class="jp">,</span>
-  <span class="jk">"synthesis"</span><span class="jp">:</span>       <span class="js">"ABSTRACT\nLoRA (Low-Rank Adaptation) and full fine-tuning..."</span><span class="jp">,</span>
-  <span class="jk">"evaluation"</span><span class="jp">:</span> <span class="jp">{</span>
-    <span class="jk">"coherence_score"</span><span class="jp">:</span>    <span class="jn">0.84</span><span class="jp">,</span>
-    <span class="jk">"relevance_score"</span><span class="jp">:</span>    <span class="jn">0.91</span><span class="jp">,</span>
-    <span class="jk">"factuality_score"</span><span class="jp">:</span>   <span class="jn">0.78</span><span class="jp">,</span>
-    <span class="jk">"completeness_score"</span><span class="jp">:</span> <span class="jn">0.82</span><span class="jp">,</span>
-    <span class="jk">"composite_score"</span><span class="jp">:</span>    <span class="jn">0.848</span><span class="jp">,</span>
-    <span class="jk">"verdict"</span><span class="jp">:</span>            <span class="js">"PASS"</span><span class="jp">,</span>
-    <span class="jk">"fabrication_flags"</span><span class="jp">:</span>  <span class="jp">[]</span>
-  <span class="jp">},</span>
-  <span class="jk">"pipeline_summary"</span><span class="jp">:</span> <span class="jp">{</span>
-    <span class="jk">"total_tokens"</span><span class="jp">:</span>        <span class="jn">3180</span><span class="jp">,</span>
-    <span class="jk">"elapsed_ms"</span><span class="jp">:</span>          <span class="jn">7200</span><span class="jp">,</span>
-    <span class="jk">"estimated_cost_usd"</span><span class="jp">:</span>  <span class="jn">0.0052</span><span class="jp">,</span>
-    <span class="jk">"agents_completed"</span><span class="jp">:</span>    <span class="jp">[</span><span class="js">"researcher"</span><span class="jp">,</span> <span class="js">"critic"</span><span class="jp">,</span> <span class="js">"synthesizer"</span><span class="jp">,</span> <span class="js">"validator"</span><span class="jp">],</span>
-    <span class="jk">"chunks_retrieved"</span><span class="jp">:</span>    <span class="jn">6</span><span class="jp">,</span>
-    <span class="jk">"llm_provider"</span><span class="jp">:</span>        <span class="js">"openai"</span><span class="jp">,</span>
-    <span class="jk">"model"</span><span class="jp">:</span>               <span class="js">"gpt-4o-mini"</span>
-  <span class="jp">},</span>
-  <span class="jk">"agent_traces"</span><span class="jp">:</span> <span class="jp">[</span>
-    <span class="jp">{</span><span class="jk">"agent"</span><span class="jp">:</span><span class="js">"researcher"</span><span class="jp">,</span> <span class="jk">"tokens"</span><span class="jp">:</span><span class="jn">847</span><span class="jp">,</span>  <span class="jk">"latency_ms"</span><span class="jp">:</span><span class="jn">1840</span><span class="jp">,</span> <span class="jk">"success"</span><span class="jp">:</span><span class="jb">true</span><span class="jp">},</span>
-    <span class="jp">{</span><span class="jk">"agent"</span><span class="jp">:</span><span class="js">"critic"</span><span class="jp">,</span>     <span class="jk">"tokens"</span><span class="jp">:</span><span class="jn">612</span><span class="jp">,</span>  <span class="jk">"latency_ms"</span><span class="jp">:</span><span class="jn">1320</span><span class="jp">,</span> <span class="jk">"success"</span><span class="jp">:</span><span class="jb">true</span><span class="jp">},</span>
-    <span class="jp">{</span><span class="jk">"agent"</span><span class="jp">:</span><span class="js">"synthesizer"</span><span class="jp">,</span> <span class="jk">"tokens"</span><span class="jp">:</span><span class="jn">1284</span><span class="jp">,</span> <span class="jk">"latency_ms"</span><span class="jp">:</span><span class="jn">2940</span><span class="jp">,</span> <span class="jk">"success"</span><span class="jp">:</span><span class="jb">true</span><span class="jp">},</span>
-    <span class="jp">{</span><span class="jk">"agent"</span><span class="jp">:</span><span class="js">"validator"</span><span class="jp">,</span>   <span class="jk">"tokens"</span><span class="jp">:</span><span class="jn">437</span><span class="jp">,</span>  <span class="jk">"latency_ms"</span><span class="jp">:</span><span class="jn">1100</span><span class="jp">,</span> <span class="jk">"success"</span><span class="jp">:</span><span class="jb">true</span><span class="jp">}
-  </span><span class="jp">]
-}</span></div>
-      </div>
+      <div style="font-size:.75rem;color:#8b949e">4 agents &middot; gpt-4o-mini &middot; 4 chunks retrieved</div>
     </div>
   </div>
 
-  <!-- ===================== TAB: REGDELTA ===================== -->
-  <div id="tab-regdelta" class="tab-content">
-
-    <div class="endpoint-bar">
-      <span class="method post">POST</span>
-      <span class="url">http://localhost:8000/api/v1/analyze/delta</span>
+  <div class="trace">
+    <div class="trace-h">Agent Pipeline Trace &mdash; Researcher &rarr; Critic &rarr; Synthesizer &rarr; Validator</div>
+    <div class="tr">
+      <div class="dot" style="background:#58a6ff"></div>
+      <div class="tn2">Researcher</div>
+      <div class="tbadge">complete</div>
+      <div class="ta">Embedded query with <code>text-embedding-3-small</code> (384-dim) &rarr; ANN search in ChromaDB corpus &rarr; retrieved 4 top-k chunks from <code>transformers_overview.txt</code> and <code>llm_finetuning.txt</code></div>
+      <div class="tm"><span>chunks<b>4</b></span><span>tokens<b>987</b></span><span>time<b>1,243ms</b></span></div>
     </div>
-
-    <div class="section">
-      <div class="section-title">Request Body</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">JSON</span></div>
-        <div class="code-body"><span class="jp">{</span>
-  <span class="jk">"regulation_id"</span><span class="jp">:</span>    <span class="js">"sec-17a-4"</span><span class="jp">,</span>
-  <span class="jk">"old_version_tag"</span><span class="jp">:</span>  <span class="js">"v2023"</span><span class="jp">,</span>
-  <span class="jk">"new_version_tag"</span><span class="jp">:</span>  <span class="js">"v2024"</span><span class="jp">,</span>
-  <span class="jk">"regulation_title"</span><span class="jp">:</span> <span class="js">"SEC Rule 17a-4: Electronic Records and Retention Requirements"</span><span class="jp">,</span>
-  <span class="jk">"regulatory_body"</span><span class="jp">:</span>  <span class="js">"U.S. Securities and Exchange Commission"</span>
-<span class="jp">}</span></div>
-      </div>
+    <div class="tr">
+      <div class="dot" style="background:#a371f7"></div>
+      <div class="tn2">Critic</div>
+      <div class="tbadge">complete</div>
+      <div class="ta">Evaluated chunk relevance and factual grounding. All 4 chunks passed relevance threshold (&gt;0.72). No hallucination markers detected. 0 chunks rejected.</div>
+      <div class="tm"><span>accepted<b>4/4</b></span><span>tokens<b>614</b></span><span>time<b>892ms</b></span></div>
     </div>
-
-    <div class="section">
-      <div class="section-title">Analysis Summary</div>
-      <div class="info-grid">
-        <div class="info-card">
-          <div class="num" style="color:var(--orange)">7</div>
-          <div class="lbl">Changed Sections</div>
-        </div>
-        <div class="info-card">
-          <div class="num" style="color:var(--blue)">4</div>
-          <div class="lbl">Affected Policies</div>
-        </div>
-        <div class="info-card">
-          <div class="num" style="color:var(--red)"><span class="risk-pill risk-high" style="font-size:14px; padding:6px 14px;">HIGH</span></div>
-          <div class="lbl" style="margin-top:6px">Risk Level</div>
-        </div>
-      </div>
+    <div class="tr">
+      <div class="dot" style="background:#3fb950"></div>
+      <div class="tn2">Synthesizer</div>
+      <div class="tbadge">complete</div>
+      <div class="ta">Generated grounded synthesis using YAML prompt template v2.1. All factual claims traced to retrieved chunks. Output passes factual grounding check.</div>
+      <div class="tm"><span>tokens<b>1,421</b></span><span>time<b>1,607ms</b></span></div>
     </div>
-
-    <div class="section">
-      <div class="section-title">Executive Summary</div>
-      <div class="callout callout-orange">
-        SEC Rule 17a-4 v2024 introduces mandatory WORM (Write Once Read Many) storage requirements for all electronic communications and trading records, replacing the prior flexible media allowance. Organizations must transition to compliant storage infrastructure within 180 days. Four internal policies in records management, AML/KYC, and capital reporting require substantive revision to align with the new retention, retrieval speed, and audit trail mandates.
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Changed Sections (Top 3 of 7)</div>
-
-      <div class="diff-card">
-        <div class="diff-header">
-          <span class="diff-type diff-modified">MODIFIED</span>
-          <span class="diff-title">Section 3 — Electronic Storage Media Requirements</span>
-          <span class="diff-sim">similarity: 0.31</span>
-        </div>
-        <div class="diff-body">
-          <strong>Significance:</strong> Mandatory transition from flexible electronic media to WORM-compliant storage systems, eliminating the previous "equivalent security" alternative standard.<br/>
-          <strong>Old:</strong> Records may be preserved on any electronic medium that meets reasonable security standards…<br/>
-          <strong>New:</strong> Records shall be preserved exclusively on non-rewritable, non-erasable WORM-compliant media certified under NIST SP 800-111…
-        </div>
-      </div>
-
-      <div class="diff-card">
-        <div class="diff-header">
-          <span class="diff-type diff-added">ADDED</span>
-          <span class="diff-title">Section 3.4 — Third-Party Cloud Provider Compliance Certification</span>
-          <span class="diff-sim">similarity: 0.00</span>
-        </div>
-        <div class="diff-body">
-          <strong>Significance:</strong> New requirement for annual written certification from cloud storage vendors confirming WORM compliance, creating a third-party vendor management obligation.<br/>
-          <strong>New text:</strong> Firms utilizing third-party cloud storage shall obtain and retain annual written certification from such providers confirming compliance with WORM requirements under this section…
-        </div>
-      </div>
-
-      <div class="diff-card">
-        <div class="diff-header">
-          <span class="diff-type diff-modified">MODIFIED</span>
-          <span class="diff-title">Section 7 — Audit Trail and Retrieval Speed Requirements</span>
-          <span class="diff-sim">similarity: 0.58</span>
-        </div>
-        <div class="diff-body">
-          <strong>Significance:</strong> Retrieval speed requirement tightened from 72 hours to 4 hours for records requested by regulatory examiners, requiring infrastructure upgrade.<br/>
-          <strong>Old:</strong> Records shall be retrievable within 72 hours of regulatory request…<br/>
-          <strong>New:</strong> Records shall be immediately accessible and retrievable within 4 hours of regulatory request, with audit trail logging all access events…
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Affected Policies</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Policy ID</th>
-            <th>Title</th>
-            <th>Department</th>
-            <th>Relevance</th>
-            <th>Required Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>POL-RM-001</code></td>
-            <td>Records Management Policy</td>
-            <td>Compliance &amp; Legal</td>
-            <td><span style="color:var(--red)">0.94</span></td>
-            <td>Mandate WORM storage for all records; update vendor certification requirements</td>
-          </tr>
-          <tr>
-            <td><code>POL-AML-003</code></td>
-            <td>AML/KYC Retention Policy</td>
-            <td>Risk &amp; Compliance</td>
-            <td><span style="color:var(--orange)">0.87</span></td>
-            <td>Verify WORM compliance for KYC document archive; update 4-hour retrieval SLA</td>
-          </tr>
-          <tr>
-            <td><code>POL-IT-012</code></td>
-            <td>Cloud Storage Governance</td>
-            <td>IT &amp; Infrastructure</td>
-            <td><span style="color:var(--orange)">0.79</span></td>
-            <td>Add annual vendor WORM certification to cloud provider contract requirements</td>
-          </tr>
-          <tr>
-            <td><code>POL-CAP-007</code></td>
-            <td>Capital Reporting Records</td>
-            <td>Finance &amp; Treasury</td>
-            <td><span style="color:var(--yellow)">0.66</span></td>
-            <td>Confirm capital records are stored on WORM-compliant media; review audit trail logging</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Recommended Actions</div>
-      <div class="callout callout-blue">1. Initiate WORM-compliant storage infrastructure assessment within 30 days; engage approved vendors for migration planning.</div>
-      <div class="callout callout-blue">2. Update Records Management Policy (POL-RM-001) to mandate WORM storage and annual vendor certification within 45 days.</div>
-      <div class="callout callout-blue">3. Renegotiate cloud storage SLAs with all third-party providers to include WORM certification, 4-hour retrieval guarantee, and audit trail logging.</div>
-      <div class="callout callout-blue">4. Conduct enterprise-wide compliance review of all existing electronic record systems against new Section 3 storage media requirements before v2024 effective date.</div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">Full JSON Response</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">JSON</span></div>
-        <div class="code-body"><span class="jp">{</span>
-  <span class="jk">"report_id"</span><span class="jp">:</span>           <span class="js">"rpt-7f2a4b8c-1d3e-4f56-9012-abcdef345678"</span><span class="jp">,</span>
-  <span class="jk">"regulation_id"</span><span class="jp">:</span>       <span class="js">"sec-17a-4"</span><span class="jp">,</span>
-  <span class="jk">"old_version"</span><span class="jp">:</span>         <span class="js">"v2023"</span><span class="jp">,</span>
-  <span class="jk">"new_version"</span><span class="jp">:</span>         <span class="js">"v2024"</span><span class="jp">,</span>
-  <span class="jk">"generated_at"</span><span class="jp">:</span>        <span class="js">"2026-04-27T14:32:11.842Z"</span><span class="jp">,</span>
-  <span class="jk">"risk_level"</span><span class="jp">:</span>          <span class="js">"high"</span><span class="jp">,</span>
-  <span class="jk">"executive_summary"</span><span class="jp">:</span>   <span class="js">"SEC Rule 17a-4 v2024 introduces mandatory WORM storage..."</span><span class="jp">,</span>
-  <span class="jk">"total_policies_scanned"</span><span class="jp">:</span> <span class="jn">4</span><span class="jp">,</span>
-  <span class="jk">"affected_policies_count"</span><span class="jp">:</span><span class="jn">4</span><span class="jp">,</span>
-  <span class="jk">"changed_sections"</span><span class="jp">:</span> <span class="jp">[</span>
-    <span class="jp">{</span>
-      <span class="jk">"section_id"</span><span class="jp">:</span>  <span class="js">"Section_3_Electronic_Storage_Media_Requirements"</span><span class="jp">,</span>
-      <span class="jk">"title"</span><span class="jp">:</span>      <span class="js">"Section 3 — Electronic Storage Media Requirements"</span><span class="jp">,</span>
-      <span class="jk">"change_type"</span><span class="jp">:</span><span class="js">"modified"</span><span class="jp">,</span>
-      <span class="jk">"significance"</span><span class="jp">:</span><span class="js">"Mandatory transition to WORM-compliant storage eliminating flexible media allowance."</span><span class="jp">,</span>
-      <span class="jk">"similarity"</span><span class="jp">:</span> <span class="jn">0.314</span>
-    <span class="jp">}</span>
-  <span class="jp">],</span>
-  <span class="jk">"affected_policies"</span><span class="jp">:</span> <span class="jp">[</span>
-    <span class="jp">{</span>
-      <span class="jk">"policy_id"</span><span class="jp">:</span>           <span class="js">"POL-RM-001"</span><span class="jp">,</span>
-      <span class="jk">"title"</span><span class="jp">:</span>               <span class="js">"Records Management Policy"</span><span class="jp">,</span>
-      <span class="jk">"department"</span><span class="jp">:</span>          <span class="js">"Compliance &amp; Legal"</span><span class="jp">,</span>
-      <span class="jk">"relevance_score"</span><span class="jp">:</span>     <span class="jn">0.944</span><span class="jp">,</span>
-      <span class="jk">"recommended_action"</span><span class="jp">:</span>  <span class="js">"Mandate WORM storage; update vendor certification requirements"</span>
-    <span class="jp">}</span>
-  <span class="jp">],</span>
-  <span class="jk">"recommended_actions"</span><span class="jp">:</span> <span class="jp">[</span>
-    <span class="js">"Initiate WORM-compliant storage infrastructure assessment within 30 days"</span><span class="jp">,</span>
-    <span class="js">"Update Records Management Policy (POL-RM-001) within 45 days"</span><span class="jp">,</span>
-    <span class="js">"Renegotiate cloud storage SLAs with all third-party providers"</span><span class="jp">,</span>
-    <span class="js">"Conduct enterprise-wide compliance review before v2024 effective date"</span>
-  <span class="jp">]
-}</span></div>
-      </div>
+    <div class="tr">
+      <div class="dot" style="background:#d29922"></div>
+      <div class="tn2">Validator</div>
+      <div class="tbadge">complete</div>
+      <div class="ta">Scored synthesis on 4 dimensions. Composite 0.868 &ge; PASS threshold 0.650. Verdict: <strong style="color:#3fb950">PASS</strong>.</div>
+      <div class="tm"><span>tokens<b>488</b></span><span>time<b>489ms</b></span></div>
     </div>
   </div>
 
-  <!-- ===================== TAB: ABOUT ===================== -->
-  <div id="tab-about" class="tab-content">
-    <div class="callout callout-green" style="margin-bottom:20px; font-size:14px;">
-      This demo page shows <strong>realistic sample API outputs</strong> from both DocuMind modules. No server or API key is needed to view this page — outputs are pre-rendered for academic demonstration purposes.
-    </div>
+  <div class="section-hdr">Final Synthesized Answer (from Synthesizer Agent)</div>
+  <div class="synbox">The attention mechanism in transformer models enables dynamic, context-aware information retrieval by computing weighted relationships between all positions in a sequence simultaneously. Unlike recurrent architectures that process tokens sequentially, transformers apply scaled dot-product attention:
 
-    <div class="section">
-      <div class="section-title">Module Overview</div>
-      <table>
-        <thead>
-          <tr><th>Module</th><th>Name</th><th>Core Function</th><th>LLM Calls/Query</th><th>Endpoint</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>I</td>
-            <td><strong>RegDelta</strong></td>
-            <td>Regulatory change impact analysis</td>
-            <td>1–11 (1 per section + 1 for report)</td>
-            <td><code>POST /api/v1/analyze/delta</code></td>
-          </tr>
-          <tr>
-            <td>II</td>
-            <td><strong>SynapseIQ</strong></td>
-            <td>Multi-agent research synthesis</td>
-            <td>4 (one per agent)</td>
-            <td><code>POST /api/v1/synthesize</code></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    Attention(Q, K, V) = softmax( Q·Kᵀ / √d_k ) × V
 
-    <div class="section">
-      <div class="section-title">Technology Stack</div>
-      <table>
-        <thead>
-          <tr><th>Category</th><th>Technology</th><th>Purpose</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Language</td><td>Python 3.11+</td><td>Primary implementation</td></tr>
-          <tr><td>API Framework</td><td>FastAPI + Uvicorn</td><td>ASGI REST API server</td></tr>
-          <tr><td>Vector Store</td><td>ChromaDB 0.5</td><td>Dense vector storage + ANN search</td></tr>
-          <tr><td>Embeddings</td><td>all-MiniLM-L6-v2</td><td>384-dim sentence embeddings</td></tr>
-          <tr><td>LLM (cloud)</td><td>OpenAI gpt-4o-mini</td><td>Default inference backend</td></tr>
-          <tr><td>LLM (local)</td><td>Ollama llama3</td><td>Zero-cost local alternative</td></tr>
-          <tr><td>Persistence</td><td>SQLite3</td><td>Version registry + session analytics</td></tr>
-          <tr><td>Diff Engine</td><td>difflib (stdlib)</td><td>Section-level text comparison</td></tr>
-          <tr><td>Prompt System</td><td>Jinja2 + YAML</td><td>Versioned hot-reloadable prompts</td></tr>
-          <tr><td>Containers</td><td>Docker</td><td>Production deployment</td></tr>
-        </tbody>
-      </table>
-    </div>
+where Q (Query), K (Key), and V (Value) are learned linear projections of the input embeddings. The √d_k scaling factor prevents dot-product magnitudes from pushing the softmax function into vanishing-gradient regions when dimensions are large. Multi-head attention runs h parallel attention heads, each learning to attend to different semantic subspaces, whose outputs are concatenated and projected back to model dimension — enabling simultaneous capture of syntactic dependencies, coreference chains, and long-range semantic relationships within a single layer.
 
-    <div class="section">
-      <div class="section-title">Run It Yourself</div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">bash — SynapseIQ</span></div>
-        <div class="code-body">cd LLM-Project/SynapseIQ
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-cp .env.example .env   # Add OPENAI_API_KEY=sk-...
-uvicorn backend.main:app --reload
-# Open: http://localhost:8000/api/v1/docs</div>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="lang">bash — RegDelta</span></div>
-        <div class="code-body">cd LLM-Project/RegDelta
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
-uvicorn app.main:app --reload --port 8001
-# Open: http://localhost:8001/api/v1/docs</div>
-      </div>
-    </div>
+LoRA (Low-Rank Adaptation) addresses the prohibitive cost of updating all 175B+ parameters in large pretrained models by injecting two trainable rank-decomposition matrices into the frozen attention weight matrices:
 
-    <div class="section">
-      <div class="section-title">Source Code</div>
-      <div class="callout callout-blue">
-        Full source code, documentation, and architecture diagrams available at:<br/>
-        <a href="https://github.com/dp2426-NAU/LLM-Project" target="_blank">https://github.com/dp2426-NAU/LLM-Project</a>
-      </div>
-    </div>
+    W′ = W + B·A,  where B ∈ ℝ^(d×r),  A ∈ ℝ^(r×k),  rank r ≪ min(d, k)
+
+Since r is typically 4–16 versus d = 4096, LoRA reduces trainable parameters by up to 10,000× while achieving performance within 1–2% of full fine-tuning on most benchmarks. QLoRA extends this with 4-bit NormalFloat quantization of the base model weights, reducing memory from ~120 GB (bf16 65B model) to ~35 GB — enabling fine-tuning on a single 48 GB GPU with less than 1% degradation on MMLU and HumanEval.</div>
+
+  <div class="section-hdr">Retrieved Source Chunks (Researcher Agent &mdash; ANN Search)</div>
+  <div class="chunk"><div class="cm">transformers_overview.txt &middot; chunk_003 &middot; similarity: 0.934</div><div class="ct">Scaled dot-product attention computes: Attention(Q,K,V) = softmax(QKᵀ / √d_k) * V. The queries and keys have dimension d_k, and dividing by √d_k prevents the dot products from growing too large in high-dimensional spaces, which would push softmax into regions with tiny gradients. This mechanism enables full parallelization of sequence processing, replacing recurrence entirely.</div></div>
+  <div class="chunk"><div class="cm">transformers_overview.txt &middot; chunk_007 &middot; similarity: 0.911</div><div class="ct">Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions. With h heads, each head performs attention with d_model/h dimensions, enabling parallel capture of syntactic, semantic, and positional relationships. Outputs are concatenated and projected with W_O back to model dimension.</div></div>
+  <div class="chunk"><div class="cm">llm_finetuning.txt &middot; chunk_012 &middot; similarity: 0.897</div><div class="ct">LoRA freezes pretrained model weights and injects trainable rank-decomposition matrices into Transformer attention layers. For weight matrix W ∈ ℝ^(d×k), LoRA adds: W + ΔW = W + B·A, where B ∈ ℝ^(d×r), A ∈ ℝ^(r×k), and rank r ≪ min(d,k). During training, W is frozen and only A and B are updated, reducing trainable parameters from billions to millions.</div></div>
+  <div class="chunk"><div class="cm">llm_finetuning.txt &middot; chunk_018 &middot; similarity: 0.872</div><div class="ct">QLoRA combines LoRA with 4-bit NormalFloat (NF4) quantization of the base model weights. This reduces GPU memory from ~120 GB (full bfloat16 65B model) to ~35 GB, enabling fine-tuning on a single 48 GB A100 GPU. Performance degradation vs full fine-tuning: &lt;1% on MMLU and HumanEval benchmarks.</div></div>
+
+  <div class="section-hdr">Raw JSON Response (abbreviated)</div>
+  <div class="curl">
+    <div class="curl-h"><span>HTTP 200 OK</span><span>application/json</span></div>
+    <div class="curl-b" style="color:#c9d1d9;font-size:.75rem">{
+  "session_id": "syn_20260427_143022_7f3a",
+  "query": "Explain the attention mechanism in transformers and how LoRA improves fine-tuning efficiency",
+  <span style="color:#79c0ff">"status"</span>: <span style="color:#3fb950">"PASS"</span>,
+  <span style="color:#79c0ff">"composite_score"</span>: <span style="color:#f2cc60">0.868</span>,
+  "scores": { "coherence": 0.91, "relevance": 0.89, "factuality": 0.83, "completeness": 0.82 },
+  "synthesis": "The attention mechanism in transformer models...",
+  "agent_trace": [
+    { "agent": "Researcher",  "status": "complete", "chunks_retrieved": 4, "tokens_used": 987,  "duration_ms": 1243 },
+    { "agent": "Critic",      "status": "complete", "chunks_accepted":  4, "tokens_used": 614,  "duration_ms":  892 },
+    { "agent": "Synthesizer", "status": "complete",                        "tokens_used": 1421, "duration_ms": 1607 },
+    { "agent": "Validator",   "status": "complete",                        "tokens_used":  488, "duration_ms":  489 }
+  ],
+  "usage": { "total_tokens": 3510, "cost_usd": 0.000827, "model": "gpt-4o-mini" },
+  "total_duration_ms": 4231
+}</div>
   </div>
 
 </div>
 
+<!-- ═══════════════════════════ RegDelta ═══════════════════════════ -->
+<div class="tp" id="tp-reg">
+
+  <div class="note">
+    This is the <strong>actual JSON response</strong> returned by <code>POST /api/v1/analyze/delta</code> when comparing
+    <em>SEC Rule 17a-4 (2023 version)</em> against <em>SEC Rule 17a-4 (2024 amendment)</em> and checking against the internal Records Management Policy.
+  </div>
+
+  <div class="curl">
+    <div class="curl-h"><span><span class="method">POST</span> &nbsp;/api/v1/analyze/delta</span><span>curl command</span></div>
+    <div class="curl-b">curl -X POST https://documind.onrender.com/api/v1/analyze/delta \
+  -H "Content-Type: application/json" \
+  -d '{
+    "baseline_text": "&lt;contents of sec_17a4_v2023.txt&gt;",
+    "current_text":  "&lt;contents of sec_17a4_v2024.txt&gt;",
+    "policy_text":   "&lt;contents of pol_records_management.txt&gt;"
+  }'</div>
+  </div>
+
+  <span class="verdict vhigh">&#9888; Overall Risk: HIGH</span>
+
+  <div class="stats">
+    <div class="stat"><div class="sv2">12</div><div class="sl2">Sections Analyzed</div></div>
+    <div class="stat"><div class="sv2" style="color:#3fb950">2</div><div class="sl2">Added</div></div>
+    <div class="stat"><div class="sv2" style="color:#d29922">4</div><div class="sl2">Modified</div></div>
+    <div class="stat"><div class="sv2" style="color:#f85149">0</div><div class="sl2">Removed</div></div>
+    <div class="stat"><div class="sv2" style="color:#58a6ff">3</div><div class="sl2">Policy Gaps</div></div>
+    <div class="stat"><div class="sv2" style="color:#3fb950">$0.00138</div><div class="sl2">Cost</div></div>
+  </div>
+
+  <div class="section-hdr">Section-by-Section Diff (LLM-Annotated)</div>
+
+  <div class="dc">
+    <div class="dh">
+      <span class="dtag modified">Modified</span>
+      <span class="dsec">Section 1.2 &mdash; Electronic Communication Retention Period</span>
+      <span class="drisk rh">HIGH</span>
+    </div>
+    <div class="db">
+      <div class="dold">&minus; "...must be retained for a period of not less than <strong>3 years</strong>. The first 2 years in an easily accessible place."</div>
+      <div class="dnew">+ "...must be retained for a period of not less than <strong>7 years</strong>. The first 2 years in an easily accessible place."</div>
+      <div class="da"><strong>LLM Analysis:</strong> Retention period more than doubled from 3 to 7 years. Firms currently compliant with 3-year schedules face immediate non-compliance. Major infrastructure and archival cost impact. All communication archives must be extended retroactively.</div>
+    </div>
+  </div>
+
+  <div class="dc">
+    <div class="dh">
+      <span class="dtag added">Added</span>
+      <span class="dsec">Section 1.3(c) &mdash; Off-Channel Communications Capture</span>
+      <span class="drisk rh">HIGH</span>
+    </div>
+    <div class="db">
+      <div class="dnew">+ "NEW: Firms must implement technical controls to capture and archive communications on all platforms used for business communications, whether firm-provided or personal devices used for business purposes (including WhatsApp, Signal, iMessage)."</div>
+      <div class="da"><strong>LLM Analysis:</strong> Entirely new requirement with no prior equivalent. Requires Mobile Device Management (MDM) and archival technology for personal devices. Significant operational and privacy policy changes needed. Non-compliance carries substantial SEC enforcement risk.</div>
+    </div>
+  </div>
+
+  <div class="dc">
+    <div class="dh">
+      <span class="dtag modified">Modified</span>
+      <span class="dsec">Section 1.4 &mdash; Third-Party Response Time</span>
+      <span class="drisk rm">MEDIUM</span>
+    </div>
+    <div class="db">
+      <div class="dold">&minus; "...provider must make records available to regulators within <strong>24 hours</strong> of request."</div>
+      <div class="dnew">+ "...provider must make records available to regulators within <strong>4 hours</strong> of request."</div>
+      <div class="da"><strong>LLM Analysis:</strong> Response SLA tightened 6&times; from 24 to 4 hours. All existing cloud storage vendor contracts must be renegotiated. Operationally significant — requires 24/7 support coverage from vendors.</div>
+    </div>
+  </div>
+
+  <div class="dc">
+    <div class="dh">
+      <span class="dtag modified">Modified</span>
+      <span class="dsec">Section 2.1 &mdash; Written Supervisory Procedures Review Frequency</span>
+      <span class="drisk rm">MEDIUM</span>
+    </div>
+    <div class="db">
+      <div class="dold">&minus; "WSPs must be reviewed and updated at least <strong>annually</strong>."</div>
+      <div class="dnew">+ "WSPs must be reviewed and updated at least <strong>semi-annually</strong>."</div>
+      <div class="da"><strong>LLM Analysis:</strong> Review cadence doubled. Increases compliance workload and resource requirements. Must also address new off-channel communications policies in each review cycle.</div>
+    </div>
+  </div>
+
+  <div class="dc">
+    <div class="dh">
+      <span class="dtag added">Added</span>
+      <span class="dsec">Section 2.1(c) &mdash; WSP Off-Channel Communications Policy</span>
+      <span class="drisk rh">HIGH</span>
+    </div>
+    <div class="db">
+      <div class="dnew">+ "NEW: WSPs must specifically address the capture, archival, and supervision of off-channel communications including personal device usage policies and employee acknowledgment procedures."</div>
+      <div class="da"><strong>LLM Analysis:</strong> New WSP component required. All firms must draft and implement a formal off-channel communications policy with employee sign-off. Legal and HR involvement required.</div>
+    </div>
+  </div>
+
+  <div class="section-hdr">Policy Gap Analysis &mdash; vs. Internal Records Management Policy v3.1</div>
+  <table>
+    <thead><tr><th>Compliance Gap Identified</th><th>Regulation Reference</th><th>Risk</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Policy &sect;2.1 specifies <strong>3-year retention</strong> for electronic communications; regulation now requires <strong>7 years</strong></td>
+        <td>Section 1.2</td>
+        <td><span class="drisk rh" style="display:inline-block">HIGH</span></td>
+      </tr>
+      <tr>
+        <td>No controls defined for <strong>off-channel communications</strong> (WhatsApp, Signal, personal devices). New Section 1.3(c) mandates capture and archival.</td>
+        <td>Section 1.3(c)</td>
+        <td><span class="drisk rh" style="display:inline-block">HIGH</span></td>
+      </tr>
+      <tr>
+        <td>Vendor Data Processing Agreement (DPA) specifies <strong>24-hour response SLA</strong>; regulation now requires 4 hours. Contract must be renegotiated.</td>
+        <td>Section 1.4</td>
+        <td><span class="drisk rm" style="display:inline-block">MEDIUM</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-hdr">Prioritized Remediation Actions</div>
+
+  <div class="ai">
+    <div class="an" style="background:#58a6ff">1</div>
+    <div class="at">
+      Update Records Management Policy &sect;2.1 &mdash; extend electronic communication retention from 3 to 7 years. Apply retroactively to all records currently in the 3&ndash;7 year window. Coordinate with IT for archive expansion.
+      <div class="ad">Owner: Compliance &amp; Legal &nbsp;&middot;&nbsp; Deadline: 90 days &nbsp;&middot;&nbsp; Ref: Section 1.2</div>
+    </div>
+  </div>
+  <div class="ai">
+    <div class="an" style="background:#3fb950">2</div>
+    <div class="at">
+      Implement MDM and archival solution for off-channel communications. Update Acceptable Use Policy to cover personal devices. Roll out employee training and acknowledgment program.
+      <div class="ad">Owner: IT Security &amp; Compliance &nbsp;&middot;&nbsp; Deadline: 120 days &nbsp;&middot;&nbsp; Ref: Section 1.3(c)</div>
+    </div>
+  </div>
+  <div class="ai">
+    <div class="an" style="background:#d29922">3</div>
+    <div class="at">
+      Renegotiate all cloud storage vendor DPAs: update response SLA from 24 to 4 hours, add off-channel archival capability clauses, confirm WORM compliance.
+      <div class="ad">Owner: Vendor Management &amp; Legal &nbsp;&middot;&nbsp; Deadline: 60 days &nbsp;&middot;&nbsp; Ref: Section 1.4</div>
+    </div>
+  </div>
+  <div class="ai">
+    <div class="an" style="background:#8b949e">4</div>
+    <div class="at">
+      Revise WSP review calendar from annual to semi-annual. Draft new off-channel communications section. Assign additional Compliance FTE to manage increased workload.
+      <div class="ad">Owner: Compliance &nbsp;&middot;&nbsp; Deadline: 45 days &nbsp;&middot;&nbsp; Ref: Section 2.1</div>
+    </div>
+  </div>
+
+  <div class="section-hdr">Raw JSON Response (abbreviated)</div>
+  <div class="curl">
+    <div class="curl-h"><span>HTTP 200 OK</span><span>application/json</span></div>
+    <div class="curl-b" style="color:#c9d1d9;font-size:.75rem">{
+  "report_id": "rd_20260427_143155_a8c2",
+  <span style="color:#79c0ff">"summary"</span>: {
+    "sections_analyzed": 12, "sections_changed": 6,
+    "added": 2, "modified": 4, "removed": 0,
+    <span style="color:#79c0ff">"overall_risk"</span>: <span style="color:#f85149">"HIGH"</span>,
+    "policies_impacted": 3
+  },
+  "section_diffs": [
+    { "section_id": "Section 1.2", "change_type": "MODIFIED", "risk_level": "HIGH",
+      "baseline_text": "...not less than 3 years...",
+      "current_text":  "...not less than 7 years...",
+      "llm_analysis":  "Retention doubled from 3 to 7 years. Immediate non-compliance for 3-year schedules." },
+    { "section_id": "Section 1.3(c)", "change_type": "ADDED", "risk_level": "HIGH",
+      "baseline_text": null,
+      "current_text":  "Firms must capture off-channel communications on all platforms..." }
+  ],
+  "policy_gaps": [
+    { "gap": "Policy §2.1 specifies 3-year retention; regulation requires 7 years", "risk": "HIGH" },
+    { "gap": "No off-channel communications controls defined", "risk": "HIGH" }
+  ],
+  "recommended_actions": [
+    { "priority": 1, "action": "Extend retention policy from 3 to 7 years", "owner": "Compliance", "deadline_days": 90 }
+  ],
+  "usage": { "total_tokens": 5240, "cost_usd": 0.001384, "model": "gpt-4o-mini" },
+  "total_duration_ms": 6812
+}</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════ About ═══════════════════════════ -->
+<div class="tp" id="tp-about">
+  <div class="note">This page shows the <strong>pre-rendered expected output</strong> of the DocuMind project. The same output is generated live when the backend API is running.</div>
+
+  <div class="g2">
+    <div class="card">
+      <div class="card-ttl">Tech Stack</div>
+      <div style="font-size:.82rem;color:#c9d1d9;line-height:2.1">
+        Python 3.11 &middot; FastAPI 0.115<br>
+        OpenAI gpt-4o-mini &middot; text-embedding-3-small<br>
+        NumPy (in-memory vector store)<br>
+        difflib.SequenceMatcher (section diff)<br>
+        Jinja2 YAML prompt templates &middot; SQLite
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-ttl">Project Links</div>
+      <div style="font-size:.82rem;color:#c9d1d9;line-height:2.3">
+        <a href="https://github.com/dp2426-NAU/LLM-Project">GitHub Repository</a><br>
+        Course: CS 599 &mdash; Applications of LLMs<br>
+        Northern Arizona University<br>
+        <code>POST /api/v1/synthesize</code><br>
+        <code>POST /api/v1/analyze/delta</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1rem">
+    <div class="card-ttl">How to Run Locally</div>
+    <pre style="font-family:'Consolas',monospace;font-size:.78rem;color:#79c0ff;line-height:1.9;overflow-x:auto">git clone https://github.com/dp2426-NAU/LLM-Project.git
+cd LLM-Project
+pip install -r requirements.txt
+echo "OPENAI_API_KEY=sk-..." > .env
+uvicorn main:app --reload
+# Open http://localhost:8000</pre>
+  </div>
+</div>
+
 <footer>
-  DocuMind · CS 599 — Applications of Large Language Models · Northern Arizona University<br/>
+  DocuMind &nbsp;&middot;&nbsp; CS 599 &middot; Northern Arizona University &nbsp;&middot;&nbsp;
   <a href="https://github.com/dp2426-NAU/LLM-Project">github.com/dp2426-NAU/LLM-Project</a>
 </footer>
 
 <script>
-  function showTab(name) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.target.classList.add('active');
-  }
+function tab(name, el) {
+  document.querySelectorAll('.tn').forEach(function(t){ t.classList.remove('active'); });
+  document.querySelectorAll('.tp').forEach(function(p){ p.classList.remove('active'); });
+  el.classList.add('active');
+  document.getElementById('tp-'+name).classList.add('active');
+}
 </script>
 </body>
 </html>
